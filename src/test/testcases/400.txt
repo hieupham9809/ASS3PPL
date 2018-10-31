@@ -1,1 +1,1 @@
-procedure main(); begin foo();end
+Program([FuncDecl(Id(putIntLn),[],VoidType(),[],[])])

@@ -1,1 +1,1 @@
-Undeclared Procedure: foo
+Redeclared Procedure: foo
