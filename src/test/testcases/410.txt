@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(foo),[],VoidType(),[],[CallStmt(Id(putBoolLn),[UnaryOp(not,BooleanLiteral(True))]),CallStmt(Id(putBool),[UnaryOp(not,StringLiteral(string in unaryop))])])])

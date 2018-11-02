@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[CallStmt(Id(putIntLn),[])])])
+Program([FuncDecl(Id(foo),[VarDecl(Id(a),<class 'AST.IntType'>)],VoidType(),[VarDecl(Id(a),<class 'AST.IntType'>)],[])])
