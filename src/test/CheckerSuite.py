@@ -94,23 +94,42 @@ class CheckerSuite(unittest.TestCase):
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putBoolLn"),[UnaryOp('not', BinaryOp('>',IntLiteral(1),IntLiteral(2)))]),
                                         CallStmt(Id("putBool"),[UnaryOp('not',BinaryOp('+', IntLiteral(10000), IntLiteral(0)))])])])
         expect = "Type Mismatch In Expression: UnaryOp(not,BinaryOp(+,IntLiteral(10000),IntLiteral(0)))"
-        self.assertTrue(TestChecker.test(input,expect,411))'''
+        self.assertTrue(TestChecker.test(input,expect,411))
     def test_Undeclared_id(self):
         """Simple program: int main() {} """
         input = Program([
                 VarDecl(Id("a"),IntType),
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putBoolLn"),[BinaryOp('>',Id("a"),IntLiteral(2))]),
                                         CallStmt(Id("putBool"),[BinaryOp('>',Id("b"),IntLiteral(2))])])])
-        expect = "Type Mismatch In Expression: UnaryOp(not,BinaryOp(+,IntLiteral(10000),IntLiteral(0)))"
+        expect = "Undeclared Identifier: b"
         self.assertTrue(TestChecker.test(input,expect,412))
 
-    def Atest_diff_numofparam_stmt(self):
+    def test_Declared_id_in_local(self):
         """More complex program"""
-        input = """procedure main (); begin
-            putIntLn();
-        end"""
-        expect = "Type Mismatch In Statement: CallStmt(Id(putIntLn),[])"
-        self.assertTrue(TestChecker.test(input,expect,404))
+        input = Program([
+                
+                FuncDecl(Id("foo"),[],[VarDecl(Id("a"),IntType)],[CallStmt(Id("putBoolLn"),[BinaryOp('>',Id("a"),IntLiteral(2))]),
+                                        CallStmt(Id("putBool"),[BinaryOp('>',Id("b"),IntLiteral(2))])])])
+        expect = "Undeclared Identifier: b"
+        self.assertTrue(TestChecker.test(input,expect,413))
+    
+    def test_Declared_id_in_param(self):
+        """More complex program"""
+        input = Program([
+                
+                FuncDecl(Id("foo"),[VarDecl(Id("a"),IntType)],[],[CallStmt(Id("putBoolLn"),[BinaryOp('>',Id("a"),IntLiteral(2))]),
+                                        CallStmt(Id("putBool"),[BinaryOp('>',Id("b"),IntLiteral(2))])])])
+        expect = "Undeclared Identifier: b"
+        self.assertTrue(TestChecker.test(input,expect,414))'''
+    
+    def test_Declared_inside_hidden_outside(self):
+        """More complex program"""
+        input = Program([
+                VarDecl(Id("a"),FloatType),
+                FuncDecl(Id("foo"),[VarDecl(Id("a"),StringType)],[],[CallStmt(Id("putFloatLn"),[Id("a")])
+                                        ])])
+        expect = "Type Mismatch In Statement: CallStmt(Id(putFloatLn),[Id(a)])"
+        self.assertTrue(TestChecker.test(input,expect,415))
 
     def Atest_undeclared_function_use_ast(self):
         """Simple program: int main() {} """

@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(>,IntLiteral(1),IntLiteral(2))
+Type Mismatch In Expression: UnaryOp(not,BinaryOp(+,IntLiteral(10000),IntLiteral(0)))

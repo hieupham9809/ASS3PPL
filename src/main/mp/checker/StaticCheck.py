@@ -43,19 +43,15 @@ def check_redeclared(has_decl, decl, k):
 
     
 def check_operator(left, right):
-    #print(type(left))
-    #print(type(right))
-    # if (type(left), type(right)) == (IntType, IntType):
-    #     return IntType()
-    # elif (type(left),type(right)) in [(IntType, FloatType), (FloatType, IntType), (FloatType, FloatType)]:
-    #     return FloatType()
-    # else: return None
-
-    if (left,right) == (IntType, IntType):
+    #print(left)
+    #print(right)
+    if (type(left), type(right)) == (IntType, IntType):
         return IntType()
-    elif (left,right) in [(IntType, FloatType), (FloatType, IntType), (FloatType, FloatType)]:
+    elif (type(left),type(right)) in [(IntType, FloatType), (FloatType, IntType), (FloatType, FloatType)]:
         return FloatType()
     else: return None
+
+    
     
 
 class StaticChecker(BaseVisitor,Utils):
@@ -93,17 +89,26 @@ class StaticChecker(BaseVisitor,Utils):
         globaldecl = c.copy()
         param_sub_scope = []
         local_sub_scope = []
+        flag = False
         for vardecl in ast.param:
             param_sub_scope.append(check_redeclared(param_sub_scope, vardecl,"parameter"))
         local_sub_scope += param_sub_scope
+        
         for vardecl in ast.local:
             local_sub_scope.append(check_redeclared(local_sub_scope, vardecl,"variable"))
         
-        for i in range(len(globaldecl)):
-            for j in range(len(local_sub_scope)):
-                if globaldecl[i].name == local_sub_scope[j].name:
-                    globaldecl[i] = local_sub_scope[j]
+        for i in range(len(local_sub_scope)):
+            flag = False
+            for j in range(len(globaldecl)):
+                if globaldecl[j].name == local_sub_scope[i].name:
+                    globaldecl[j] = local_sub_scope[i]
+                    flag = True
+                    break 
+            if not flag:
+                globaldecl.append(local_sub_scope[i])
+
         #return list(map(lambda x: self.visit(x,c),ast.body)) 
+        
         return [self.visit(x, globaldecl) for x in ast.body]
 
     def visitCallStmt(self, ast, c): 
@@ -117,6 +122,7 @@ class StaticChecker(BaseVisitor,Utils):
         else:
             match_type = zip(res.mtype.partype, at)
             for mt0,mt1 in match_type:
+                
                 if type(mt0) != type(mt1):
                     
                     if not(type(mt0), type(mt1)) == (FloatType, IntType):
@@ -130,8 +136,10 @@ class StaticChecker(BaseVisitor,Utils):
     def visitBinaryOp(self, ast, c):
         
         left = self.visit(ast.left, c)
-        print(left)
+        #print(left)
+        
         right = self.visit(ast.right, c)
+        #print(right)
         check = check_operator(left, right)
         if ast.op in ['+','-','*']:
             if check:
@@ -166,6 +174,7 @@ class StaticChecker(BaseVisitor,Utils):
         else:
             match_type = zip(res.mtype.partype, at)
             for mt0,mt1 in match_type:
+                
                 if type(mt0) != type(mt1):
                     
                     if not(type(mt0), type(mt1)) == (FloatType, IntType):
@@ -193,8 +202,7 @@ class StaticChecker(BaseVisitor,Utils):
         if declared_id is None or declared_id.mtype is MType :
             raise Undeclared(Identifier(),ast.name)
         else:
-            print(declared_id.mtype)
-            return declared_id.mtype
+            return declared_id.mtype()
 
     
     def visitIntLiteral(self,ast, c): 

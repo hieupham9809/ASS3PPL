@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(foo),[],VoidType(),[VarDecl(Id(a),<class 'AST.IntType'>)],[CallStmt(Id(putBoolLn),[BinaryOp(>,Id(a),IntLiteral(2))]),CallStmt(Id(putBool),[BinaryOp(>,Id(b),IntLiteral(2))])])])
