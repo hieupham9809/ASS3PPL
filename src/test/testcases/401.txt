@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(getInt),[],<class 'AST.IntType'>,[],[])])
+Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(getInt),[],<class 'AST.IntType'>,[],[])])

@@ -21,11 +21,14 @@ def check_redeclared(has_decl, decl, k):
     temp_name = ""
     #if type(decl) is VarDecl:
     if k == "variable":
+        
         temp_name = decl.variable.name
+        
         #if Utils.lookup(temp_name, has_decl,lambda x: x.name):
         if any((temp_name == hde.name ) for hde in has_decl):
             raise Redeclared(Variable(), temp_name)
         else: return Symbol(temp_name,decl.varType)
+        #return StaticChecker.visit(decl,has_decl)
     elif k == "procedure": 
         temp_name = decl.name.name
         #if Utils.lookup(temp_name, has_decl,lambda x: x.name):
@@ -110,6 +113,11 @@ class StaticChecker(BaseVisitor,Utils):
         #return list(map(lambda x: self.visit(x,c),ast.body)) 
         
         return [self.visit(x, globaldecl) for x in ast.body]
+    '''def visitVarDecl(self,ast,c):
+        if any((ast.variable.name == hde.name ) for hde in c):
+            raise Redeclared(Variable(), ast.variable.name)
+        else: #return Symbol(ast.variable.name,self.visit(ast.varType,c))
+            return Symbol(ast.variable.name,ast.varType)'''
 
     def visitCallStmt(self, ast, c): 
         at = [self.visit(x,c) for x in ast.param]
@@ -159,7 +167,6 @@ class StaticChecker(BaseVisitor,Utils):
             else: raise TypeMismatchInExpression(ast)
         else:
             if check:
-                print("check")
                 return BoolType()
             else: raise TypeMismatchInExpression(ast)
     
@@ -202,9 +209,21 @@ class StaticChecker(BaseVisitor,Utils):
         if declared_id is None or declared_id.mtype is MType :
             raise Undeclared(Identifier(),ast.name)
         else:
-            return declared_id.mtype()
-
+            if type(declared_id.mtype) == ArrayType:
+                return declared_id.mtype
+            else: return declared_id.mtype()
     
+
+    '''def visitArrayType(self,ast,c):
+        return ArrayType(ast.lower, ast.upper, ast.eleType)'''
+    def visitArrayCell(self,ast,c):
+        
+        idxType = self.visit(ast.idx, c)
+        idType = self.visit(ast.arr, c)
+        
+        if type(idType) != ArrayType or type(idxType) != IntType:
+            raise TypeMismatchInExpression(ast) 
+        else: return idType.eleType
     def visitIntLiteral(self,ast, c): 
         return IntType()
     def visitFloatLiteral(self,ast,c):

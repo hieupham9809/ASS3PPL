@@ -1,1 +1,1 @@
-Program([VarDecl(Id(name),<class 'AST.FloatType'>),FuncDecl(Id(foo2),[VarDecl(Id(name),<class 'AST.IntType'>)],VoidType(),[],[]),FuncDecl(Id(foo),[VarDecl(Id(a),<class 'AST.IntType'>),VarDecl(Id(a),<class 'AST.IntType'>)],VoidType(),[],[])])
+Program([FuncDecl(Id(main),[],VoidType(),[],[]),VarDecl(Id(name),<class 'AST.FloatType'>),FuncDecl(Id(foo2),[VarDecl(Id(name),<class 'AST.IntType'>)],VoidType(),[],[]),FuncDecl(Id(foo),[VarDecl(Id(a),<class 'AST.IntType'>),VarDecl(Id(a),<class 'AST.IntType'>)],VoidType(),[],[])])

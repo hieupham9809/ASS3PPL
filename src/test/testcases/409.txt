@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(foo),[],VoidType(),[],[CallStmt(Id(putIntLn),[UnaryOp(-,IntLiteral(1))]),CallStmt(Id(putInt),[UnaryOp(-,StringLiteral(string in unaryop))])])])
+Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(foo),[],VoidType(),[],[CallStmt(Id(putIntLn),[UnaryOp(-,IntLiteral(1))]),CallStmt(Id(putInt),[UnaryOp(-,StringLiteral(string in unaryop))])])])

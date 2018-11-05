@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(foo),[],VoidType(),[],[CallStmt(Id(putBoolLn),[BinaryOp(andthen,BooleanLiteral(True),BooleanLiteral(False))]),CallStmt(Id(putBool),[BinaryOp(orelse,IntLiteral(1),FloatLiteral(2.1))])])])
+Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(foo),[],VoidType(),[],[CallStmt(Id(putBoolLn),[BinaryOp(andthen,BooleanLiteral(True),BooleanLiteral(False))]),CallStmt(Id(putBool),[BinaryOp(orelse,IntLiteral(1),FloatLiteral(2.1))])])])

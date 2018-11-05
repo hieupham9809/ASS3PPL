@@ -1,0 +1,9 @@
+
+                procedure swap() ;
+                var a: array[0 .. 1] of real;
+                 {i,j,temp: integer;}
+                beGin
+                    putFloatLn(a[0]);
+                    putStringLn(a[0]);
+                eND
+                

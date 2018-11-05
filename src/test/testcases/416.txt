@@ -1,0 +1,11 @@
+
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: array[0 .. 1] of integer;
+                 {i,j,temp: integer;}
+                beGin
+                    print(a);
+                eND
+                

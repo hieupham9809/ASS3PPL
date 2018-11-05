@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(putIntLn),[],VoidType(),[],[])])
+Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(putIntLn),[],VoidType(),[],[])])

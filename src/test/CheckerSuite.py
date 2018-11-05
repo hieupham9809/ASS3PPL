@@ -3,9 +3,10 @@ from TestUtils import TestChecker
 from AST import *
 
 class CheckerSuite(unittest.TestCase):
-    '''def test_redeclared_builtin_procedure(self):
+    def test_redeclared_builtin_procedure(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("putIntLn"),[],[],[])])
         expect = "Redeclared Procedure: putIntLn"
         self.assertTrue(TestChecker.test(input,expect,400))
@@ -13,6 +14,7 @@ class CheckerSuite(unittest.TestCase):
     def test_redeclared_builtin_function(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("getInt"),[],[],[],IntType)])
         expect = "Redeclared Function: getInt"
         self.assertTrue(TestChecker.test(input,expect,401))
@@ -20,6 +22,7 @@ class CheckerSuite(unittest.TestCase):
     def test_redeclared_procedure(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[],[],[]),
                 FuncDecl(Id("foo"),[],[],[])])
         expect = "Redeclared Procedure: foo"
@@ -28,6 +31,7 @@ class CheckerSuite(unittest.TestCase):
     def test_redeclared_param_vs_local(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[VarDecl(Id("a"),IntType)],[VarDecl(Id("a"),IntType)],[])])
         expect = "Redeclared Variable: a"
         self.assertTrue(TestChecker.test(input,expect,403))
@@ -35,6 +39,7 @@ class CheckerSuite(unittest.TestCase):
     def test_redeclared_param(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 VarDecl(Id("name"),FloatType),
                 FuncDecl(Id("foo2"),[VarDecl(Id("name"),IntType)],[],[]),
                 FuncDecl(Id("foo"),[VarDecl(Id("a"),IntType),VarDecl(Id("a"),IntType)],[],[])])
@@ -44,6 +49,7 @@ class CheckerSuite(unittest.TestCase):
     def test_type_not_coerc_int_float(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putInt"),[BinaryOp('+',IntLiteral(1), FloatLiteral(2.1))])])])
         expect = "Type Mismatch In Statement: CallStmt(Id(putInt),[BinaryOp(+,IntLiteral(1),FloatLiteral(2.1))])"
         self.assertTrue(TestChecker.test(input,expect,405))
@@ -51,6 +57,7 @@ class CheckerSuite(unittest.TestCase):
     def test_type_coerc_int_float(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putFloat"),[BinaryOp('+',IntLiteral(1), IntLiteral(2))]),
                                         CallStmt(Id("putInt"),[BinaryOp('+',FloatLiteral(1.3), IntLiteral(2))])])])
         expect = "Type Mismatch In Statement: CallStmt(Id(putInt),[BinaryOp(+,FloatLiteral(1.3),IntLiteral(2))])"
@@ -59,6 +66,7 @@ class CheckerSuite(unittest.TestCase):
     def test_and_or_boolean(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putBoolLn"),[BinaryOp('and',BooleanLiteral(True), BooleanLiteral(False))]),
                                         CallStmt(Id("putBool"),[BinaryOp('or',IntLiteral(1), FloatLiteral(2.1))])])])
         expect = "Type Mismatch In Expression: BinaryOp(or,IntLiteral(1),FloatLiteral(2.1))"
@@ -67,6 +75,7 @@ class CheckerSuite(unittest.TestCase):
     def test_andthen_orelse_boolean(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putBoolLn"),[BinaryOp('andthen',BooleanLiteral(True), BooleanLiteral(False))]),
                                         CallStmt(Id("putBool"),[BinaryOp('orelse',IntLiteral(1), FloatLiteral(2.1))])])])
         expect = "Type Mismatch In Expression: BinaryOp(orelse,IntLiteral(1),FloatLiteral(2.1))"
@@ -75,6 +84,7 @@ class CheckerSuite(unittest.TestCase):
     def test_Unary_Type_sub(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putIntLn"),[UnaryOp('-', IntLiteral(1))]),
                                         CallStmt(Id("putInt"),[UnaryOp('-',StringLiteral("string in unaryop"))])])])
         expect = "Type Mismatch In Expression: UnaryOp(-,StringLiteral(string in unaryop))"
@@ -83,6 +93,7 @@ class CheckerSuite(unittest.TestCase):
     def test_Unary_Type_Not(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putBoolLn"),[UnaryOp('not', BooleanLiteral(True))]),
                                         CallStmt(Id("putBool"),[UnaryOp('not',StringLiteral("string in unaryop"))])])])
         expect = "Type Mismatch In Expression: UnaryOp(not,StringLiteral(string in unaryop))"
@@ -91,6 +102,7 @@ class CheckerSuite(unittest.TestCase):
     def test_Unary_Type_Not(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putBoolLn"),[UnaryOp('not', BinaryOp('>',IntLiteral(1),IntLiteral(2)))]),
                                         CallStmt(Id("putBool"),[UnaryOp('not',BinaryOp('+', IntLiteral(10000), IntLiteral(0)))])])])
         expect = "Type Mismatch In Expression: UnaryOp(not,BinaryOp(+,IntLiteral(10000),IntLiteral(0)))"
@@ -98,6 +110,7 @@ class CheckerSuite(unittest.TestCase):
     def test_Undeclared_id(self):
         """Simple program: int main() {} """
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 VarDecl(Id("a"),IntType),
                 FuncDecl(Id("foo"),[],[],[CallStmt(Id("putBoolLn"),[BinaryOp('>',Id("a"),IntLiteral(2))]),
                                         CallStmt(Id("putBool"),[BinaryOp('>',Id("b"),IntLiteral(2))])])])
@@ -107,7 +120,7 @@ class CheckerSuite(unittest.TestCase):
     def test_Declared_id_in_local(self):
         """More complex program"""
         input = Program([
-                
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[],[VarDecl(Id("a"),IntType)],[CallStmt(Id("putBoolLn"),[BinaryOp('>',Id("a"),IntLiteral(2))]),
                                         CallStmt(Id("putBool"),[BinaryOp('>',Id("b"),IntLiteral(2))])])])
         expect = "Undeclared Identifier: b"
@@ -116,20 +129,64 @@ class CheckerSuite(unittest.TestCase):
     def test_Declared_id_in_param(self):
         """More complex program"""
         input = Program([
-                
+                FuncDecl(Id("main"),[],[],[]),
                 FuncDecl(Id("foo"),[VarDecl(Id("a"),IntType)],[],[CallStmt(Id("putBoolLn"),[BinaryOp('>',Id("a"),IntLiteral(2))]),
                                         CallStmt(Id("putBool"),[BinaryOp('>',Id("b"),IntLiteral(2))])])])
         expect = "Undeclared Identifier: b"
-        self.assertTrue(TestChecker.test(input,expect,414))'''
+        self.assertTrue(TestChecker.test(input,expect,414))
     
     def test_Declared_inside_hidden_outside(self):
         """More complex program"""
         input = Program([
+                FuncDecl(Id("main"),[],[],[]),
                 VarDecl(Id("a"),FloatType),
                 FuncDecl(Id("foo"),[VarDecl(Id("a"),StringType)],[],[CallStmt(Id("putFloatLn"),[Id("a")])
                                         ])])
         expect = "Type Mismatch In Statement: CallStmt(Id(putFloatLn),[Id(a)])"
         self.assertTrue(TestChecker.test(input,expect,415))
+    def test_undeclared_procedure(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: array[0 .. 1] of integer;
+                 {i,j,temp: integer;}
+                beGin
+                    print(a);
+                eND
+                """
+        expect = "Undeclared Procedure: print"
+        self.assertTrue(TestChecker.test(input,expect,416))
+
+    def test_array_type_mismatch_with_int(self):
+        """More complex program"""
+        input = r"""
+                procedure swap() ;
+                var a: array[0 .. 1] of integer;
+                 {i,j,temp: integer;}
+                beGin
+                    putIntLn(a[0]);
+                    putStringLn(a[0]);
+                eND
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(putStringLn),[ArrayCell(Id(a),IntLiteral(0))])"
+        self.assertTrue(TestChecker.test(input,expect,417))
+
+    def test_array_type_mismatch_with_float(self):
+        """More complex program"""
+        input = r"""
+                procedure swap() ;
+                var a: array[0 .. 1] of real;
+                 {i,j,temp: integer;}
+                beGin
+                    putFloatLn(a[0]);
+                    putStringLn(a[0]);
+                eND
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(putStringLn),[ArrayCell(Id(a),IntLiteral(0))])"
+        self.assertTrue(TestChecker.test(input,expect,418))
 
     def Atest_undeclared_function_use_ast(self):
         """Simple program: int main() {} """
