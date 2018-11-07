@@ -7,12 +7,16 @@
                  i,k: integer;
                  m: array[1 .. 5] of integer;
                 begin
-                    if (i>1) then 
+                    while (true) do
                         begin 
-                            k:=1; 
-                            retUrn 1.2;
+                            i:=2;
+                            continue;
                         end
-                    else if (true) then i:=0;
+                    while (2>1) do
+                        begin
+                            continue;
+                            i:=1;
+                        end
                     return 1;
                 end
                 

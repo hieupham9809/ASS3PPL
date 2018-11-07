@@ -1,1 +1,11 @@
-Program([FuncDecl(Id(foo),[],VoidType(),[],[CallStmt(Id(putBoolLn),[UnaryOp(not,BooleanLiteral(True))]),CallStmt(Id(putBool),[UnaryOp(not,StringLiteral(string in unaryop))])])])
+
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                    putBoolLn(not true);
+                    putBool(1 or else 2.1);
+                eND
+                
+                

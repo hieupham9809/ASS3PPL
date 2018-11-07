@@ -7,12 +7,12 @@
                  i,k: integer;
                  m: array[1 .. 5] of integer;
                 begin
-                    if (i>1) then 
-                        begin 
-                            k:=1; 
-                            retUrn 1.2;
+                    with  b : integer ; a: real; c : array [1 .. 2] of real ; do 
+                        begin
+                            a := c[1] + b ;
+                            {b := a;}
+                            return b;
                         end
-                    else if (true) then i:=0;
-                    return 1;
+                    i := m[3];
                 end
                 

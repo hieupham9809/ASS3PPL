@@ -88,23 +88,36 @@ class StaticChecker(BaseVisitor,Utils):
             self.visit(decl, has_decl)
         return []
     def check_inside(self,listStmt, c, k):
+        
         has_ = False
         stmt_flag = 100
+        
         for i in range(len(listStmt)):
             stmt_flag = self.visit(listStmt[i],c)
+            #print(listStmt[i])
             if type(stmt_flag) is int:
+                
                 if stmt_flag == k:
                     if i != len(listStmt) - 1:
                         raise UnreachableStatement(listStmt[i+1])
                     else: 
                         has_ = True
+            if type(listStmt[i]) is If and stmt_flag is True:
+                if i != len(listStmt) - 1:
+                    raise UnreachableStatement(listStmt[i+1])
+                else: has_ = True
+            if type(listStmt[i]) is With and stmt_flag is True:
+                if i != len(listStmt) - 1:
+                    raise UnreachableStatement(listStmt[i+1])
+                else: has_ = True
+            #else: pass
         return has_
     def visitFuncDecl(self,ast, c):
         globaldecl = c.copy()
         returnType = ast.returnType
         listStmt = ast.body
         has_return = False
-        stmt_flag = 100
+        isInLoop = False
         param_sub_scope = []
         local_sub_scope = []
         flag = False
@@ -125,9 +138,6 @@ class StaticChecker(BaseVisitor,Utils):
             if not flag:
                 globaldecl.append(local_sub_scope[i])
 
-        #return list(map(lambda x: self.visit(x,c),ast.body)) 
-        
-        #stmt_flag = [self.visit(x, (globaldecl,returnType)) for x in ast.body]
         
         '''for i in range(len(listStmt)):
             stmt_flag = self.visit(listStmt[i],(globaldecl,returnType))
@@ -137,10 +147,13 @@ class StaticChecker(BaseVisitor,Utils):
                         raise UnreachableStatement(listStmt[i+1])
                     else: 
                         has_return = True'''
-        has_return = self.check_inside(listStmt, (globaldecl,returnType),1) 
+        has_return = self.check_inside(listStmt, (globaldecl,returnType,isInLoop),1) 
         #print(has_return)
         if has_return == False and not type(returnType) is VoidType:
             raise FunctionNotReturn(ast.name.name)
+        # if not type(returnType) is VoidType:
+        #     if has_return == False:
+        #         if 
 
     def visitReturn(self, ast, c):
         returnExp = ast.expr
@@ -150,8 +163,6 @@ class StaticChecker(BaseVisitor,Utils):
             else: 
                 typeExp = self.visit(returnExp,c)
                 if type(typeExp) != type(c[1]):
-                    print(typeExp)
-                    print(c[1])
                     if not(type(typeExp),type(c[1])) == (IntType, FloatType):
                         raise TypeMismatchInStatement(ast)
         else:
@@ -163,27 +174,44 @@ class StaticChecker(BaseVisitor,Utils):
         expr = ast.expr
         thenStmt = ast.thenStmt
         elseStmt = ast.elseStmt
-
+        #print(len(elseStmt))
         typeOfExpr = self.visit(expr,c)
-        if type(typeOfExpr) != BoolType:
+        if not type(typeOfExpr) is BoolType:
             raise TypeMismatchInStatement(ast)
         
-        return self.check_inside(thenStmt,c,1) or self.check_inside(elseStmt,c,1)
+        #return (self.check_inside(thenStmt,c,1) and self.check_inside(elseStmt,c,1))
+        thenCheck = self.check_inside(thenStmt,c,1)
+        elseCheck = self.check_inside(elseStmt,c,1)
+        return (thenCheck and elseCheck)
+    def visitWith(self,ast,c):
+        globalList = c[0].copy()
+        localList = []
+        for decl in ast.decl:
+            localList.append(check_redeclared(localList,decl,"variable"))
+        return self.check_inside(ast.stmt,(localList + globalList,c[1],c[2]),1)
+
     def visitWhile(self,ast,c):
         expr = ast.exp
         listStmt = ast.sl
+        isInLoop = True
 
         typeOfExpr = self.visit(expr,c)
         if type(typeOfExpr) != BoolType:
             raise TypeMismatchInStatement(ast)
         
-        return self.check_inside(listStmt,c,1)
+        return self.check_inside(listStmt,(c[0],c[1],isInLoop),1)
     #def visitFor(self,ast,c):
-
+    
     def visitContinue(self, ast, c):
-        return 11
+        if c[2] == False:
+            raise ContinueNotInLoop()
+        else:
+            return 1
     def visitBreak(self,ast,c):
-        return 111
+        if c[2] == False:
+            raise BreakNotInLoop()
+        else:
+            return 1
     '''def visitVarDecl(self,ast,c):
         if any((ast.variable.name == hde.name ) for hde in c):
             raise Redeclared(Variable(), ast.variable.name)

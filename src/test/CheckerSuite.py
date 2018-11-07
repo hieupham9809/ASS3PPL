@@ -175,10 +175,10 @@ class CheckerSuite(unittest.TestCase):
                 eND
                 
                 """
-        expect = "Type Mismatch In Expression: UnaryOp(not,StringLiteral(string in unaryop))"
+        expect = "Type Mismatch In Expression: BinaryOp(orelse,IntLiteral(1),FloatLiteral(2.1))"
         self.assertTrue(TestChecker.test(input,expect,410))
 
-    def test_Unary_Type_Not(self):
+    def test_Unary_Type_Not_more(self):
         """Simple program: int main() {} """
         input = r"""
                 procedure main();
@@ -535,7 +535,7 @@ class CheckerSuite(unittest.TestCase):
                             k:=1; 
                             retUrn 1.2;
                         end
-                    else if ("true") then i:=0;
+                    else if (true) then i:=0;
                     return 1;
                 end
                 """
@@ -557,7 +557,7 @@ class CheckerSuite(unittest.TestCase):
                             k:=1; 
                             retUrn 3;
                         end
-                    else if ("true") then i:=0;
+                    else if (true) then i:=0;
                     {return 1;}
                 end
                 """
@@ -580,7 +580,7 @@ class CheckerSuite(unittest.TestCase):
                 """
         expect = "Function swapNot Return "
         self.assertTrue(TestChecker.test(input,expect,432))
-    def test_while_stmt_with_not_return(self):
+    def test_while_stmt_with_return(self):
         """More complex program"""
         input = r"""
                 procedure main();
@@ -597,6 +597,206 @@ class CheckerSuite(unittest.TestCase):
                 """
         expect = "Type Mismatch In Statement: While(IntLiteral(5),[AssignStmt(Id(i),IntLiteral(1))])"
         self.assertTrue(TestChecker.test(input,expect,433))
+    def test_while_stmt_with_continue(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do
+                        begin 
+                            i:=2;
+                            continue;
+                        end
+                    while (2>1) do
+                        begin
+                            continue;
+                            i:=1;
+                        end
+                    return 1;
+                end
+                """
+        expect = "Unreachable statement: AssignStmt(Id(i),IntLiteral(1))"
+        self.assertTrue(TestChecker.test(input,expect,434))  
+    def test_continue_not_in_loop(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do
+                        begin 
+                            i:=2;
+                            continue;
+                        end
+                    while (2>1) do
+                        begin
+                            i:=1;
+                        end
+                    continue;
+                    return 1;
+                end
+                """
+        expect = "Continue Not In Loop"
+        self.assertTrue(TestChecker.test(input,expect,435))
+    def test_break_not_in_loop(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do
+                        begin 
+                            i:=2;
+                            continue;
+                        end
+                    while (2>1) do
+                        begin
+                            i:=1;
+                        end
+                    break;
+                    return 1;
+                end
+                """
+        expect = "Break Not In Loop"
+        self.assertTrue(TestChecker.test(input,expect,436))
+    def test_inner_while(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do
+                        begin 
+                            i:=2;
+                            while (2>1) do
+                                begin
+                                    i:=1;
+                                    break;
+                                end
+                            continue;
+                        end
+                    
+                    return ;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(None)"
+        self.assertTrue(TestChecker.test(input,expect,437))  
+    def test_return_in_if(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if i > 10 then
+                        begin
+                            k := i;
+                            return k;
+                        end
+                    else
+                        begin
+                            k := i + 1;
+                            return 1.4;
+                        end
+                    
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(FloatLiteral(1.4)))"
+        self.assertTrue(TestChecker.test(input,expect,438))
+    def test_return_in_if_then(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if i > 10 then
+                        begin
+                            k := i;
+                            return k;
+                        end
+                    else
+                        begin
+                            k := i + 1;
+                            {return 1.4;}
+                        end
+                    
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,439))
+    def test_with_stmt(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    with  b : integer ; a: real; c : array [1 .. 2] of real ; do 
+                    begin
+                        a := c[1] + b ;
+                        b := a;
+                    end
+                    
+                end
+                """
+        expect = "Type Mismatch In Statement: AssignStmt(Id(b),Id(a))"
+        self.assertTrue(TestChecker.test(input,expect,440))
+    def test_with_stmt_with_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    with  b : integer ; a: real; c : array [1 .. 2] of real ; do 
+                        begin
+                            a := c[1] + b ;
+                            {b := a;}
+                            return b;
+                        end
+                    i := m[3];
+                end
+                """
+        expect = "Unreachable statement: AssignStmt(Id(i),ArrayCell(Id(m),IntLiteral(3)))"
+        self.assertTrue(TestChecker.test(input,expect,441))
     def Atest_undeclared_function_use_ast(self):
         """Simple program: int main() {} """
         input = Program([FuncDecl(Id("main"),[],[],[

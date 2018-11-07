@@ -7,7 +7,11 @@
                  i,k: integer;
                  m: array[1 .. 5] of integer;
                 begin
-                    while (true) do return 3;
-                    {return 1;}
+                    with  b : integer ; a: real; c : array [1 .. 2] of real ; do 
+                    begin
+                        a := c[1] + b ;
+                        b := a;
+                    end
+                    
                 end
                 

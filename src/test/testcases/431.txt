@@ -12,7 +12,7 @@
                             k:=1; 
                             retUrn 3;
                         end
-                    else if ("true") then i:=0;
+                    else if (true) then i:=0;
                     {return 1;}
                 end
                 
