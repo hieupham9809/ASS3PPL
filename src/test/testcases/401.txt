@@ -1,1 +1,9 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(getInt),[],<class 'AST.IntType'>,[],[])])
+
+                procedure main();
+                begin
+                end
+                function getInt():Integer;
+                beGin
+                return 3;
+                eND
+                

@@ -1,1 +1,12 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[]),VarDecl(Id(a),<class 'AST.IntType'>),FuncDecl(Id(foo),[],VoidType(),[],[CallStmt(Id(putBoolLn),[BinaryOp(>,Id(a),IntLiteral(2))]),CallStmt(Id(putBool),[BinaryOp(>,Id(b),IntLiteral(2))])])])
+
+                procedure main();
+                begin
+                end
+                var a: integer;
+                procedure foo();
+                beGin
+                    putBoolLn(a>2);
+                    putBool(b>2);
+                eND
+                
+                

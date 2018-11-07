@@ -1,0 +1,14 @@
+
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    i := k := m[2];
+                    putInt(3);
+                    
+                end
+                

@@ -66,7 +66,7 @@ class FunctionNotReturn(StaticError):
         self.m = m
 
     def __str__(self):
-        return "Function "+ m + "Not Return "
+        return "Function "+ self.m + "Not Return "
 
 class BreakNotInLoop(StaticError):
     def __str__(self):
@@ -94,6 +94,6 @@ class Unreachable(StaticError):
         self.m = m
 
     def __str__(self):
-        return "Unreachable " + str(self.k) + ": "+ m 
+        return "Unreachable " + str(self.k) + ": "+ self.m
 
 

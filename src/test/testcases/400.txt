@@ -1,1 +1,10 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(putIntLn),[],VoidType(),[],[])])
+
+                procedure main();
+                begin
+                
+                end
+                procedure putIntLn();
+                beGin
+                
+                eND
+                

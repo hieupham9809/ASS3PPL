@@ -1,0 +1,18 @@
+
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if (i>1) then 
+                        begin 
+                            k:=1; 
+                            retUrn 1.2;
+                        end
+                    else if ("true") then i:=0;
+                    return 1;
+                end
+                

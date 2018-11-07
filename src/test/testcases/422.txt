@@ -5,8 +5,10 @@
                 procedure swap() ;
                 var a: string;
                  i,k: integer;
+                 m: array[1 .. 5] of integer;
                 beGin
-                    i := k := 5;
-                    a := i;
+                    i := k := m[2];
+                    i := a;
+                    
                 eND
                 

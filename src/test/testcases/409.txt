@@ -1,1 +1,11 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(foo),[],VoidType(),[],[CallStmt(Id(putIntLn),[UnaryOp(-,IntLiteral(1))]),CallStmt(Id(putInt),[UnaryOp(-,StringLiteral(string in unaryop))])])])
+
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                    putIntLn(-1);
+                    putInt(- "string in unaryop");
+                eND
+                
+                

@@ -3,10 +3,10 @@
                 begin
                 end
                 procedure swap() ;
-                var a: string;
-                 i,k: integer;
+                var a: array[0 .. 1] of real;
+                 i: integer;
                 beGin
-                    i := k := 5;
+                    i := 5;
                     a := i;
                 eND
                 

@@ -1,1 +1,12 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[CallStmt(Id(foo),[])])])
+
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: string;
+                 i: integer;
+                beGin
+                    i := 5;
+                    a := i;
+                eND
+                

@@ -1,0 +1,13 @@
+
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do return 3;
+                    return 1;
+                end
+                

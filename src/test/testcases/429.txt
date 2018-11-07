@@ -1,0 +1,14 @@
+
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if (i>1) then k:=1;
+                    else if ("true") then i:=0;
+                    return 1;
+                end
+                

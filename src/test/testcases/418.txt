@@ -1,4 +1,7 @@
 
+                procedure main();
+                begin
+                end
                 procedure swap() ;
                 var a: array[0 .. 1] of real;
                  {i,j,temp: integer;}

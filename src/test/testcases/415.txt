@@ -1,1 +1,11 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[]),VarDecl(Id(a),<class 'AST.FloatType'>),FuncDecl(Id(foo),[VarDecl(Id(a),<class 'AST.StringType'>)],VoidType(),[],[CallStmt(Id(putFloatLn),[Id(a)])])])
+
+                procedure main();
+                begin
+                end
+                var a: real;
+                procedure foo(a:string);
+                beGin
+                    putFloatLn(a);
+                eND
+                
+                

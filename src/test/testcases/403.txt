@@ -1,1 +1,10 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(foo),[VarDecl(Id(a),<class 'AST.IntType'>)],VoidType(),[VarDecl(Id(a),<class 'AST.IntType'>)],[])])
+
+                procedure main();
+                begin
+                end
+                procedure foo(a: integer);
+                var a:integer;
+                beGin
+                
+                eND
+                

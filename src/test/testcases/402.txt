@@ -1,1 +1,13 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(foo),[],VoidType(),[],[]),FuncDecl(Id(foo),[],VoidType(),[],[])])
+
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                
+                eND
+                procedure foo();
+                beGin
+                
+                eND
+                

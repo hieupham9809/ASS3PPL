@@ -1,1 +1,10 @@
-Program([FuncDecl(Id(main),[],VoidType(),[],[]),FuncDecl(Id(foo),[],VoidType(),[],[CallStmt(Id(putInt),[BinaryOp(+,IntLiteral(1),FloatLiteral(2.1))])])])
+
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                putInt(1+2.1);
+                eND
+                
+                
