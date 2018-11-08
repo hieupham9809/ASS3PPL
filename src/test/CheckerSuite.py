@@ -3,7 +3,7 @@ from TestUtils import TestChecker
 from AST import *
 
 class CheckerSuite(unittest.TestCase):
-    def test_redeclared_builtin_procedure(self):
+    '''def test_redeclared_builtin_procedure(self):
         """Simple program: int main() {} """
         input = r"""
                 procedure main();
@@ -818,7 +818,7 @@ class CheckerSuite(unittest.TestCase):
                     return 1;
                 end
                 """
-        expect = "Type Mismatch In Expression: For(Id(a),IntLiteral(1),IntLiteral(10),True,[])"
+        expect = "Type Mismatch In Expression: For(Id(a)IntLiteral(1),IntLiteral(10),True,[])"
         self.assertTrue(TestChecker.test(input,expect,442))
     def test_for_stmt_with_not_return(self):
         """More complex program"""
@@ -891,12 +891,196 @@ class CheckerSuite(unittest.TestCase):
                             return 1;
                         end
                     
-                    return 1;
+                    {return 1;}
                     
                 end
                 """
         expect = "Function swapNot Return "
         self.assertTrue(TestChecker.test(input,expect,445))
+    
+    def test_return_arraytype_type(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap(): array[2 .. 3] of integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[2 .. 3] of real;
+                begin
+                    return m;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(Id(m)))"
+        self.assertTrue(TestChecker.test(input,expect,446))
+    def test_return_arraytype_lower_upper(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap(): array[2 .. 3] of integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return m;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(Id(m)))"
+        self.assertTrue(TestChecker.test(input,expect,447))
+    def test_arraytype_as_parameter_wrong_returntype(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo1(b: array[1 .. 2] of integer);
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of real;
+                begin
+                    foo1(n);
+                end
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(foo1),[Id(n)])"
+        self.assertTrue(TestChecker.test(input,expect,448))
+    def test_arraytype_as_parameter_wrong_upper_procedure(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo1(b: array[1 .. 2] of integer);
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                end
+                procedure foo2();
+                var n: array[1 .. 6] of integer;
+                begin
+                    foo1(n);
+                end
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(foo1),[Id(n)])"
+        self.assertTrue(TestChecker.test(input,expect,449))
+    def test_arraytype_as_parameter_wrong_upper_function(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of real;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                """
+        expect = "Type Mismatch In Expression: CallExpr(Id(foo1),[Id(n)])"
+        self.assertTrue(TestChecker.test(input,expect,450))
+    def test_function_main_entrypoint(self):
+        """More complex program"""
+        input = r"""
+                function main(): integer;
+                begin
+                    return 1;
+                end
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of integer;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                """
+        expect = "No entry point"
+        self.assertTrue(TestChecker.test(input,expect,451))
+    def test_no_entrypoint(self):
+        """More complex program"""
+        input = r"""
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of integer;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                """
+        expect = "No entry point"
+        self.assertTrue(TestChecker.test(input,expect,452))'''
+    def test_unreach_call_stmt(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                    {foo2();}
+                end
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of integer;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                """
+        expect = "Unreachable Procedure: foo2"
+        self.assertTrue(TestChecker.test(input,expect,453))
+    def test_unreach_call_expr(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                    {foo2();}
+                end
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                function foo2(): integer;
+                var n: array[1 .. 2] of integer;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                    return 0;
+                end
+                """
+        expect = "Unreachable Function: foo2"
+        self.assertTrue(TestChecker.test(input,expect,454))
     def Atest_undeclared_function_use_ast(self):
         """Simple program: int main() {} """
         input = Program([FuncDecl(Id("main"),[],[],[

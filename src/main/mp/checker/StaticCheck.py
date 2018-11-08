@@ -84,8 +84,23 @@ class StaticChecker(BaseVisitor,Utils):
         for decl in ast.decl:
             has_decl.append(check_redeclared(has_decl,decl, "variable" if type(decl) is VarDecl else "procedure"))
         #return [self.visit(x,c) for x in ast.decl]
+        func_decl = []
+        
         for decl in ast.decl:
-            self.visit(decl, has_decl)
+            if type(decl) is FuncDecl:
+                func_decl.append(check_redeclared(func_decl,decl,"procedure"))
+        #print(func_decl)
+        
+        for decl in ast.decl:
+            self.visit(decl, (has_decl,func_decl))
+        #print(func_decl)
+        res = self.lookup("main",func_decl,lambda x: x.name.lower())
+        if res is None or not type(res.mtype) is MType or not type(res.mtype.rettype) is VoidType:
+            raise NoEntryPoint()
+        self.reach(func_decl,"main")
+        if not func_decl:
+            pass
+        else: raise Unreachable(Procedure() if type(func_decl[0].mtype.rettype) is VoidType else Function(),func_decl[0].name)
         return []
     def check_inside(self,listStmt, c, k):
         
@@ -113,7 +128,7 @@ class StaticChecker(BaseVisitor,Utils):
             #else: pass
         return has_
     def visitFuncDecl(self,ast, c):
-        globaldecl = c.copy()
+        globaldecl = c[0].copy()
         returnType = ast.returnType
         listStmt = ast.body
         has_return = False
@@ -147,21 +162,33 @@ class StaticChecker(BaseVisitor,Utils):
                         raise UnreachableStatement(listStmt[i+1])
                     else: 
                         has_return = True'''
-        has_return = self.check_inside(listStmt, (local_sub_scope+globaldecl,returnType,isInLoop),1) 
+        has_return = self.check_inside(listStmt, (local_sub_scope+globaldecl,returnType,isInLoop,c[1]),1) 
         #print(has_return)
         if has_return == False and not type(returnType) is VoidType:
             raise FunctionNotReturn(ast.name.name)
         # if not type(returnType) is VoidType:
         #     if has_return == False:
         #         if 
-
+    def arrayTypeCompare(self,funcReturnType, exprType):
+        lower = funcReturnType.lower == exprType.lower
+        upper = funcReturnType.upper == exprType.upper
+        eleType = type(funcReturnType.eleType) == type(exprType.eleType)
+        
+        return lower and upper and eleType
     def visitReturn(self, ast, c):
         returnExp = ast.expr
+          
         if type(c[1]) != VoidType:
             if returnExp is None:
                 raise TypeMismatchInStatement(ast)
             else: 
                 typeExp = self.visit(returnExp,c)
+                if type(c[1]) is ArrayType:
+                    if not type(typeExp) is ArrayType:
+                        raise TypeMismatchInStatement(ast)
+                    else:
+                        if not self.arrayTypeCompare(c[1], typeExp):
+                            raise TypeMismatchInStatement(ast)
                 if type(typeExp) != type(c[1]):
                     #if not(type(typeExp),type(c[1])) is (IntType, FloatType):
                     if not type(typeExp) is IntType or not type(c[1]) is FloatType:
@@ -227,8 +254,17 @@ class StaticChecker(BaseVisitor,Utils):
             raise Redeclared(Variable(), ast.variable.name)
         else: #return Symbol(ast.variable.name,self.visit(ast.varType,c))
             return Symbol(ast.variable.name,ast.varType)'''
+    def reach(self, func_decl_list, func_decl_name):
+        
+        for i in range(len(func_decl_list)):
+            if func_decl_list[i].name.lower() == func_decl_name.lower():
+                del func_decl_list[i]
+                break
+        
 
     def visitCallStmt(self, ast, c): 
+        self.reach(c[3], ast.method.name)
+        
         at = [self.visit(x,c) for x in ast.param]
         #lower()
         res = self.lookup(ast.method.name.lower(),c[0],lambda x: x.name.lower()) 
@@ -248,6 +284,10 @@ class StaticChecker(BaseVisitor,Utils):
                     #if not isinstance(mt0,FloatType) or not isinstance(mt1,IntType):
                         raise TypeMismatchInStatement(ast)
                     else: pass
+                else:
+                    if type(mt0) is ArrayType:
+                        if not self.arrayTypeCompare(mt0,mt1):
+                            raise TypeMismatchInStatement(ast)
                     
             return res.mtype.rettype
 
@@ -281,6 +321,7 @@ class StaticChecker(BaseVisitor,Utils):
             else: raise TypeMismatchInExpression(ast)
     
     def visitCallExpr(self,ast,c):
+        self.reach(c[3], ast.method.name)
         at = [self.visit(x,c) for x in ast.param]
         #lower()
         res = self.lookup(ast.method.name.lower(),c[0],lambda x: x.name.lower())
@@ -300,6 +341,10 @@ class StaticChecker(BaseVisitor,Utils):
                     
                         raise TypeMismatchInExpression(ast)
                     else: pass
+                else:
+                    if type(mt0) is ArrayType:
+                        if not self.arrayTypeCompare(mt0,mt1):
+                            raise TypeMismatchInExpression(ast)
                     
             return res.mtype.rettype
     def visitUnaryOp(self, ast, c):

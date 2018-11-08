@@ -1,0 +1,12 @@
+
+                procedure main();
+                begin
+                end
+                function swap(): array[2 .. 3] of integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[2 .. 3] of real;
+                begin
+                    return m;
+                end
+                

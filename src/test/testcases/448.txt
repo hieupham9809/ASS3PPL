@@ -1,0 +1,16 @@
+
+                procedure main();
+                begin
+                end
+                procedure foo1(b: array[1 .. 2] of integer);
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of real;
+                begin
+                    foo1(n);
+                end
+                
