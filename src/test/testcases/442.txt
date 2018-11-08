@@ -1,0 +1,19 @@
+
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                        end
+                    for a:=1 to 10 do 
+                        begin
+                        end
+                    return 1;
+                end
+                

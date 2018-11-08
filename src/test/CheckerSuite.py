@@ -797,6 +797,106 @@ class CheckerSuite(unittest.TestCase):
                 """
         expect = "Unreachable statement: AssignStmt(Id(i),ArrayCell(Id(m),IntLiteral(3)))"
         self.assertTrue(TestChecker.test(input,expect,441))
+    def test_for_stmt_with_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                        end
+                    for a:=1 to 10 do 
+                        begin
+                        end
+                    return 1;
+                end
+                """
+        expect = "Type Mismatch In Expression: For(Id(a),IntLiteral(1),IntLiteral(10),True,[])"
+        self.assertTrue(TestChecker.test(input,expect,442))
+    def test_for_stmt_with_not_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                            return 1;
+                        end
+                    for k:=1 to 10 do 
+                        begin
+                            return 1;
+                        end
+                    
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,443))
+    def test_for_stmt_continue(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                            return 1;
+                        end
+                    for k:=1 to 10 do 
+                        begin
+                            continue;
+                        end
+                    
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,444))
+    def test_for_stmt_continue_break(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                            for k:=1 to 10 do 
+                                begin
+                                    continue;
+                                end
+                            return 1;
+                        end
+                    
+                    return 1;
+                    
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,445))
     def Atest_undeclared_function_use_ast(self):
         """Simple program: int main() {} """
         input = Program([FuncDecl(Id("main"),[],[],[

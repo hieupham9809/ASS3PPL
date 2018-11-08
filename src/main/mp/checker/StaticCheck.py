@@ -120,7 +120,7 @@ class StaticChecker(BaseVisitor,Utils):
         isInLoop = False
         param_sub_scope = []
         local_sub_scope = []
-        flag = False
+        #flag = False
         for vardecl in ast.param:
             param_sub_scope.append(check_redeclared(param_sub_scope, vardecl,"parameter"))
         local_sub_scope += param_sub_scope
@@ -128,15 +128,15 @@ class StaticChecker(BaseVisitor,Utils):
         for vardecl in ast.local:
             local_sub_scope.append(check_redeclared(local_sub_scope, vardecl,"variable"))
         
-        for i in range(len(local_sub_scope)):
-            flag = False
-            for j in range(len(globaldecl)):
-                if globaldecl[j].name == local_sub_scope[i].name:
-                    globaldecl[j] = local_sub_scope[i]
-                    flag = True
-                    break 
-            if not flag:
-                globaldecl.append(local_sub_scope[i])
+        # for i in range(len(local_sub_scope)):
+        #     flag = False
+        #     for j in range(len(globaldecl)):
+        #         if globaldecl[j].name == local_sub_scope[i].name:
+        #             globaldecl[j] = local_sub_scope[i]
+        #             flag = True
+        #             break 
+        #     if not flag:
+        #         globaldecl.append(local_sub_scope[i])
 
         
         '''for i in range(len(listStmt)):
@@ -147,7 +147,7 @@ class StaticChecker(BaseVisitor,Utils):
                         raise UnreachableStatement(listStmt[i+1])
                     else: 
                         has_return = True'''
-        has_return = self.check_inside(listStmt, (globaldecl,returnType,isInLoop),1) 
+        has_return = self.check_inside(listStmt, (local_sub_scope+globaldecl,returnType,isInLoop),1) 
         #print(has_return)
         if has_return == False and not type(returnType) is VoidType:
             raise FunctionNotReturn(ast.name.name)
@@ -163,7 +163,8 @@ class StaticChecker(BaseVisitor,Utils):
             else: 
                 typeExp = self.visit(returnExp,c)
                 if type(typeExp) != type(c[1]):
-                    if not(type(typeExp),type(c[1])) == (IntType, FloatType):
+                    #if not(type(typeExp),type(c[1])) is (IntType, FloatType):
+                    if not type(typeExp) is IntType or not type(c[1]) is FloatType:
                         raise TypeMismatchInStatement(ast)
         else:
             if not returnExp is None:
@@ -196,12 +197,21 @@ class StaticChecker(BaseVisitor,Utils):
         isInLoop = True
 
         typeOfExpr = self.visit(expr,c)
-        if type(typeOfExpr) != BoolType:
+        #if type(typeOfExpr) != BoolType:
+        if not type(typeOfExpr) is BoolType:
             raise TypeMismatchInStatement(ast)
         
         return self.check_inside(listStmt,(c[0],c[1],isInLoop),1)
-    #def visitFor(self,ast,c):
-    
+    def visitFor(self,ast,c):
+        id = self.visit(ast.id,c)
+        expr1 = self.visit(ast.expr1,c)
+        expr2 = self.visit(ast.expr2,c)
+        listStmt = ast.loop
+        isInLoop = True
+        
+        if not type(id) is IntType or not type(expr1) is IntType or not type(expr2) is IntType:
+            raise TypeMismatchInExpression(ast)
+        return self.check_inside(listStmt,(c[0],c[1],isInLoop),1)
     def visitContinue(self, ast, c):
         if c[2] == False:
             raise ContinueNotInLoop()
@@ -232,7 +242,8 @@ class StaticChecker(BaseVisitor,Utils):
                 
                 if type(mt0) != type(mt1):
                     
-                    if not(type(mt0), type(mt1)) == (FloatType, IntType):
+                    #if not(type(mt0), type(mt1)) == (FloatType, IntType):
+                    if not type(mt0) is FloatType or not type(mt1) is IntType:
                     #if type(mt0) != FloatType or type(mt1) != IntType:  
                     #if not isinstance(mt0,FloatType) or not isinstance(mt1,IntType):
                         raise TypeMismatchInStatement(ast)
