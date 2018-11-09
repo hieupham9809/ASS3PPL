@@ -1,12 +1,12 @@
 
-                procedure main();
-                begin
-                end
-                procedure swap() ;
-                var a: array[0 .. 1] of integer;
-                 {i,j,temp: integer;}
-                beGin
-                    putIntLn(a[0]);
-                    putStringLn(a[0]);
-                eND
-                
+            var a, b, c: array[0 .. -10] of boolean;
+            var x, y, z: array[0 .. -10] of string;
+            function foo1(a,b:integer):integer;
+            begin
+                return foo2(getInt(), 11);
+            end
+            FUNCTION FOO2(A,B:INTEGER):INTEGER;
+            BEGIN
+                RETURN FOO1(11, getInt());
+            END
+        

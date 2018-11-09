@@ -1,14 +1,14 @@
 
-                procedure main();
-                begin
-                end
-                procedure swap() ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                beGin
-                    i := k := m[2];
-                    i := a;
-                    
-                eND
-                
+            function otr(param: real):real;
+            begin
+                param := param + 1;
+                return .11111999;
+            end
+            PROCEDURE Main();
+            var x: real;
+            begin
+                x := (not (otr(otr(otr(otr(otr)))) mod 2) and FALSE OR TRUE) * 1.1111999;
+                putInt(x);
+                return;
+            end
+        

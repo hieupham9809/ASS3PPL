@@ -1,0 +1,18 @@
+
+            function foo():integer;
+            var i: integer;
+            begin
+                for i := 1 to 10 do
+                begin
+                    putInt(getInt());
+                    putFloat(getInt());
+                    return;
+                end
+                return 123;
+            end
+            procedure main();
+            var x:integer;
+            begin
+                x := foo();
+            end
+        

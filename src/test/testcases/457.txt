@@ -1,0 +1,20 @@
+
+            function foo():array [1 .. 10] of real;
+            var b: array[1 .. 10] of real;
+            begin
+                return b;
+            end
+            function foo1():real;
+            begin
+                return foo2();
+            end
+            function foo2():integer;
+            begin
+                return foo1();
+            end
+            procedure MAIN();
+            var T:real;
+            begin
+                T := foo()[0];
+            end
+        

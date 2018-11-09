@@ -1,18 +1,22 @@
 
-                procedure main();
-                begin
-                end
-                procedure swap() ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    i := k := m[2];
-                    putInt(3);
-                    return;
-                end
-                procedure swap2() ;
-                begin
-                    return 3;
-                end
-                
+            procedure main();
+            var otr: integer;
+                x: array[0 .. 100] of integer;
+            begin
+                OTr := fOO();
+                otr_trl(X, foo(), foo * 1.0);
+            end
+            function foo():integer;
+            var i,j:integer;
+                stack: array[0 .. 100] of integer;
+            begin
+                otr_trl(stack, i + j, j + 1);
+                return 1 - 6 - 1 - 1 - 9 - 3 - 1;
+            end
+            procedure otr_trl(s:array[0 .. 100] of integer; m,n:real);
+            begin
+                putStringLn("I love you Oanh Trinh");
+                putBool(False and True OR False);
+                putIntLn(s[11111999]);
+            end
+        

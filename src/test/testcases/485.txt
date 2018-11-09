@@ -1,0 +1,49 @@
+
+            function FOO():integer;
+            var x,y,i: integer;
+            begin
+                IF true THEN
+                BEGIN
+                    FOR i := 0 to 100 do
+                    begin
+                        if i = 20 then
+                            break;
+                        if i = x + y then
+                        begin
+                            putIntLn(i);
+                            putStringLn("Hello Python!");
+                            return 0;
+                        end
+                        else
+                        begin
+                            main();
+                            return 0;
+                        end
+                    end
+                END
+                ELSE
+                BEGIN
+                    with a,b:integer; do
+                    begin
+                        while x <> y do
+                        begin
+                            a := b := x := y := 0;
+                            if x = y then
+                                break;
+                            else
+                                putStringLn("Hello C++");
+                            return 0;
+                        end
+                        if x <> y then
+                            return 0;
+                        else
+                            return a + b + y + x;
+                    end
+                END
+            end
+            procedure main();
+            var otr: integer;
+            begin
+                otr := foo();
+            end
+        

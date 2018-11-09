@@ -1,13 +1,13 @@
 
-                procedure main();
-                begin
-                end
-                function swap():integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    while (true) do return 3;
-                    {return 1;}
-                end
-                
+            procedure count();
+            begin
+                Main();
+            end
+            procedure main();
+            var foo: integer;
+            begin
+                COUNT();
+                foo := 1.5 * ((count(foo, foo * 2) div 5) and 4) / 7 + 2;
+                return;
+            end
+        

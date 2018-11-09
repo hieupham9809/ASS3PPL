@@ -1,0 +1,11 @@
+
+            var t: integer;
+            function foo():integer;
+            begin
+                return 1;
+            end
+            procedure main();
+            begin
+                t := (foo() + 3)[foo() + 3] / 4 / 5;
+            end
+        

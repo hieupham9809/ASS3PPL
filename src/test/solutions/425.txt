@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Return(Some(IntLiteral(3)))
+Undeclared Identifier: foo

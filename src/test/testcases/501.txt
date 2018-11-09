@@ -1,0 +1,20 @@
+
+            procedure main();
+            var i:integer;
+            begin
+                i := 0;
+                while i < 100 do
+                begin
+                    putIntLn(i);
+                    i := i + 1;
+                    if i = 60 then
+                        return;
+                    putStringLn("Hello Haskell!");
+                    if i = 70 then
+                        break;
+                    else
+                        continue;
+                    putStringLn("Hello Smalltalk!");
+                end 
+            end
+        

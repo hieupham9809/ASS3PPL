@@ -1,1 +1,1 @@
-Type Mismatch In Statement: If(StringLiteral(true),[AssignStmt(Id(i),IntLiteral(0))],[])
+Undeclared Function: xyz

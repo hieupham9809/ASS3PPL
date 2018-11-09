@@ -1,1 +1,1 @@
-Unreachable statement: CallStmt(Id(putInt),[IntLiteral(3)])
+Undeclared Identifier: h

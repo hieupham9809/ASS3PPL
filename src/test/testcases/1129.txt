@@ -1,0 +1,7 @@
+
+    procedure main();
+    var a: real;
+    begin
+        a:= false * 1;
+    end
+    

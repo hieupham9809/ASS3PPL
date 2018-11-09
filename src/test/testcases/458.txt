@@ -1,0 +1,20 @@
+
+            function foo():integer;
+            begin
+                if True then 
+                begin
+                    PutSTring("abc");
+                    return 1;
+                end
+                else
+                begin
+                    putString("xyz");
+                    return;
+                end
+            end
+            procedure main();
+            var x:integer;
+            begin
+                x := foo();
+            end
+        

@@ -1,11 +1,5 @@
 
-                procedure main();
-                begin
-                end
-                procedure swap() ;
-                var a: array[0 .. 1] of integer;
-                 {i,j,temp: integer;}
-                beGin
-                    print(a);
-                eND
-                
+            VAR list, tuple, set, dict, str: array[0 .. 100] of integer;
+                pytagonas, euler, fermat: String;
+                right, wrong: Boolean;
+        

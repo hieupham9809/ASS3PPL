@@ -1,0 +1,12 @@
+
+            procedure main();
+            begin
+                with a,b:integer; c:boolean; d:string; do
+                begin
+                    c := ((-a----b) <> a) and then c;
+                    a := (a Div b) mod 11 - 11 * 1999;
+                    d := (a / b) DiV (a);
+                end
+                return;
+            end
+        

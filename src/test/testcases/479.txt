@@ -1,0 +1,30 @@
+
+            function foo(n:integer):integer;
+            var x: integer;
+            begin
+                while x > 10 do
+                begin
+                    x := x - 1;
+                    if x < 4 then
+                        break;
+                end
+                for x := 0 to 90 do
+                begin
+                    putIntLn(x);
+                    if x = 67 then
+                        break;
+                    else
+                        break;
+                end
+                if x <> 67 then
+                    break;
+                else
+                    putStringLn("Oanh Trinh");
+                return n;
+            end
+            procedure MAIN();
+            var number:integer;
+            begin
+                number := foo(foo(foo(foo(10))));
+            end
+        

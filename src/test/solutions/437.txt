@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Return(None)
+Type Mismatch In Statement: While(Id(a),[AssignStmt(Id(a),BinaryOp(-,Id(a),IntLiteral(1)))])

@@ -1,0 +1,1 @@
+Type Mismatch In Statement: AssignStmt(Id(a),BinaryOp(<>,IntLiteral(1),FloatLiteral(1.0)))

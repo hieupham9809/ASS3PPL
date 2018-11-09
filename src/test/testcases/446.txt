@@ -1,12 +1,12 @@
 
-                procedure main();
-                begin
-                end
-                function swap(): array[2 .. 3] of integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[2 .. 3] of real;
-                begin
-                    return m;
-                end
-                
+            function getArray(x:array[0 .. 0] of integer):array[0 .. 0] of integer;
+            begin
+                return x;
+            end
+            procedure main();
+            var y: array [0 .. 0] of integer;
+            begin
+                y := getArray(y);
+                return;
+            end
+        

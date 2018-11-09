@@ -1,1 +1,1 @@
-Type Mismatch In Statement: CallStmt(Id(putInt),[BinaryOp(+,FloatLiteral(1.3),IntLiteral(2))])
+Redeclared Variable: MAIN

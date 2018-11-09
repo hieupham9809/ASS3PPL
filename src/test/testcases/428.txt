@@ -1,15 +1,10 @@
 
-                procedure main();
+            var i,j,k:integer;
+            procedure main();
+            begin
+                for i := j + k to (k / h / j / j) div i do
                 begin
+                    putStringLn("I love Oanh Trinh");
                 end
-                function swap():integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    i := k := m[2];
-                    return 3;
-                    putInt(3);
-                    
-                end
-                
+            end
+        

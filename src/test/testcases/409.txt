@@ -1,11 +1,10 @@
 
-                procedure main();
-                begin
-                end
-                procedure foo();
-                beGin
-                    putIntLn(-1);
-                    putInt(- "string in unaryop");
-                eND
-                
-                
+            var P, Q, R, pqrST: integer;
+            procedure main();
+            begin
+                foo(0, 0, 0.1, TRUE);
+            end
+            procedure foo(p, pqrst:integer; x:real; P:boolean);
+            begin
+            end
+        

@@ -1,17 +1,12 @@
 
-                procedure main();
-                begin
-                end
-                function swap():integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    with  b : integer ; a: real; c : array [1 .. 2] of real ; do 
-                    begin
-                        a := c[1] + b ;
-                        b := a;
-                    end
-                    
-                end
-                
+            var i, j, k: integer;
+            procedure printrange(n: integer);
+            begin
+                for i := ((j + k div j + 10 - i) / 2) - 1 to n do
+                    putIntLn(i);
+            end
+            procedure main();
+            begin
+                printRange(10);
+            end
+        

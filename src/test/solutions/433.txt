@@ -1,1 +1,1 @@
-Type Mismatch In Statement: While(IntLiteral(5),[AssignStmt(Id(i),IntLiteral(1))])
+Undeclared Procedure: __init__

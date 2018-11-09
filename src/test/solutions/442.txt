@@ -1,1 +1,1 @@
-Type Mismatch In Expression: For(Id(a)IntLiteral(1),IntLiteral(10),True,[])
+Type Mismatch In Statement: For(Id(i)ArrayCell(Id(arr),IntLiteral(1)),ArrayCell(Id(arr),IntLiteral(2)),True,[CallStmt(Id(putString),[StringLiteral(I love OT)]),Break])

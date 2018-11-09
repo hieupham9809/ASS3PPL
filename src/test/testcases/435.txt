@@ -1,22 +1,14 @@
 
-                procedure main();
+            var girl, boy, gay: boolean;
+            procedure MAIN();
+            var gay: array[1 .. 10] of real;
+            begin
+                IF gay then 
                 begin
+                    PutString("You are are a gay");
+                    PutString("Please afk");
                 end
-                function swap():integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    while (true) do
-                        begin 
-                            i:=2;
-                            continue;
-                        end
-                    while (2>1) do
-                        begin
-                            i:=1;
-                        end
-                    continue;
-                    return 1;
-                end
-                
+                putStringLn("You are are not gay");
+                putStringLn("Come here");
+            end
+        

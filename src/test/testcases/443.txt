@@ -1,21 +1,15 @@
 
-                procedure main();
+            procedure main();
+            begin
+                HCMUT(getINT(), GETint(), gETInt());
+                HCMUT(getint(), GETINT(), gEtInT());
+            end
+            procedure HCMUT(a,b,c:integer);
+            begin
+                for a := b + c downTO b <= c do
                 begin
+                    break;
                 end
-                function swap():integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    for i:=1 to 10 do
-                        begin
-                            i := k;
-                            return 1;
-                        end
-                    for k:=1 to 10 do 
-                        begin
-                            return 1;
-                        end
-                    
-                end
-                
+                return;
+            end
+        

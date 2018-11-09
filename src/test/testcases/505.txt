@@ -1,0 +1,76 @@
+
+            procedure oanhtrinh();
+            var i: integer;
+            begin
+                i := 0;
+                while i < 100 do
+                begin
+                    if i = 70 then
+                    begin
+                        if i = 50 then
+                        begin
+                            for i := 0 to 99 do
+                            begin
+                                putStringLn("Hello MIIS!");
+                                if 1 < 2 then
+                                    break;
+                                else
+                                    putStringLn("Hello Maple!");
+                                return;
+                            end
+                            return;
+                        end
+                        else
+                        begin
+                            if 2 < 6 then
+                                return;
+                            else
+                            begin
+                                with a:real; do
+                                    return;
+                            end
+                        end
+                    end
+                    else
+                    begin
+                        return;
+                    end
+                    putStringLn("Hello Lynx!");
+                end 
+            end
+            procedure main();
+            var i:integer;
+            begin
+                oanhtrinh();
+                i := 0;
+                while i < 100 do
+                begin
+                    if i = 70 then
+                    begin
+                        if i = 50 then
+                        begin
+                            for i := 0 to 99 do
+                            begin
+                                putStringLn("Hello Sodility!");
+                                if 1 < 2 then
+                                    break;
+                                else
+                                    putStringLn("Hello RSL!");
+                                return;
+                            end
+                            return;
+                        end
+                        else
+                        begin
+                            if 2 < 6 then
+                                return;
+                        end
+                    end
+                    else
+                    begin
+                        return;
+                    end
+                    putStringLn("Hello OpenCL!");
+                end 
+            end
+        

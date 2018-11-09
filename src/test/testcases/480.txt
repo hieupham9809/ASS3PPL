@@ -1,0 +1,17 @@
+
+            procedure MAIN();
+            var a:array [10 .. -1] of string;
+            begin
+                WITH x,y:integer;a,b:real; do
+                begin
+                    while x < y do
+                    begin
+                        a := b := x := y + 100;
+                        continue;
+                    end
+                end
+                continue;
+                putStringLn(a[11111999]);
+                putStringLn(a[16111998]);
+            end
+        

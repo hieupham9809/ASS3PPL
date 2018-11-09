@@ -1,0 +1,61 @@
+
+            function FOO1():integer;
+            var x,y: integer;
+            begin
+                if x = y then
+                begin
+                    with a:integer; do
+                    begin
+                        for a := 0 to 10 do
+                        begin
+                            putStringLn("Hello CSS!");
+                            if a <> 10 then
+                                a := a + 1;
+                            if a <> 5 then
+                                continue;
+                        end
+                        if a = 1 then
+                        begin
+                            with x:real; do
+                            begin
+                                putFloatLn(x);
+                                return 0;
+                            end 
+                        end
+                        return 1;
+                    end
+                end
+                else 
+                BEGIN
+                    with a:integer; do
+                    begin
+                        if a <> 0 then
+                            return 0;
+                        else
+                        begin
+                            for a := 0 to 100 do
+                                return 0;
+                            return 1;
+                        end
+                    end
+                END
+            end
+            function FOO():integer;
+            var x, y: integer;
+            begin
+                if x < y then
+                begin
+                    x := x + 1;
+                    for x := 0 to 100 do
+                        return 0;
+                end
+                else
+                    while y <> 0 do return 0;
+            end
+            procedure main();
+            var otr: integer;
+            begin
+                otr := foo();
+                otr := foo1();
+            end
+        

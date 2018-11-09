@@ -1,0 +1,13 @@
+
+            procedure Oanhtrinh(x:array[0 .. 10] of integer);
+            begin
+                putIntLn(x[1]);
+            end
+            procedure main();
+            var a: array[-0 .. 10] of integer;
+                b: array[-0 .. 10] of real;
+            begin
+                Oanhtrinh(a);
+                Oanhtrinh(b);
+            end
+        

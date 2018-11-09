@@ -1,18 +1,11 @@
 
-                procedure main();
+            procedure main();
+            begin
+                while 2 <> (3.5 / 4 / Getfloat moD 0) do
                 begin
+                    begin
+                        begin end
+                    end
                 end
-                function swap():integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    if (i>1) then 
-                        begin 
-                            k:=1; 
-                            retUrn 3;
-                        end
-                    else if (true) then i:=0;
-                    {return 1;}
-                end
-                
+            end
+        

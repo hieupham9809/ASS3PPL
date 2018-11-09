@@ -1,0 +1,10 @@
+
+            function foo():integer;
+            begin
+                putIntLn(foo());
+                return 0;
+            end
+            procedure main();
+            begin
+            end
+        

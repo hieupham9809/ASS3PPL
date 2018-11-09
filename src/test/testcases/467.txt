@@ -1,0 +1,9 @@
+
+            var t: integer;
+            procedure main();
+            var x: array[0 .. 1] of integer;
+            begin
+                t := x[1 + 1 - 2 div 43];
+                t := 2 + 1[2] div 1.5;
+            end
+        

@@ -1,16 +1,15 @@
 
-                procedure main();
-                begin
-                end
-                procedure foo1(b: array[1 .. 2] of integer);
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 3] of integer;
-                begin
-                end
-                procedure foo2();
-                var n: array[1 .. 6] of integer;
-                begin
-                    foo1(n);
-                end
-                
+            procedure main();
+            begin
+                skt("Lee sang-hyoek");
+            end
+            procedure SKT(faker:string);
+            var isFaker: boolean;
+            begin
+                if isFaker then
+                    return faker;
+                else
+                    putString(faker);
+                return;
+            end
+        

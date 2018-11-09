@@ -1,0 +1,32 @@
+
+            procedure main();
+            var i:integer;
+            begin
+                while i < 100 do 
+                begin
+                    for i := 0 to 99 do
+                    begin
+                        putStringLn("Hello Go!");
+                        if i <= 60 then
+                            putStringLn("Hello Kotlin!");
+                        else
+                            continue;
+                        putStringLn("Hello Lisp!");
+                    end
+                    if i <= 20 then
+                        break;
+                    else
+                        putStringLn("Hello Prolog!");
+                    putStringLn("Hello F#!");
+                end
+                putStringLn("Hello R!");
+                with otr:integer; do
+                begin
+                    putFloatLn(otr);
+                    if i < 0 then
+                        return;
+                    return;
+                end
+                putStringLn("Hello R++!");
+            end
+        

@@ -1,0 +1,9 @@
+
+            var t: integer;
+            procedure main();
+            var x: array[0 .. 1] of integer;
+            begin
+                if x[1.5] + 100 * 10 then
+                    return; 
+            end
+        

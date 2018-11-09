@@ -1,0 +1,9 @@
+
+            procedure main();
+            var a: real;
+                b: integer;
+            begin
+                while not ("otr" + "trl") and ((2 mod 3) > (4 / 5)) do
+                    return;
+            end
+        

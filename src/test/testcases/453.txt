@@ -1,19 +1,17 @@
 
-                procedure main();
-                begin
-                    {foo2();}
-                end
-                function foo1(b: array[1 .. 2] of integer): integer;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 3] of integer;
-                begin
-                    return 1;
-                end
-                procedure foo2();
-                var n: array[1 .. 2] of integer;
-                i: integer;
-                begin
-                    i:= foo1(n);
-                end
-                
+            var t: array[1 .. 2] of real;
+            procedure main();
+            var foo: real;
+            begin
+                foo := f(1);
+                foo := func(t);
+            end
+            function f(bc:integer):real;
+            begin
+                return bc;
+            end
+            function Func(ab: array[1 .. 2] of real):integer;
+            begin
+                return ab[10];
+            end
+        

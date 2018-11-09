@@ -1,0 +1,18 @@
+
+            procedure main();
+            var c:boolean;
+            begin
+                if c then
+                begin
+                    if True then
+                        return;
+                    return;
+                end
+                else
+                begin
+                    putStringLn("Hello Lua!");
+                    return;
+                end
+                putStringLn("Hello Ruby!");
+            end
+        

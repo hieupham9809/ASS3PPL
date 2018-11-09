@@ -1,3 +1,7 @@
-procedure main (); begin
-            putIntLn(4);
-        end
+
+    procedure main();
+    var a: integer;
+    begin
+        a:= "abc" / "abc";
+    end
+    

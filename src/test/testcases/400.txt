@@ -1,10 +1,8 @@
 
-                procedure main();
-                begin
-                
-                end
-                procedure putIntLn();
-                beGin
-                
-                eND
-                
+            procedure main();
+            begin
+            end
+            var a, ab, ba, b: integer;
+                ba: string;
+                c: real;
+        

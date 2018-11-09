@@ -1,11 +1,9 @@
 
-                procedure main();
-                begin
-                end
-                procedure foo();
-                beGin
-                    putBoolLn(true and then false);
-                    putBool(1 or else 2.1);
-                eND
-                
-                
+            procedure main();
+            begin
+                foo(11111999, 16111998);
+            end
+            procedure foo(p, p:integer);
+            begin
+            end
+        

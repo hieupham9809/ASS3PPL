@@ -1,0 +1,13 @@
+
+            procedure Oanhtrinh(x:array[0 .. 10] of real);
+            begin
+                putFloatLn(x[1]);
+            end
+            procedure main();
+            var a: array[-0 .. -10] of real;
+                b: array[-0 .. 10] of real;
+            begin
+                Oanhtrinh(b);
+                Oanhtrinh(a);
+            end
+        

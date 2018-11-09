@@ -1,0 +1,32 @@
+
+            procedure main();
+            begin
+                cseHcmut();
+            end
+            procedure cseHcmut();
+            var otr: integer;
+            begin
+                for otr := 100 downto 0 do
+                begin
+                    if otr > otr + 1 then
+                        break;
+                    while otr < otr + 1 do
+                    begin
+                        putString("Oanh trinh");
+                        putStringLn("Oanh trinh");
+                        continue;
+                    end
+                    if otr = 10 then
+                        continue;
+                    else
+                        putInt(100);
+                end
+                if otr = 10 then
+                begin
+                    putBoolLn(True);
+                    continue;
+                end
+                putStringLn("SK Telecom T1");
+                return;
+            end
+        

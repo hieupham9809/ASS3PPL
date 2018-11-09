@@ -1,0 +1,7 @@
+
+    procedure main();
+    var a: real;
+    begin
+        a:= true <= true;
+    end
+    

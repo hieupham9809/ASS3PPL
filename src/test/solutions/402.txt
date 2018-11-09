@@ -1,1 +1,1 @@
-Redeclared Procedure: foo
+Redeclared Variable: oTr

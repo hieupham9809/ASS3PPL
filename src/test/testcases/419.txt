@@ -1,12 +1,12 @@
 
-                procedure main();
-                begin
-                end
-                procedure swap() ;
-                var a: array[0 .. 1] of real;
-                 i: integer;
-                beGin
-                    i := 5;
-                    a := i;
-                eND
-                
+            function main():real;
+            begin
+                putStringLn("Huynh Thi Oanh Trinh");
+                return sub() + 4.5;
+            end
+            function sub():real;
+            begin
+                putIntLn(1611931);
+                return main() / 3 * 4 + 5;
+            end
+        

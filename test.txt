@@ -1,0 +1,306 @@
+test 1
+var b,c,a : integer ;
+var a: integer;
+
+procedure main(); begin
+	return;
+end
+
+
+test 2
+var  a,b,c:integer;
+var d,b:integer;
+procedure main(); begin
+	return;
+end
+
+
+test 3
+var a, b:integer;
+var d: real;
+procedure m(); var n:integer; begin end 
+procedure n(); var c:integer; begin end
+function  c(a,b:integer):real; begin return 1.0; end
+procedure d(); begin end
+procedure main(); begin 
+	m();n();c(1,2);d();
+	return ;
+end
+
+
+test 4
+var c: integer;
+var  d:real;
+var  e:boolean;
+function foo(b, a : integer;  m:array[1 .. 3] of integer):integer; begin 
+	
+	with a: array[1 .. 5] of integer; do begin 
+		
+	end
+	return 0;
+end
+function foo1(b, c:integer; m:array [1 .. 3] of integer):integer; 
+var c:array[1 .. 5] of integer;
+begin 
+
+	return 0;
+end
+procedure main(); var a:array[1 .. 3] of integer;begin  
+
+a[3] := foo(1,foo1(1,2,a),a);
+return ;
+end
+
+
+test 5
+var a:integer;
+procedure funcA();
+var b:integer; 
+begin 
+	
+	a := 7;
+	b := a;
+end
+function sum(b:integer):integer; 
+var d:integer;
+begin 
+	
+	d := 7;
+	return a + b + d;
+end
+procedure main(); 
+var m:array[1 .. 10] of integer;
+begin 
+
+	m[1] := sum(3);
+	funcA();
+	a := 1 + n[1];
+	return ;
+end
+
+
+test 6
+var a:integer;
+function foo(a, b:integer):integer; 
+begin 
+	if (a > b) then a := 1 + b;
+	else a := b + 2;
+	return a;
+end
+function foo1(a:integer):integer;
+var b, c, d:integer;
+begin 
+	b := 2;
+	c := 3;
+	if (a > b) then d := a + c;
+	else d := b + foo2(1);
+	return d;
+end
+var b:integer;
+function foo2(a:integer):integer;
+begin 
+	while (a > 5) do a := a + 1;
+	
+	return a;
+end
+procedure main(); begin 
+	a := foo(foo1(1),foo2(2));
+	funy(4);
+	return ;
+end
+
+
+test 7
+procedure main();
+var  a, i, j:integer; 
+begin 
+		
+	for i := 1 to 10 do begin 
+		j := 2;
+	end	
+	for a := 0 to  5 = 3 do begin 
+		j := 1;
+	end
+	return ;
+end
+
+
+test 8
+function foo():integer; begin  return 1; end
+function foo1():integer; begin  return 1.0; end
+procedure main(); begin 
+  foo();
+  foo1();
+  return ;
+end
+
+
+test 9
+function foo():boolean; begin  return 2 > 1; end
+function foo1(a:integer):boolean; begin  return a = 1; end
+function foo2(a:integer):boolean; begin  return a; end
+procedure main(); begin 
+  foo();
+  foo1(1);
+  foo2(2);
+  return ;
+end
+
+
+test 10
+var a, b, c:integer;
+var d:boolean;
+var e:real;
+var m: array [1 .. 100] of integer;
+function foo():integer; begin  return 0; end
+procedure main(); begin 
+	b := foo();
+	d := true;
+	a := m[0] + 1;
+	c := m[d] + 1;
+	return ;
+end
+
+
+test 11
+var a, b, c:integer;
+procedure main(); var  d:boolean; begin 
+	
+	d := (a > b) and true;
+	d := (a > b) and 1.0;
+	return ;
+end
+
+
+test 12
+var a:integer;
+var m:array[1 .. 100] of real;
+procedure foo(); begin 
+	a := - -(a - -1);
+end
+procedure main(); begin 
+        foo();
+	a := -(m[1] + -1 > 1.2);
+	return ;
+end
+
+
+test 13
+var a:integer;
+var b:real;
+var m:array[1 .. 10] of integer;
+procedure main(); begin 
+	b := m[1] + -1;
+	b := b * (1.0 + 1);
+	b := not (m[1] = 1);
+	return ;
+end
+
+
+test 14
+var a, b, c:integer;
+procedure foo(); begin 
+	while (a < 100) do begin
+		a := a + 1;
+		break;
+	end
+	return ;
+end
+procedure main(); begin 
+	while (a < 100) do begin
+		a := a + 1;
+		break;
+	end
+        foo();
+	if(a = 100) then break;
+	return ;
+end
+
+
+test 15
+function foo():integer;
+var a:integer;
+begin  
+	a := 4;
+	if (a = 10) then begin 
+		return 1; 
+	end
+	return 10;
+end
+
+procedure main(); 
+var a:integer;
+begin 
+	a := 0;
+  
+	if (foo() > 1) then begin 
+		if(foo2() <= 100) then
+
+			return ; 
+		else
+			return ;  
+	end 
+	else begin 
+		a := 2;
+		return ;
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+solution
+solution 1
+Redeclared Variable: a
+
+solution 2
+Redeclared Variable: b
+
+solution 3
+Redeclared Procedure: d
+
+solution 4
+Redeclared Variable: c
+
+solution 5
+Undeclared Identifier: n
+
+solution 6
+Undeclared Procedure: funy
+
+solution 7
+Type Mismatch In Statement: For(Id(a)IntLiteral(0),BinaryOp(=,IntLiteral(5),IntLiteral(3)),True,[AssignStmt(Id(j),IntLiteral(1))])
+
+solution 8
+Type Mismatch In Statement: Return(Some(FloatLiteral(1.0)))
+
+solution 9
+Type Mismatch In Statement: Return(Some(Id(a)))
+
+solution 10
+Type Mismatch In Expression: ArrayCell(Id(m),Id(d))
+
+solution 11
+Type Mismatch In Expression: BinaryOp(and,BinaryOp(>,Id(a),Id(b)),FloatLiteral(1.0))
+
+solution 12
+Type Mismatch In Expression: UnaryOp(-,BinaryOp(>,BinaryOp(+,ArrayCell(Id(m),IntLiteral(1)),UnaryOp(-,IntLiteral(1))),FloatLiteral(1.2)))
+
+solution 13
+Type Mismatch In Statement: AssignStmt(Id(b),UnaryOp(not,BinaryOp(=,ArrayCell(Id(m),IntLiteral(1)),IntLiteral(1))))
+
+solution 14
+Break Not In Loop
+
+solution 15
+Undeclared Function: foo2
+

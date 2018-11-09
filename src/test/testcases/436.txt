@@ -1,22 +1,16 @@
 
-                procedure main();
-                begin
-                end
-                function swap():integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    while (true) do
-                        begin 
-                            i:=2;
-                            continue;
-                        end
-                    while (2>1) do
-                        begin
-                            i:=1;
-                        end
-                    break;
-                    return 1;
-                end
-                
+            procedure main();
+            var frac: real;
+            begin
+                frac := fraction(11111999);
+                if (frac > 0) and (1 <= 2) and then (3 <> 4) then
+                    putString("Large number");
+                else
+                    putString("Small number");
+            end
+            function fraction(n:integer):integer;
+            begin
+                if n then return n * fraction(n - 1);
+                return 1;
+            end
+        

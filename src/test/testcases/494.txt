@@ -1,0 +1,13 @@
+
+            procedure foo();
+            begin
+            end
+            function foo1():integer;
+            begin
+                foo();
+                return 0;
+            end
+            procedure main();
+            begin
+            end
+        

@@ -1,12 +1,9 @@
 
-                procedure main();
-                begin
-                end
-                procedure swap() ;
-                var a: string;
-                 i,k: integer;
-                beGin
-                    i := k := 5;
-                    a := i;
-                eND
-                
+            var luan, __otr__: integer;
+            var khang, minh, truyen, luong: String;
+            procedure main();
+            begin
+                otr := 1 + 2 - 5 div 6;
+                __otr__ := luan + 2 mod 5;
+            end
+        

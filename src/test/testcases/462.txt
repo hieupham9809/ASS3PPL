@@ -1,0 +1,13 @@
+
+            procedure Oanhtrinh(a:integer; b:real);
+            begin
+                putIntLn(a);
+                putFloatLn(b);
+            end
+            procedure main();
+            var x: String;
+            begin
+                Oanhtrinh(1, 1.2);
+                Oanhtrinh(x, 1.2);
+            end
+        

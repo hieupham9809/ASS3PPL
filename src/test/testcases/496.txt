@@ -1,0 +1,22 @@
+
+            procedure main();
+            var i:integer;
+            begin
+                for i := skt() + getInt() to 100 do
+                begin
+                    if i <> 5 then
+                        i := i + skt();
+                    else
+                        i := i - skt();
+                end
+            end
+            function kt():integer;
+            begin
+                return skt();
+            end
+            function skt():integer;
+            begin
+                putIntLn(skt());
+                return 0;
+            end
+        

@@ -1,0 +1,11 @@
+
+            function sum(a, b:integer):integer;
+            begin
+                return a + b;
+            end
+            procedure main();
+            begin
+                if sum("abc", True) then
+                    return;
+            end
+        

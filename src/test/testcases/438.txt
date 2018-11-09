@@ -1,22 +1,18 @@
 
-                procedure main();
+            procedure main();
+            begin
+                while getName() do
                 begin
-                end
-                function swap():integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    if i > 10 then
-                        begin
-                            k := i;
-                            return k;
-                        end
+                    if (2 = 2) or (3 = 3) then
+                        putStringLn("Oanh Trinh");
                     else
-                        begin
-                            k := i + 1;
-                            return 1.4;
-                        end
-                    
+                        putStringLn("Trong Luan");
+                    break;
                 end
-                
+            end
+            function getName():String;
+            var name: string;
+            begin
+                return name;
+            end
+        

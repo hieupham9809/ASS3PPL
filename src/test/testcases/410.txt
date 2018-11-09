@@ -1,11 +1,10 @@
 
-                procedure main();
-                begin
-                end
-                procedure foo();
-                beGin
-                    putBoolLn(not true);
-                    putBool(1 or else 2.1);
-                eND
-                
-                
+            var oanhtrinh, trongluan: array[0 .. 9] of STRING;
+            procedure main();
+            begin
+                return;
+            end
+            procedure oanhtrinh();
+            begin
+            end
+        

@@ -1,0 +1,17 @@
+
+            function FOO1():integer;
+            begin
+                if True then if false then if true then if false then if true then if true then if false then if false then return 0;
+            end
+            function FOO():integer;
+            begin
+                if True then if false then if true then if false then if true then if true then if false then if false then return 0;
+                return 0;
+            end
+            procedure main();
+            var otr: integer;
+            begin
+                otr := foo();
+                otr := foo1();
+            end
+        

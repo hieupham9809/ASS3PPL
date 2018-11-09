@@ -1,14 +1,10 @@
 
-                procedure main();
-                begin
-                end
-                procedure swap() ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    i := k := m[2];
-                    putInt(3);
-                    return 3;
-                end
-                
+            procedure PUTSTRING(p:integer;q:real);
+            begin
+                putSTring("abc");
+                return;
+            end
+            procedure main();
+            begin
+            end
+        

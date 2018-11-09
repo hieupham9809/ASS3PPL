@@ -1,18 +1,13 @@
 
-                procedure main();
+            var i:integer;
+            procedure main();
+            var i:boolean;
+            begin
+                for i := getInt() to (getInt() + 1000) do
                 begin
+                    i := (((1 >= 2) and (2 > 4)) or else (5 < 6)) and then (9 <= 10);
+                    putboolLn(i);
+                    return;
                 end
-                function swap():integer ;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    with  b : integer ; a: real; c : array [1 .. 2] of real ; do 
-                        begin
-                            a := c[1] + b ;
-                            {b := a;}
-                            return b;
-                        end
-                    i := m[3];
-                end
-                
+            end
+        

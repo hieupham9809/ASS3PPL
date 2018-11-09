@@ -1,0 +1,9 @@
+
+            procedure main();
+            begin
+            end
+            procedure otr();
+            begin
+                otr();
+            end
+        

@@ -1,16 +1,17 @@
 
-                procedure main();
-                begin
-                end
-                procedure foo1(b: array[1 .. 2] of integer);
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 3] of integer;
-                begin
-                end
-                procedure foo2();
-                var n: array[1 .. 2] of real;
-                begin
-                    foo1(n);
-                end
-                
+            PROCEDURE __init__(i:integer;r,q,p:real);
+            var arr: ARRAY [0 .. 0] of REAL;
+                brr: ARRAY [0 .. 0] of INTEGER;
+            begin
+                i := brr[1] := brr[0];
+                brr[1] := brr[brr[brr[brr[brr[brr[0]]]]] div 4] - 10 div 5;
+                i := r := q := p := arr[3] := brr[brr[brr[11]] - i div 2];
+            end
+            procedure main();
+            var z:integer;
+            begin
+                for z := 0 DOWNTO 100 do
+                    __init__(0, 0, 0, 0);
+                return;
+            end
+        

@@ -1,12 +1,11 @@
 
-                procedure main();
-                begin
-                end
-                var name: real;
-                procedure foo2(name: integer);
-                beGin
-                eND
-                procedure foo(a: integer;a: integer);
-                begin
-                end
-                
+            procedure foo(otr:integer;a:string;c:boolean);
+            var a, x, y: array[0 .. 2] of integer;
+            begin
+                putIntLn(x[10]);
+            end
+            procedure main();
+            begin
+                foo(1, "2", true);
+            end
+        

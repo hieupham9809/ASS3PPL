@@ -1,23 +1,13 @@
 
-                procedure main();
-                begin
-                end
-                function swap(): real;
-                var a: integer;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    i := k := m[2];
-                    putInt(3);
-                    return a;
-                end
-                function swap2(): integer;
-                var b: real;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    i := k := m[2];
-                    putInt(3);
-                    return b;
-                end
-                
+            procedure otr();
+            begin
+            end
+            procedure main();
+            begin
+                if otr = (-2.5 - 1.5) then
+                    return;
+                else
+                    otr();
+                return;
+            end
+        

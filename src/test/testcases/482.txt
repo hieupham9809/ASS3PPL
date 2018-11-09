@@ -1,0 +1,18 @@
+
+            function FOO(a,b:integer;c:real):integer;
+            begin
+                putStringLn("Hello, this is FOO function");
+                c := a := b := 10;
+                if a = b then
+                    return 0;
+                for a := b to a + b do
+                    return 0;
+                while a < 10 do
+                    return 0;
+            end
+            procedure main();
+            var otr: integer;
+            begin
+                otr := foo(0, 8, 7.5);
+            end
+        

@@ -1,0 +1,1 @@
+Type Mismatch In Expression: BinaryOp(-,StringLiteral(abc),FloatLiteral(1.0))

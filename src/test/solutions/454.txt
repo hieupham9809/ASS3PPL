@@ -1,1 +1,1 @@
-Unreachable Function: foo2
+Type Mismatch In Statement: Return(Some(Id(x)))

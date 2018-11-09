@@ -1,0 +1,17 @@
+
+            function sum(a,b:integer;c:real):real;
+            begin
+                return a + b + c;
+            end
+            procedure main();
+            begin
+                if not sum(11, 11.5, 1999) then
+                    return;
+                if sum(11, 11, 19.99) = 1 then
+                    return;
+                if sum(11, 11, 1999) = 2 then
+                    return;
+                if sum(1, 2, 3) = 3 then
+                    return;
+            end
+        

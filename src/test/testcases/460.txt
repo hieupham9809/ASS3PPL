@@ -1,0 +1,11 @@
+
+            procedure Oanhtrinh(a:integer);
+            begin
+                putIntLn(a);
+            end
+            procedure main();
+            begin
+                Oanhtrinh(16111998);
+                Oanhtrinh();
+            end
+        

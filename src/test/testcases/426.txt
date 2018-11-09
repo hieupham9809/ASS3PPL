@@ -1,14 +1,9 @@
 
-                procedure main();
-                begin
-                end
-                function swap(): integer;
-                var a: string;
-                 i,k: integer;
-                 m: array[1 .. 5] of integer;
-                begin
-                    i := k := m[2];
-                    putInt(3);
-                    return a;
-                end
-                
+            var otr, trl: array [1 .. 0] of integer;
+            procedure maIN();
+            begin
+                putFloat(trl[10]);
+                putFloatLn(otr(trl));
+                putStringLn("False");
+            end
+        

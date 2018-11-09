@@ -1,0 +1,12 @@
+
+            function sum(a,b,c:integer):integer;
+            begin
+                return a + b + c;
+            end
+            procedure main();
+            begin
+                while sum(11, 11, 1999, 16, 11, 1998) do
+                    break;
+                return;
+            end
+        

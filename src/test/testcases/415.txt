@@ -1,11 +1,10 @@
 
-                procedure main();
-                begin
-                end
-                var a: real;
-                procedure foo(a:string);
-                beGin
-                    putFloatLn(a);
-                eND
-                
-                
+            procedure oanhtrinh();
+            begin
+                trongluan();
+            end
+            procedure trongluan();
+            begin
+                oanhtrinh();
+            end
+        

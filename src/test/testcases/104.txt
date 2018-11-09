@@ -1,1 +1,7 @@
-123a123
+
+    procedure main();
+    var a: integer;
+    begin
+        a:= 1.0 - 1.0;
+    end
+    

@@ -1,0 +1,7 @@
+
+    procedure main();
+    var a: string;
+    begin
+        a:= false * "abc";
+    end
+    

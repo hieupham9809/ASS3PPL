@@ -1,12 +1,12 @@
 
-                procedure main();
-                begin
-                end
-                procedure swap() ;
-                var a: array[0 .. 1] of real;
-                 {i,j,temp: integer;}
-                beGin
-                    putFloatLn(a[0]);
-                    putStringLn(a[0]);
-                eND
-                
+            procedure main(ab, bc, ca: real);
+            begin
+                foo();
+                main(getFloat(), 1.5/ (getFloat() + 3) / 4, ab);
+                return;
+            end
+            procedure foo();
+            begin
+                main(2.5, 2, 3);
+            end
+        

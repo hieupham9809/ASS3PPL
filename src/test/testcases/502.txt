@@ -1,0 +1,39 @@
+
+            procedure main();
+            var i:integer;
+            begin
+                i := 20;
+                while i <> 1 do
+                begin
+                    i := i - 1;
+                    if i = 3 then
+                        break;
+                    putStringLn("Hello Perl!");
+                end
+                for i := 0 to 100 do
+                begin
+                    putStringLn("Hello Pascal!");
+                    if i = 50 then
+                        return;
+                    else
+                        continue;
+                end
+                with otr:real; do
+                begin
+                    putFloatLn(otr);
+                    putStringLn("Hello MP!");
+                    if otr > i then
+                        return;
+                    else
+                    begin
+                        putStringLn("Hello Objective-C!");
+                        return;
+                    end
+                end
+                if i = 1 then
+                    putFloatLn(i);
+                else
+                    putStringLn("Hello BASIC!");
+                putStringLn("Hello COBOL!");
+            end
+        

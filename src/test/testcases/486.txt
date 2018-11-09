@@ -1,0 +1,31 @@
+
+            function FOO():integer;
+            var x, y: integer;
+            begin
+                while x <> y do
+                begin
+                    FOR x := 0 to 99 do 
+                    begin
+                        putString("Hello Java!");
+                        if x * y <> 0 then
+                            putStringLn("Hello Scala!");
+                        else
+                            break;
+                        with a,b: integer; do
+                        begin
+                            if x * y <> 0 then
+                                continue;
+                            else
+                                putStringLn("Hello Ocaml!");
+                            return 0;
+                        end
+                    end
+                    return 0;
+                end
+            end
+            procedure main();
+            var otr: integer;
+            begin
+                otr := foo();
+            end
+        

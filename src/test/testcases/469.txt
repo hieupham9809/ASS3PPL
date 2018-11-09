@@ -1,0 +1,10 @@
+
+            procedure main();
+            var a: real;
+                b: integer;
+            begin
+                a := (10 div 11) + 12 / 13;
+                for b := 1 downto ((-b + a) div (10 > 5)) do
+                    return;
+            end
+        

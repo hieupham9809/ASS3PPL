@@ -1,0 +1,38 @@
+
+            function FOO1():integer;
+            begin
+                with a,b:real;c:integer; do
+                begin
+                    while a + c > b do
+                    begin
+                        putStringLn("Hello C!");
+                        return 0;
+                    end
+                    putStringLn("Hello C#!");
+                    if a = b then
+                    begin
+                        putStringLn("Hello Ada!");
+                        return 0;
+                    end
+                    else
+                        return 0;
+                end
+            end
+            function FOO():integer;
+            var x, y: integer;
+            begin
+                if (x MOD y) = 2 then
+                begin
+                    putStringLn("Hello PHP!");
+                    return 1;
+                end
+                else
+                    putStringLn("Hello HTML!");
+            end
+            procedure main();
+            var otr: integer;
+            begin
+                otr := foo();
+                otr := foo1();
+            end
+        

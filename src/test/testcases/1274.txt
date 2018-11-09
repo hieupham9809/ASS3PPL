@@ -1,0 +1,7 @@
+
+    procedure main();
+    var a: boolean;
+    begin
+        a:= 1 / false;
+    end
+    

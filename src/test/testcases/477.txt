@@ -1,0 +1,20 @@
+
+            function sum(x:array [0 .. 10] of real):real;
+            var i:integer;
+                S:real;
+            begin
+                S := 0;
+                for i := 0 to 10 do
+                    S := S + x[i];
+                return S;
+            end
+            procedure main();
+            var y:array[-0 .. 10] of real;
+                z:array[-1 .. 9] of real;
+            begin
+                if sum(y) > 0 then
+                    return;
+                if sum(z) then
+                    return;
+            end
+        

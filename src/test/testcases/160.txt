@@ -1,0 +1,7 @@
+
+    procedure main();
+    var a: integer;
+    begin
+        a:= 1.0 or else false;
+    end
+    

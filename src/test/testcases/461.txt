@@ -1,0 +1,12 @@
+
+            procedure Oanhtrinh(a:integer;b:real);
+            begin
+                putIntLn(a);
+                putFloatLn(b);
+            end
+            procedure main();
+            begin
+                Oanhtrinh(0, 0.1);
+                Oanhtrinh(1, 1.2, 10);
+            end
+        

@@ -1,10 +1,14 @@
 
-                procedure main();
-                begin
-                end
-                procedure foo();
-                beGin
-                putInt(1+2.1);
-                eND
-                
-                
+            var x, y, z: array [1 .. -1] of integer;
+                c: integer;
+            function oanhtrinh(x, y, t:string): integer;
+            var T, E, S: boolean;
+            begin
+                return 11111999;
+            end
+            procedure main();
+            begin
+                c := oanhtrinh("1", "2", "3");
+                return;
+            end
+        

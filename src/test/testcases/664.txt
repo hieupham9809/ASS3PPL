@@ -1,0 +1,7 @@
+
+    procedure main();
+    var a: string;
+    begin
+        a:= true - 1.0;
+    end
+    

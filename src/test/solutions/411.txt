@@ -1,1 +1,1 @@
-Type Mismatch In Expression: UnaryOp(not,BinaryOp(+,IntLiteral(10000),IntLiteral(0)))
+Redeclared Procedure: OANHTRINH

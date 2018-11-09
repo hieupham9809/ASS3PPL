@@ -1,0 +1,15 @@
+
+            procedure Oanhtrinh(a:real;b:integer;c:string;d:boolean);
+            begin
+                putFloatLn(a);
+                putIntLn(b);
+                putStringLn(c);
+                putBoolLn(d);
+            end
+            procedure main();
+            begin
+                Oanhtrinh(9.75, 9, "Oanhtrinh", True);
+                Oanhtrinh(0, 9, "oanhtrinh", False);
+                Oanhtrinh(0, 9, False, 10);
+            end
+        
