@@ -1,27 +1,21 @@
 
-            function isPrime(main:integer):boolean;
-            var i: integer;
-            begin
-                if main < 2 then
-                    return NOT TRUE;
-                else 
+                procedure main();
                 begin
-                    if main = 2 then
-                        return TRUE;
-                    else
-                    begin
-                        for i := 2 to main - 1 do
-                            if (main mod i) = 0 then
-                                return FALSE;
-                        return TRUE;
-                    end
                 end
-            end
-            procedure main();
-            var x, y: integer;
-            begin
-                x := getInt();
-                y := isPrime(x);
-                putString("Finish");
-            end
-        
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                            return 1;
+                        end
+                    for k:=1 to 10 do 
+                        begin
+                            continue;
+                        end
+                    
+                end
+                

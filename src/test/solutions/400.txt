@@ -1,1 +1,1 @@
-Redeclared Variable: ba
+Redeclared Procedure: putIntLn

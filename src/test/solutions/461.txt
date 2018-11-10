@@ -1,1 +1,1 @@
-Type Mismatch In Statement: CallStmt(Id(Oanhtrinh),[IntLiteral(1),FloatLiteral(1.2),IntLiteral(10)])
+Redeclared Procedure: main

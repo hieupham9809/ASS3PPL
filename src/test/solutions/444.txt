@@ -1,1 +1,1 @@
-Type Mismatch In Statement: AssignStmt(Id(y),CallExpr(Id(isPrime),[Id(x)]))
+Function swapNot Return 

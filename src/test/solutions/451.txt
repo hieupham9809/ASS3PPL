@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Return(Some(BinaryOp(and,BinaryOp(>,CallExpr(Id(getInt),[]),CallExpr(Id(getFloat),[])),BinaryOp(<,IntLiteral(16111998),IntLiteral(11111999)))))
+No entry point

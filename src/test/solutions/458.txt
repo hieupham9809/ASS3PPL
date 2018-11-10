@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Return(None)
+Unreachable statement: If(BinaryOp(=,Id(I),Id(f)),[AssignStmt(Id(f),BinaryOp(+,Id(i),IntLiteral(1))),Return(None)],[AssignStmt(Id(F),BinaryOp(+,Id(i),IntLiteral(12)))])

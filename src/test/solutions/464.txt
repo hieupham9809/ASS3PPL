@@ -1,1 +1,1 @@
-Type Mismatch In Statement: CallStmt(Id(Oanhtrinh),[Id(b)])
+Unreachable statement: AssignStmt(Id(a),IntLiteral(3))

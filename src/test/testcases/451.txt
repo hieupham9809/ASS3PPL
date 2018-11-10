@@ -1,17 +1,19 @@
 
-            procedure main();
-            begin
-                if 2 > 3 then
+                function main(): integer;
                 begin
-                    if 2 > 4 then
-                        return;
-                    return;
+                    return 1;
                 end
-                while True do
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
                 begin
-                    if 10 < 11 then return;
-                    return;
+                    return 1;
                 end
-                return (getInt() > getFloat()) and (16111998 < 11111999);
-            end
-        
+                procedure foo2();
+                var n: array[1 .. 2] of integer;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                

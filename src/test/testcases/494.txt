@@ -1,13 +1,7 @@
 
-            procedure foo();
-            begin
-            end
-            function foo1():integer;
-            begin
-                foo();
-                return 0;
-            end
-            procedure main();
-            begin
-            end
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" * 1;
+        end
         

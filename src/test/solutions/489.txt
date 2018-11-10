@@ -1,1 +1,1 @@
-Function FOONot Return 
+No entry point

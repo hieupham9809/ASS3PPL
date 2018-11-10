@@ -1,1 +1,1 @@
-No entry point
+Undeclared Procedure: print

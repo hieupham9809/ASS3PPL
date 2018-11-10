@@ -1,17 +1,14 @@
 
-            function sum(a,b:integer;c:real):real;
+            function func(param: real):real;
             begin
-                return a + b + c;
+                param := param + 1;
+                return .1119;
             end
-            procedure main();
+            PROCEDURE Main();
+            var x: real;
             begin
-                if not sum(11, 11.5, 1999) then
-                    return;
-                if sum(11, 11, 19.99) = 1 then
-                    return;
-                if sum(11, 11, 1999) = 2 then
-                    return;
-                if sum(1, 2, 3) = 3 then
-                    return;
+                x := (not (func(func(func(func(func)))) mod 2) and FALSE OR TRUE) * 1.1111999;
+                putInt(x);
+                return;
             end
         

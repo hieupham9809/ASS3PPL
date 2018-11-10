@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Return(Some(Id(faker)))
+Type Mismatch In Statement: CallStmt(Id(foo1),[Id(n)])

@@ -1,14 +1,14 @@
 
-            function abc(x:integer):real;
-            var m: real;
-            begin
-                m := abc(1) + m;
-                m := m MOD xyz(abc(2), 1.5, getFloat(), getInt(), "oanhtrinhcute") / 11.111999;
-                return m;
-            end
-            procedure main();
-            var n:real;
-            begin
-                n := n / abc(123) * 4;
-            end
-        
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if (i>1) then k:=1;
+                    else if ("true") then i:=0;
+                    return 1;
+                end
+                

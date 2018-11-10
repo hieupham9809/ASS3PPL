@@ -1,15 +1,19 @@
 
-            procedure Oanhtrinh(a:real;b:integer;c:string;d:boolean);
+            var a: integer;
+            var b: string;
+            
+            var d: boolean;
+            var e: array[1 .. 3] of integer;
+            function foo(): integer;
+            var i:integer;
             begin
-                putFloatLn(a);
-                putIntLn(b);
-                putStringLn(c);
-                putBoolLn(d);
+                return 1;
             end
-            procedure main();
+            procedure go();
             begin
-                Oanhtrinh(9.75, 9, "Oanhtrinh", True);
-                Oanhtrinh(0, 9, "oanhtrinh", False);
-                Oanhtrinh(0, 9, False, 10);
+            end
+            procedure main();                
+            begin
+                a:=foo();
             end
         

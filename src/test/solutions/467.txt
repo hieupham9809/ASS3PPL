@@ -1,1 +1,1 @@
-Type Mismatch In Expression: ArrayCell(IntLiteral(1),IntLiteral(2))
+Function foo1Not Return 

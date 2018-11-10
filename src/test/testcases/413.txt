@@ -1,14 +1,13 @@
 
-            procedure main();
-            begin end
-            function foo():real;
-            begin
-                return foo1();
-            end
-            function foo1():real;
-            begin
-                return foo();
-            end
-            function FOO(a,b,c:boolean):array[0 .. -1] of integer;
-            begin end
-        
+                procedure main();
+                begin
+                end
+                
+                procedure foo();
+                var a: integer;
+                beGin
+                    putBoolLn(a>2);
+                    putBool(b>2);
+                eND
+                
+                

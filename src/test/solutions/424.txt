@@ -1,1 +1,1 @@
-Redeclared Procedure: PUTSTRING
+Type Mismatch In Statement: Return(Some(IntLiteral(3)))

@@ -1,1 +1,1 @@
-Undeclared Identifier: otr
+Type Mismatch In Statement: AssignStmt(Id(a),Id(i))

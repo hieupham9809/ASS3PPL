@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Return(Some(ArrayCell(Id(ab),IntLiteral(10))))
+Unreachable Procedure: foo2

@@ -1,13 +1,11 @@
 
-            procedure main();
-            begin
-                oanhtrinh();
-            end
-            procedure oanhtrinh();
-            begin
-            end
-            PROCEDURE OANHTRINH();
-            var i, am, luan: boolean;
-            begin
-            end
-        
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                    putBoolLn(not (1>2));
+                    putBool(not (10000 + 0));
+                eND
+                
+                

@@ -1,1 +1,1 @@
-Type Mismatch In Statement: For(Id(i)BinaryOp(-,BinaryOp(/,BinaryOp(-,BinaryOp(+,BinaryOp(+,Id(j),BinaryOp(div,Id(k),Id(j))),IntLiteral(10)),Id(i)),IntLiteral(2)),IntLiteral(1)),Id(n),True,[CallStmt(Id(putIntLn),[Id(i)])])
+Type Mismatch In Statement: AssignStmt(Id(b),Id(a))

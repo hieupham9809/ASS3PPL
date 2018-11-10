@@ -1,15 +1,18 @@
 
-            procedure main();
-            begin end
-            procedure MT16TN(leader:String);
-            var isBao: boolean;
-                i: real;
-            begin
-                with j, i: integer; do
+                procedure main();
                 begin
-                    for i := j to j div 10 do
-                        if isBao then break;
-                    return leader;
                 end
-            end
-        
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of real;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                

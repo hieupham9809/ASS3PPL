@@ -1,13 +1,28 @@
 
-            procedure Oanhtrinh(a:integer; b:real);
+            var a: integer;
+            var b: string;
+            
+            var d: boolean;
+            var e: array[1 .. 3] of integer;
+            function foo(): integer;
+            var i:integer;
             begin
-                putIntLn(a);
-                putFloatLn(b);
+                if d then
+                begin
+                    while d do
+                        return e[1];
+                    for i:=1 to 2 do
+                        return 3;
+                end
+                else
+                    return 1;
             end
-            procedure main();
-            var x: String;
+            procedure goo();
             begin
-                Oanhtrinh(1, 1.2);
-                Oanhtrinh(x, 1.2);
+            end
+            procedure main();                
+            begin
+                a:=foo();
+                goo();
             end
         

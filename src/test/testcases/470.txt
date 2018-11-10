@@ -1,9 +1,9 @@
 
-            procedure main();
-            var a: real;
-                b: integer;
-            begin
-                while not ("otr" + "trl") and ((2 mod 3) > (4 / 5)) do
-                    return;
-            end
+        procedure MaIn();
+        var a:integer;
+            arr:array[0 .. 9] of integer;
+        begin
+            arr[0]:=1;
+            a[0]:=1;  
+        end
         

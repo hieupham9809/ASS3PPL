@@ -1,11 +1,10 @@
 
-            function sum(a, b:integer):integer;
+            function MAIN(x, y: integer):integer;
             begin
-                return a + b;
+                return x - 1 + f();
             end
-            procedure main();
+            function f():integer;
             begin
-                if sum("abc", True) then
-                    return;
+                return MAIN(0, 0);
             end
-        
+            

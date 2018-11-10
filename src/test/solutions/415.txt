@@ -1,1 +1,1 @@
-No entry point
+Type Mismatch In Statement: CallStmt(Id(putFloatLn),[Id(a)])

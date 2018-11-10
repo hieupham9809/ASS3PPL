@@ -1,1 +1,1 @@
-Unreachable Procedure: otr1
+Type Mismatch In Expression: BinaryOp(mod,StringLiteral(abc),IntLiteral(1))

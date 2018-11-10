@@ -1,9 +1,7 @@
 
-            procedure main();
-            begin
-            end
-            procedure otr();
-            begin
-                otr();
-            end
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" and then 1;
+        end
         

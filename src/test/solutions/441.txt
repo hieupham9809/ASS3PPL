@@ -1,1 +1,1 @@
-Type Mismatch In Statement: For(Id(i)CallExpr(Id(getInt),[]),BinaryOp(+,CallExpr(Id(getInt),[]),IntLiteral(1000)),True,[AssignStmt(Id(i),BinaryOp(andthen,BinaryOp(orelse,BinaryOp(and,BinaryOp(>=,IntLiteral(1),IntLiteral(2)),BinaryOp(>,IntLiteral(2),IntLiteral(4))),BinaryOp(<,IntLiteral(5),IntLiteral(6))),BinaryOp(<=,IntLiteral(9),IntLiteral(10)))),CallStmt(Id(putboolLn),[Id(i)]),Return(None)])
+Unreachable statement: AssignStmt(Id(i),ArrayCell(Id(m),IntLiteral(3)))

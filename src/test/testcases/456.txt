@@ -1,12 +1,18 @@
 
-            function foo():array [1 .. 10] of real;
-            var b: array[2 .. 0] of string;
-            begin
-                return b;
-            end
-            procedure MAIN();
-            var T: real;
-            begin
-                T := foo()[0];
-            end
+        procedure foo();
+        var a:integer;
+        begin
+            while trUE do
+                if (2=3) or (a>=0.0000010001) then
+                    Continue;
+            for a:=a dOWNtO 1 do
+                if true or FalSe then
+                    Continue;
+        end
+        procedure MAIn();
+        begin
+            foo();
+            if (0.8/5>7) or not false then
+                Continue; 
+        end
         

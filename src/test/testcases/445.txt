@@ -1,7 +1,23 @@
 
-            var abc: string;
-            procedure main();
-            begin
-                abc := "I love OT";
-            end
-        
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                            for k:=1 to 10 do 
+                                begin
+                                    continue;
+                                end
+                            return 1;
+                        end
+                    
+                    {return 1;}
+                    
+                end
+                

@@ -1,6 +1,10 @@
 
-            procedure main();
-            var x1, x2: integer;
-                y1, y2, y3, X1: real;
-            begin end
-        
+                procedure main();
+                begin
+                end
+                procedure foo(a: integer);
+                var a:integer;
+                beGin
+                
+                eND
+                

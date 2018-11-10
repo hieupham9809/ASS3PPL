@@ -1,18 +1,14 @@
 
-            function FOO(a,b:integer;c:real):integer;
-            begin
-                putStringLn("Hello, this is FOO function");
-                c := a := b := 10;
-                if a = b then
-                    return 0;
-                for a := b to a + b do
-                    return 0;
-                while a < 10 do
-                    return 0;
-            end
+            var t: array[1 .. 2] of integer;
             procedure main();
-            var otr: integer;
+            var foo: real;
             begin
-                otr := foo(0, 8, 7.5);
+                foo := func(t);
             end
-        
+            function FUnc(ab: array[1 .. 2] of integer):integer;
+            var t: integer;
+            begin
+                ab[ab[10]] := t := 10;
+                return ab[ab[t]] > ab[t];
+            end
+            

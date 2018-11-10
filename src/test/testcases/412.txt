@@ -1,14 +1,12 @@
 
-            function oanhtrinh(a,b,c:integer):integer;
-            begin
-                return 4102018;
-            end
-            procedure OaNhTrInH(a, b, c:integer);
-            begin
-            end
-            procedure main();
-            begin
-                putFloat(oanhtring(0, 1, 2));
-                return;
-            end
-        
+                procedure main();
+                begin
+                end
+                var a: integer;
+                procedure foo();
+                beGin
+                    putBoolLn(a>2);
+                    putBool(b>2);
+                eND
+                
+                

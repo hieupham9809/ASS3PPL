@@ -1,1 +1,1 @@
-Type Mismatch In Statement: While(CallExpr(Id(getName),[]),[If(BinaryOp(or,BinaryOp(=,IntLiteral(2),IntLiteral(2)),BinaryOp(=,IntLiteral(3),IntLiteral(3))),[CallStmt(Id(putStringLn),[StringLiteral(Oanh Trinh)])],[CallStmt(Id(putStringLn),[StringLiteral(Trong Luan)])]),Break])
+Type Mismatch In Statement: Return(Some(FloatLiteral(1.4)))

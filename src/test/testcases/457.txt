@@ -1,20 +1,35 @@
 
-            function foo():array [1 .. 10] of real;
-            var b: array[1 .. 10] of real;
-            begin
-                return b;
-            end
-            function foo1():real;
-            begin
-                return foo2();
-            end
-            function foo2():integer;
-            begin
-                return foo1();
-            end
-            procedure MAIN();
-            var T:real;
-            begin
-                T := foo()[0];
-            end
+        procedure MaIn();
+        begin
+            foo();
+            foo2();
+        end        
+        procedure foo();
+        var a:real;
+            i:integer;
+        begin
+            while true do 
+                return;
+            while faLSE do
+                return;
+            for i:=0 to 10 do
+                begin
+                    i:=-(-(i-1));
+                    return;
+                end
+        end
+
+        procedure foo2();
+        var i:integer;
+        begin
+            while false do
+                return ;
+            return ;  
+
+            for I:=0 to 10 do  // error
+                begin
+                    i:=-(-(i-1));
+                    return ;
+                end
+        end
         

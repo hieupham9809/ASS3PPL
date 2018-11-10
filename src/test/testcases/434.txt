@@ -1,19 +1,22 @@
 
-            var otr, trl: string;
-            procedure main();
-            var love: boolean;
-            begin
-                if love and True then
+                procedure main();
                 begin
-                    putSTRINGLN("Oanh Trinh, I love you");
-                    return;
                 end
-                else
-                    putSTRING("Oanh Trinh, I still love you");
-                trl(trl, love, otr);
-                while love do
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
                 begin
-                    while love do begin main(); end
+                    while (true) do
+                        begin 
+                            i:=2;
+                            continue;
+                        end
+                    while (2>1) do
+                        begin
+                            continue;
+                            i:=1;
+                        end
+                    return 1;
                 end
-            end
-        
+                

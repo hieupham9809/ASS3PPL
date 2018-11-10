@@ -1,11 +1,7 @@
 
-            procedure main();
-            var i:integer;
-            begin
-                for i := 0 to 100 do
-                begin
-                    break;
-                    continue;
-                end
-            end
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" or else 1;
+        end
         

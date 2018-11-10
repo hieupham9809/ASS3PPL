@@ -1,1 +1,1 @@
-Redeclared Variable: otr
+Redeclared Function: getInt

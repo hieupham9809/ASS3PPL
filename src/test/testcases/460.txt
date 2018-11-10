@@ -1,11 +1,25 @@
 
-            procedure Oanhtrinh(a:integer);
-            begin
-                putIntLn(a);
-            end
-            procedure main();
-            begin
-                Oanhtrinh(16111998);
-                Oanhtrinh();
-            end
+        procedure MaIn();
+        var a:boolean;
+        begin
+            a:=foo();
+            a:=foo3();
+        end
+                
+        function foo():boolean;
+        begin
+            if True then
+                return falsE;  
+            else
+                return true;  
+        end
+
+        function foo3():boolean;  
+        begin
+            if True then  
+                begin
+                end
+            else
+                return True;
+        end
         

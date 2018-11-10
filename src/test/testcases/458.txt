@@ -1,20 +1,40 @@
 
-            function foo():integer;
-            begin
-                if True then 
+        procedure MaIn();
+        begin
+            foo();
+            foo2();
+        end
+
+        procedure foo();
+        var i:integer;
+            f:real;
+        begin
+            for i:=0 downtO -10 do  
+                return;
+
+            if i=f then
                 begin
-                    PutSTring("abc");
-                    return 1;
+                    f:=i+1;
+                    return ;
                 end
-                else
+            else
+                f:=i+12;
+        end
+
+        procedure foo2();
+        var i:integer;
+            f:real;
+        begin
+            for i:=0 downtO -100 do
+                return;
+            return;  
+
+            if I=f then  
                 begin
-                    putString("xyz");
+                    f:=i+1;
                     return;
                 end
-            end
-            procedure main();
-            var x:integer;
-            begin
-                x := foo();
-            end
+            else
+                F:=i+12;
+        end
         

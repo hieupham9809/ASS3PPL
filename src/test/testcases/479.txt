@@ -1,30 +1,12 @@
 
-            function foo(n:integer):integer;
-            var x: integer;
+            var i, j, k: integer;
+            procedure printrange(n: integer);
             begin
-                while x > 10 do
-                begin
-                    x := x - 1;
-                    if x < 4 then
-                        break;
-                end
-                for x := 0 to 90 do
-                begin
-                    putIntLn(x);
-                    if x = 67 then
-                        break;
-                    else
-                        break;
-                end
-                if x <> 67 then
-                    break;
-                else
-                    putStringLn("Oanh Trinh");
-                return n;
+                for i := ((j + k div j + 10 - i) / 2) - 1 to n do
+                    putIntLn(i);
             end
-            procedure MAIN();
-            var number:integer;
+            procedure main();
             begin
-                number := foo(foo(foo(foo(10))));
+                PrintRange(10);
             end
-        
+            

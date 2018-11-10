@@ -1,12 +1,21 @@
 
-            function sum(a,b,c:integer):integer;
-            begin
-                return a + b + c;
-            end
             procedure main();
             begin
-                while sum(11, 11, 1999, 16, 11, 1998) do
-                    break;
-                return;
+            end
+            procedure func1();
+            begin
+                func2();
+            end
+            procedure func2();
+            begin
+                func3();
+            end
+            procedure func3();
+            begin
+                func4();
+            end
+            procedure func4();
+            begin
+                main();
             end
         

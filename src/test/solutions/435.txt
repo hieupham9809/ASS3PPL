@@ -1,1 +1,1 @@
-Type Mismatch In Statement: If(Id(gay),[CallStmt(Id(PutString),[StringLiteral(You are are a gay)]),CallStmt(Id(PutString),[StringLiteral(Please afk)])],[])
+Continue Not In Loop

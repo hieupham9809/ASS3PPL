@@ -1,12 +1,14 @@
 
-            function foo():array [1 .. 10] of real;
-            var b: array[1 .. 10] of integer;
-            begin
-                return b;
-            end
-            procedure MAIN();
-            var T: real;
-            begin
-                T := foo()[0];
-            end
+        var x:integer;
+            
+        function foo():real;
+        begin
+            return x;
+        end
+        procedure main();
+        var x:real;
+        begin
+            x:=foo();
+            x:= foo + 1; 
+        end
         

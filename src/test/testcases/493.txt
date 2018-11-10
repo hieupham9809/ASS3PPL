@@ -1,9 +1,7 @@
 
-            function foo():integer;
-            begin
-                return 0;
-            end
-            procedure main();
-            begin
-            end
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" - 1;
+        end
         

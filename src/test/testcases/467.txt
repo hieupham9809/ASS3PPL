@@ -1,9 +1,35 @@
 
-            var t: integer;
-            procedure main();
-            var x: array[0 .. 1] of integer;
-            begin
-                t := x[1 + 1 - 2 div 43];
-                t := 2 + 1[2] div 1.5;
-            end
+        procedure MaIn();
+        var a:boolean;
+        begin
+            a:=foo();
+            a:=foo1();
+        end
+
+        function foo():boolean;
+        var a:integer;
+        begin
+            while a = 1 do
+                begin
+                    a:=0;
+                    if not (a=0) THEn
+                        return falSE;
+                    else
+                        return false or false;
+                end
+            return foo();  
+        end
+
+        function foo1():boolean;  
+        var a:integer;
+        begin
+            while a = 1 do  
+                begin
+                    a:=0;
+                    if not (a=0) then
+                        return falSE;
+                    else
+                        return false or false or true;
+                end
+        end
         

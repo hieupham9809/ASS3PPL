@@ -1,11 +1,11 @@
 
-            procedure main();
-            begin
-                putBoolLn(layer());
-            end
-            FUNCTION layer(): BOOLEAN;
-            begin
-                return false;
-            end
-            var myBear, layER: Boolean;
-        
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                    putBoolLn(trUe and false);
+                    putBool(1 or 2.1);
+                eND
+                
+                

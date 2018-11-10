@@ -1,13 +1,26 @@
 
-            procedure Oanhtrinh(x:array[0 .. 10] of real);
+            var a: integer;
+            var b: string;
+            
+            var d: boolean;
+            
+            procedure foo();
+            var i:integer;
             begin
-                putFloatLn(x[1]);
+                for i:=1 to 10 do
+                    begin
+                        a:=1;
+                        break;
+                    end
+                while d do
+                    begin
+                        a:=1;
+                        break;
+                    end
+                break;
             end
-            procedure main();
-            var a: array[-0 .. -10] of real;
-                b: array[-0 .. 10] of real;
+            procedure main();                
             begin
-                Oanhtrinh(b);
-                Oanhtrinh(a);
+                foo();
             end
         

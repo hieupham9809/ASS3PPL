@@ -1,1 +1,1 @@
-Type Mismatch In Expression: CallExpr(Id(sum),[Id(y)])
+Redeclared Procedure: PUTSTRing

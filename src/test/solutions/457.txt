@@ -1,1 +1,1 @@
-Type Mismatch In Statement: Return(Some(CallExpr(Id(foo1),[])))
+Unreachable statement: For(Id(I)IntLiteral(0),IntLiteral(10),True,[AssignStmt(Id(i),UnaryOp(-,UnaryOp(-,BinaryOp(-,Id(i),IntLiteral(1))))),Return(None)])

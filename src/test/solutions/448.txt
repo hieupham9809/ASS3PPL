@@ -1,1 +1,1 @@
-Type Mismatch In Statement: AssignStmt(Id(i),Id(r))
+Type Mismatch In Statement: CallStmt(Id(foo1),[Id(n)])

@@ -1,1 +1,1 @@
-Type Mismatch In Statement: AssignStmt(Id(abc),StringLiteral(I love OT))
+Function swapNot Return 

@@ -1,17 +1,13 @@
 
-            procedure main();
-            var i,l,o,v,e,u:boolean;
-                love: string;
-            begin
-                u := i and l or o and then v and __init__(__init__(__init__(e))) or u;
-                putBoolLn(u);
-                if u and i then
-                    __init__(i, love, u);
-                return;
-            end
-            function __init__(self:boolean):boolean;
-            begin
-                PUTSTRING("I am Luan Nguyen Trong");
-                return self and then self or self and self or else self;
-            end
-        
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (5) do i:=1;
+                    return 1;
+                end
+                

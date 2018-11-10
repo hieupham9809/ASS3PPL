@@ -1,5 +1,9 @@
 
-            procedure main();
-            begin end
-            var OTR, __otr__, otr: real;
-        
+                procedure main();
+                begin
+                end
+                function getInt():Integer;
+                beGin
+                return 3;
+                eND
+                

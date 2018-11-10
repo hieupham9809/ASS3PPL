@@ -6,9 +6,9 @@
                 begin
                     FOR x := 0 to 99 do 
                     begin
-                        putString("Hello Java!");
+                        putString("not return");
                         if x * y <> 0 then
-                            putStringLn("Hello Scala!");
+                            putStringLn("break after here");
                         else
                             break;
                         with a,b: integer; do
@@ -16,7 +16,7 @@
                             if x * y <> 0 then
                                 continue;
                             else
-                                putStringLn("Hello Ocaml!");
+                                putStringLn("return after here");
                             return 0;
                         end
                     end
@@ -24,8 +24,8 @@
                 end
             end
             procedure main();
-            var otr: integer;
+            var func: integer;
             begin
-                otr := foo();
+                func := foo();
             end
-        
+            

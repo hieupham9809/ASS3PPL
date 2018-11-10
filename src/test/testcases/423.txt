@@ -1,23 +1,14 @@
 
-            function foo(x:string; y: boolean; z:array [0 .. 5] of string):real;
-            var abc, def: integer;
-            begin
-                if (y and then y) or FALSE then
+                procedure main();
                 begin
-                    putstringln(x);
-                    abc := def * 5 - 4;
                 end
-                else
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
                 begin
-                    return otr;
+                    i := k := m[2];
+                    putInt(3);
+                    
                 end
-                return abc;
-            end
-            procedure main();
-            var mnp:real;
-                qr: array[0 .. 5] of string;
-            begin
-                mnp := foo("1", true, qr);
-                return;
-            end
-        
+                

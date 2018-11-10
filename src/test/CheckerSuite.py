@@ -3,361 +3,1602 @@ from TestUtils import TestChecker
 from AST import *
 
 class CheckerSuite(unittest.TestCase):
-
-    def test_redeclared_variable_otr0(self):
-        input = '''
-            procedure main();
-            begin
-            end
-            var a, ab, ba, b: integer;
-                ba: string;
-                c: real;
-        '''
-        expect = "Redeclared Variable: ba"
+    def test_redeclared_builtin_procedure(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                
+                end
+                procedure putIntLn();
+                beGin
+                
+                eND
+                """
+        expect = "Redeclared Procedure: putIntLn"
         self.assertTrue(TestChecker.test(input,expect,400))
     
-    def test_redeclared_variable_otr1(self):
-        input = '''
-            procedure main();
-            begin end
-            var OTR, __otr__, otr: real;
-        '''
-        expect = "Redeclared Variable: otr"
+    def test_redeclared_builtin_function(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                function getInt():Integer;
+                beGin
+                return 3;
+                eND
+                """
+        expect = "Redeclared Function: getInt"
         self.assertTrue(TestChecker.test(input,expect,401))
-    
-    def test_redeclared_variable_otr2(self):
-        input = '''
-            VAR luan, otr: integer;
-                oTr, __trluan__: boolean;
-            procedure main();
-            begin end
-        '''
-        expect = "Redeclared Variable: oTr"
+
+    def test_redeclared_procedure(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                
+                eND
+                procedure foo();
+                beGin
+                
+                eND
+                """
+        expect = "Redeclared Procedure: foo"
         self.assertTrue(TestChecker.test(input,expect,402))
-    
-    def test_redeclared_variable_otr3(self):
-        input = '''
-            procedure main();
-            var x1, x2: integer;
-                y1, y2, y3, X1: real;
-            begin end
-        '''
-        expect = "Redeclared Variable: X1"
-        self.assertTrue(TestChecker.test(input,expect,403))
-    
-    def test_redeclared_variable_otr4(self):
-        input = '''
-            procedure foo(otr:integer;a:string;c:boolean);
-            var a, x, y: array[0 .. 2] of integer;
-            begin
-                putIntLn(x[10]);
-            end
-            procedure main();
-            begin
-                foo(1, "2", true);
-            end
-        '''
+
+    def test_redeclared_param_vs_local(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo(a: integer);
+                var a:integer;
+                beGin
+                
+                eND
+                """
         expect = "Redeclared Variable: a"
+        self.assertTrue(TestChecker.test(input,expect,403))
+
+    def test_redeclared_param(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                var name: real;
+                procedure foo2(name: integer);
+                beGin
+                eND
+                procedure foo(a: integer;a: integer);
+                begin
+                end
+                """
+        expect = "Redeclared Parameter: a"
         self.assertTrue(TestChecker.test(input,expect,404))
-    
-    def test_redeclared_variable_otr5(self):
-        input = '''
-            var x, y, z: array [1 .. -1] of integer;
-                c: integer;
-            function oanhtrinh(x, y, t:string): integer;
-            var T, E, S: boolean;
-            begin
-                return 11111999;
-            end
-            procedure main();
-            begin
-                c := oanhtrinh("1", "2", "3");
-                return;
-            end
-        '''
-        expect = "Redeclared Variable: T"
+
+    def test_type_not_coerc_int_float(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                putInt(1+2.1);
+                eND
+                
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(putInt),[BinaryOp(+,IntLiteral(1),FloatLiteral(2.1))])"
         self.assertTrue(TestChecker.test(input,expect,405))
     
-    def test_redeclared_variable_otr6(self):
-        input = '''
-            procedure main();
-            begin end
-            var MAIN: integer;
-                LUAN: array[0 .. 4] of real;
-        '''
-        expect = "Redeclared Variable: MAIN"
+    def test_type_coerc_int_float(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                putFloat(1+2);
+                putInt(1.3+2);
+                eND
+                
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(putInt),[BinaryOp(+,FloatLiteral(1.3),IntLiteral(2))])"
         self.assertTrue(TestChecker.test(input,expect,406))
-    
-    def test_redeclared_variable_otr7(self):
-        input = '''
-            procedure main();
-            begin
-                putBoolLn(layer());
-            end
-            FUNCTION layer(): BOOLEAN;
-            begin
-                return false;
-            end
-            var myBear, layER: Boolean;
-        '''
-        expect = "Redeclared Variable: layER"
+
+    def test_and_or_boolean(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                    putBoolLn(trUe and false);
+                    putBool(1 or 2.1);
+                eND
+                
+                """
+        expect = "Type Mismatch In Expression: BinaryOp(or,IntLiteral(1),FloatLiteral(2.1))"
         self.assertTrue(TestChecker.test(input,expect,407))
-    
-    def test_redeclared_parameter_otr8(self):
-        input = '''
-            procedure main();
-            begin
-                foo(11111999, 16111998);
-            end
-            procedure foo(p, p:integer);
-            begin
-            end
-        '''
-        expect = "Redeclared Parameter: p"
+
+    def test_andthen_orelse_boolean(self):
+        """Simple program: int main() {} """
+        
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                    putBoolLn(true and then false);
+                    putBool(1 or else 2.1);
+                eND
+                
+                """
+        expect = "Type Mismatch In Expression: BinaryOp(orelse,IntLiteral(1),FloatLiteral(2.1))"
         self.assertTrue(TestChecker.test(input,expect,408))
-    
-    def test_redeclared_parameter_otr9(self):
-        input = '''
-            var P, Q, R, pqrST: integer;
-            procedure main();
-            begin
-                foo(0, 0, 0.1, TRUE);
-            end
-            procedure foo(p, pqrst:integer; x:real; P:boolean);
-            begin
-            end
-        '''
-        expect = "Redeclared Parameter: P"
+
+    def test_Unary_Type_sub(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                    putIntLn(-1);
+                    putInt(- "string in unaryop");
+                eND
+                
+                """
+        expect = "Type Mismatch In Expression: UnaryOp(-,StringLiteral(string in unaryop))"
         self.assertTrue(TestChecker.test(input,expect,409))
-    
-    def test_redeclared_procedure_otr10(self):
-        input = '''
-            var oanhtrinh, trongluan: array[0 .. 9] of STRING;
-            procedure main();
-            begin
-                return;
-            end
-            procedure oanhtrinh();
-            begin
-            end
-        '''
-        expect = "Redeclared Procedure: oanhtrinh"
+
+    def test_Unary_Type_Not(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                    putBoolLn(not true);
+                    putBool(1 or else 2.1);
+                eND
+                
+                """
+        expect = "Type Mismatch In Expression: BinaryOp(orelse,IntLiteral(1),FloatLiteral(2.1))"
         self.assertTrue(TestChecker.test(input,expect,410))
-    
-    def test_redeclared_procedure_otr11(self):
-        input = '''
-            procedure main();
-            begin
-                oanhtrinh();
-            end
-            procedure oanhtrinh();
-            begin
-            end
-            PROCEDURE OANHTRINH();
-            var i, am, luan: boolean;
-            begin
-            end
-        '''
-        expect = "Redeclared Procedure: OANHTRINH"
+
+    def test_Unary_Type_Not_more(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo();
+                beGin
+                    putBoolLn(not (1>2));
+                    putBool(not (10000 + 0));
+                eND
+                
+                """
+        expect = "Type Mismatch In Expression: UnaryOp(not,BinaryOp(+,IntLiteral(10000),IntLiteral(0)))"
         self.assertTrue(TestChecker.test(input,expect,411))
-    
-    def test_redeclared_procedure_otr12(self):
-        input = '''
-            function oanhtrinh(a,b,c:integer):integer;
-            begin
-                return 4102018;
-            end
-            procedure OaNhTrInH(a, b, c:integer);
-            begin
-            end
-            procedure main();
-            begin
-                putFloat(oanhtring(0, 1, 2));
-                return;
-            end
-        '''
-        expect = "Redeclared Procedure: OaNhTrInH"
+    def test_Undeclared_id(self):
+        """Simple program: int main() {} """
+        input = r"""
+                procedure main();
+                begin
+                end
+                var a: integer;
+                procedure foo();
+                beGin
+                    putBoolLn(a>2);
+                    putBool(b>2);
+                eND
+                
+                """
+        expect = "Undeclared Identifier: b"
         self.assertTrue(TestChecker.test(input,expect,412))
-    
-    def test_redeclared_function_otr13(self):
-        input = '''
-            procedure main();
-            begin end
-            function foo():real;
-            begin
-                return foo1();
-            end
-            function foo1():real;
-            begin
-                return foo();
-            end
-            function FOO(a,b,c:boolean):array[0 .. -1] of integer;
-            begin end
-        '''
-        expect = "Redeclared Function: FOO"
+
+    def test_Declared_id_in_local(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                
+                procedure foo();
+                var a: integer;
+                beGin
+                    putBoolLn(a>2);
+                    putBool(b>2);
+                eND
+                
+                """
+        expect = "Undeclared Identifier: b"
         self.assertTrue(TestChecker.test(input,expect,413))
     
-    def test_redeclared_function_otr14(self):
-        input = '''
-            var oanhtrinh: array[9 .. 10] of boolean;
-                foo: integer;
-            procedure main();
-            begin
-                foo := LUAN(oanhtrinh);
-            end
-            var luan: array[10 .. 11] of real;
-            function LUAN(oanhtrinh: array[9 .. 10] of boolean): integer;
-            begin end
-        '''
-        expect = "Redeclared Function: LUAN"
+    def test_Declared_id_in_param(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                
+                procedure foo(a: integer);
+                
+                beGin
+                    putBoolLn(a>2);
+                    putBool(b>2);
+                eND
+                
+                """
+        expect = "Undeclared Identifier: b"
         self.assertTrue(TestChecker.test(input,expect,414))
     
-    def test_no_entry_point_otr15(self):
-        input = '''
-            procedure oanhtrinh();
-            begin
-                trongluan();
-            end
-            procedure trongluan();
-            begin
-                oanhtrinh();
-            end
-        '''
-        expect = "No entry point"
+    def test_Declared_inside_hidden_outside(self):
+        """More complex program"""
+        
+        input = r"""
+                procedure main();
+                begin
+                end
+                var a: real;
+                procedure foo(a:string);
+                beGin
+                    putFloatLn(a);
+                eND
+                
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(putFloatLn),[Id(a)])"
         self.assertTrue(TestChecker.test(input,expect,415))
-    
-    def test_no_entry_point_otr16(self):
-        input = '''
-            VAR list, tuple, set, dict, str: array[0 .. 100] of integer;
-                pytagonas, euler, fermat: String;
-                right, wrong: Boolean;
-        '''
-        expect = "No entry point"
+    def test_undeclared_procedure(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: array[0 .. 1] of integer;
+                 {i,j,temp: integer;}
+                beGin
+                    print(a);
+                eND
+                """
+        expect = "Undeclared Procedure: print"
         self.assertTrue(TestChecker.test(input,expect,416))
-    
-    def test_no_entry_point_otr17(self):
-        input = '''
-            var a, b, c: array[0 .. -10] of boolean;
-            var x, y, z: array[0 .. -10] of string;
-            function foo1(a,b:integer):integer;
-            begin
-                return foo2(getInt(), 11);
-            end
-            FUNCTION FOO2(A,B:INTEGER):INTEGER;
-            BEGIN
-                RETURN FOO1(11, getInt());
-            END
-        '''
-        expect = "No entry point"
+
+    def test_array_type_mismatch_with_int(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: array[0 .. 1] of integer;
+                 {i,j,temp: integer;}
+                beGin
+                    putIntLn(a[0]);
+                    putStringLn(a[0]);
+                eND
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(putStringLn),[ArrayCell(Id(a),IntLiteral(0))])"
         self.assertTrue(TestChecker.test(input,expect,417))
-    
-    def test_no_entry_point_otr18(self):
-        input = '''
-            procedure main(ab, bc, ca: real);
-            begin
-                foo();
-                main(getFloat(), 1.5/ (getFloat() + 3) / 4, ab);
-                return;
-            end
-            procedure foo();
-            begin
-                main(2.5, 2, 3);
-            end
-        '''
-        expect = "No entry point"
+
+    def test_array_type_mismatch_with_float(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: array[0 .. 1] of real;
+                 {i,j,temp: integer;}
+                beGin
+                    putFloatLn(a[0]);
+                    putStringLn(a[0]);
+                eND
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(putStringLn),[ArrayCell(Id(a),IntLiteral(0))])"
         self.assertTrue(TestChecker.test(input,expect,418))
-    
-    def test_no_entry_point_otr19(self):
-        input = '''
-            function main():real;
-            begin
-                putStringLn("Huynh Thi Oanh Trinh");
-                return sub() + 4.5;
-            end
-            function sub():real;
-            begin
-                putIntLn(1611931);
-                return main() / 3 * 4 + 5;
-            end
-        '''
-        expect = "No entry point"
+
+    def test_assign_type_mismatch_with_arraytype(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: array[0 .. 1] of real;
+                 i: integer;
+                beGin
+                    i := 5;
+                    a := i;
+                eND
+                """
+        expect = "Type Mismatch In Statement: AssignStmt(Id(a),Id(i))"
         self.assertTrue(TestChecker.test(input,expect,419))
     
-    def test_no_entry_point_otr20(self):
-        input = '''
-            function MAIN(x, y: integer):integer;
-            begin
-                return x - 1611931 + fx();
-            end
-            function fx():integer;
-            begin
-                return MAIN(0, 0);
-            end
-        '''
-        expect = "No entry point"
+    def test_assign_type_mismatch_with_stringtype(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: string;
+                 i: integer;
+                beGin
+                    i := 5;
+                    a := i;
+                eND
+                """
+        expect = "Type Mismatch In Statement: AssignStmt(Id(a),Id(i))"
         self.assertTrue(TestChecker.test(input,expect,420))
+    def test_complex_assign_type_mismatch_with_stringtype(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: string;
+                 i,k: integer;
+                beGin
+                    i := k := 5;
+                    a := i;
+                eND
+                """
+        expect = "Type Mismatch In Statement: AssignStmt(Id(a),Id(i))"
+        self.assertTrue(TestChecker.test(input,expect,421))
+    def test_complex_assign_type_mismatch_with_intlit(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                beGin
+                    i := k := m[2];
+                    i := a;
+                    
+                eND
+                """
+        expect = "Type Mismatch In Statement: AssignStmt(Id(i),Id(a))"
+        self.assertTrue(TestChecker.test(input,expect,422))
+    def test_function_not_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    i := k := m[2];
+                    putInt(3);
+                    
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,423))
+    def test_procedure_return_expr(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    i := k := m[2];
+                    putInt(3);
+                    return 3;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(IntLiteral(3)))"
+        self.assertTrue(TestChecker.test(input,expect,424))
+    def test_procedure_return_without_expr(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure swap() ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    i := k := m[2];
+                    putInt(3);
+                    return;
+                end
+                procedure swap2() ;
+                begin
+                    return 3;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(IntLiteral(3)))"
+        self.assertTrue(TestChecker.test(input,expect,425))
+    def test_function_return_mismatch_expr(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap(): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    i := k := m[2];
+                    putInt(3);
+                    return a;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(Id(a)))"
+        self.assertTrue(TestChecker.test(input,expect,426))
+    def test_function_return_int_float_coerc_expr(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap(): real;
+                var a: integer;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    i := k := m[2];
+                    putInt(3);
+                    return a;
+                end
+                function swap2(): integer;
+                var b: real;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    i := k := m[2];
+                    putInt(3);
+                    return b;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(Id(b)))"
+        self.assertTrue(TestChecker.test(input,expect,427))
+    def test_unreachable_stmt(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    i := k := m[2];
+                    return 3;
+                    putInt(3);
+                    
+                end
+                """
+        expect = "Unreachable statement: CallStmt(Id(putInt),[IntLiteral(3)])"
+        self.assertTrue(TestChecker.test(input,expect,428))
+    def test_if_stmt(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if (i>1) then k:=1;
+                    else if ("true") then i:=0;
+                    return 1;
+                end
+                """
+        expect = "Type Mismatch In Statement: If(StringLiteral(true),[AssignStmt(Id(i),IntLiteral(0))],[])"
+        self.assertTrue(TestChecker.test(input,expect,429))
+    def test_if_stmt_with_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if (i>1) then 
+                        begin 
+                            k:=1; 
+                            retUrn 1.2;
+                        end
+                    else if (true) then i:=0;
+                    return 1;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(FloatLiteral(1.2)))"
+        self.assertTrue(TestChecker.test(input,expect,430))
+    def test_if_stmt_with_not_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if (i>1) then 
+                        begin 
+                            k:=1; 
+                            retUrn 3;
+                        end
+                    else if (true) then i:=0;
+                    {return 1;}
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,431))
+    def test_while_stmt_with_not_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do return 3;
+                    {return 1;}
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,432))
+    def test_while_stmt_with_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (5) do i:=1;
+                    return 1;
+                end
+                """
+        expect = "Type Mismatch In Statement: While(IntLiteral(5),[AssignStmt(Id(i),IntLiteral(1))])"
+        self.assertTrue(TestChecker.test(input,expect,433))
+    def test_while_stmt_with_continue(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do
+                        begin 
+                            i:=2;
+                            continue;
+                        end
+                    while (2>1) do
+                        begin
+                            continue;
+                            i:=1;
+                        end
+                    return 1;
+                end
+                """
+        expect = "Unreachable statement: AssignStmt(Id(i),IntLiteral(1))"
+        self.assertTrue(TestChecker.test(input,expect,434))  
+    def test_continue_not_in_loop(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do
+                        begin 
+                            i:=2;
+                            continue;
+                        end
+                    while (2>1) do
+                        begin
+                            i:=1;
+                        end
+                    continue;
+                    return 1;
+                end
+                """
+        expect = "Continue Not In Loop"
+        self.assertTrue(TestChecker.test(input,expect,435))
+    def test_break_not_in_loop(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do
+                        begin 
+                            i:=2;
+                            continue;
+                        end
+                    while (2>1) do
+                        begin
+                            i:=1;
+                        end
+                    break;
+                    return 1;
+                end
+                """
+        expect = "Break Not In Loop"
+        self.assertTrue(TestChecker.test(input,expect,436))
+    def test_inner_while(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do
+                        begin 
+                            i:=2;
+                            while (2>1) do
+                                begin
+                                    i:=1;
+                                    break;
+                                end
+                            continue;
+                        end
+                    
+                    return ;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(None)"
+        self.assertTrue(TestChecker.test(input,expect,437))  
+    def test_return_in_if(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if i > 10 then
+                        begin
+                            k := i;
+                            return k;
+                        end
+                    else
+                        begin
+                            k := i + 1;
+                            return 1.4;
+                        end
+                    
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(FloatLiteral(1.4)))"
+        self.assertTrue(TestChecker.test(input,expect,438))
+    def test_return_in_if_then(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if i > 10 then
+                        begin
+                            k := i;
+                            return k;
+                        end
+                    else
+                        begin
+                            k := i + 1;
+                            {return 1.4;}
+                        end
+                    
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,439))
+    def test_with_stmt(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    with  b : integer ; a: real; c : array [1 .. 2] of real ; do 
+                    begin
+                        a := c[1] + b ;
+                        b := a;
+                    end
+                    
+                end
+                """
+        expect = "Type Mismatch In Statement: AssignStmt(Id(b),Id(a))"
+        self.assertTrue(TestChecker.test(input,expect,440))
+    def test_with_stmt_with_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    with  b : integer ; a: real; c : array [1 .. 2] of real ; do 
+                        begin
+                            a := c[1] + b ;
+                            {b := a;}
+                            return b;
+                        end
+                    i := m[3];
+                end
+                """
+        expect = "Unreachable statement: AssignStmt(Id(i),ArrayCell(Id(m),IntLiteral(3)))"
+        self.assertTrue(TestChecker.test(input,expect,441))
+    def test_for_stmt_with_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                        end
+                    for a:=1 to 10 do 
+                        begin
+                        end
+                    return 1;
+                end
+                """
+        expect = "Type Mismatch In Statement: For(Id(a)IntLiteral(1),IntLiteral(10),True,[])"
+        self.assertTrue(TestChecker.test(input,expect,442))
+    def test_for_stmt_with_not_return(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                            return 1;
+                        end
+                    for k:=1 to 10 do 
+                        begin
+                            return 1;
+                        end
+                    
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,443))
+    def test_for_stmt_continue(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                            return 1;
+                        end
+                    for k:=1 to 10 do 
+                        begin
+                            continue;
+                        end
+                    
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,444))
+    def test_for_stmt_continue_break(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    for i:=1 to 10 do
+                        begin
+                            i := k;
+                            for k:=1 to 10 do 
+                                begin
+                                    continue;
+                                end
+                            return 1;
+                        end
+                    
+                    {return 1;}
+                    
+                end
+                """
+        expect = "Function swapNot Return "
+        self.assertTrue(TestChecker.test(input,expect,445))
     
-    def test_undeclared_identifier_otr21(self):
-        input = '''
-            var luan, __otr__: integer;
-            var khang, minh, truyen, luong: String;
+    def test_return_arraytype_type(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap(): array[2 .. 3] of integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[2 .. 3] of real;
+                begin
+                    return m;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(Id(m)))"
+        self.assertTrue(TestChecker.test(input,expect,446))
+    def test_return_arraytype_lower_upper(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function swap(): array[2 .. 3] of integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return m;
+                end
+                """
+        expect = "Type Mismatch In Statement: Return(Some(Id(m)))"
+        self.assertTrue(TestChecker.test(input,expect,447))
+    def test_arraytype_as_parameter_wrong_returntype(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo1(b: array[1 .. 2] of integer);
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of real;
+                begin
+                    foo1(n);
+                end
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(foo1),[Id(n)])"
+        self.assertTrue(TestChecker.test(input,expect,448))
+    def test_arraytype_as_parameter_wrong_upper_procedure(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                procedure foo1(b: array[1 .. 2] of integer);
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                end
+                procedure foo2();
+                var n: array[1 .. 6] of integer;
+                begin
+                    foo1(n);
+                end
+                """
+        expect = "Type Mismatch In Statement: CallStmt(Id(foo1),[Id(n)])"
+        self.assertTrue(TestChecker.test(input,expect,449))
+    def test_arraytype_as_parameter_wrong_upper_function(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                end
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of real;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                """
+        expect = "Type Mismatch In Expression: CallExpr(Id(foo1),[Id(n)])"
+        self.assertTrue(TestChecker.test(input,expect,450))
+    def test_function_main_entrypoint(self):
+        """More complex program"""
+        input = r"""
+                function main(): integer;
+                begin
+                    return 1;
+                end
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of integer;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                """
+        expect = "No entry point"
+        self.assertTrue(TestChecker.test(input,expect,451))
+    def test_no_entrypoint(self):
+        """More complex program"""
+        input = r"""
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of integer;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                """
+        expect = "No entry point"
+        self.assertTrue(TestChecker.test(input,expect,452))
+    def test_unreach_call_stmt(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                    {foo2();}
+                end
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                procedure foo2();
+                var n: array[1 .. 2] of integer;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                end
+                """
+        expect = "Unreachable Procedure: foo2"
+        self.assertTrue(TestChecker.test(input,expect,453))
+    def test_unreach_call_expr(self):
+        """More complex program"""
+        input = r"""
+                procedure main();
+                begin
+                    {foo2();}
+                end
+                function foo1(b: array[1 .. 2] of integer): integer;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 3] of integer;
+                begin
+                    return 1;
+                end
+                function foo2(): integer;
+                var n: array[1 .. 2] of integer;
+                i: integer;
+                begin
+                    i:= foo1(n);
+                    return 0;
+                end
+                """
+        expect = "Unreachable Function: foo2"
+        self.assertTrue(TestChecker.test(input,expect,454))
+    def test_undeclared_identifier2(self):
+        """test_undeclared_identifier2"""
+        input = r"""
+        var x:integer;
+            
+        function foo():real;
+        begin
+            return x;
+        end
+        procedure main();
+        var x:real;
+        begin
+            x:=foo();
+            x:= foo + 1; 
+        end
+        """
+        expect = "Undeclared Identifier: foo"
+        self.assertTrue(TestChecker.test(input,expect,455))
+    def test_continue_not_in_loop2(self):
+        """test_continue_not_in_loop2"""
+        input = r"""
+        procedure foo();
+        var a:integer;
+        begin
+            while trUE do
+                if (2=3) or (a>=0.0000010001) then
+                    Continue;
+            for a:=a dOWNtO 1 do
+                if true or FalSe then
+                    Continue;
+        end
+        procedure MAIn();
+        begin
+            foo();
+            if (0.8/5>7) or not false then
+                Continue; 
+        end
+        """
+        expect = "Continue Not In Loop"
+        self.assertTrue(TestChecker.test(input,expect,456))
+    def test_unreachable_stmt_complex(self):
+        """test_unreachable_stmt7"""
+        input = r"""
+        procedure MaIn();
+        begin
+            foo();
+            foo2();
+        end        
+        procedure foo();
+        var a:real;
+            i:integer;
+        begin
+            while true do 
+                return;
+            while faLSE do
+                return;
+            for i:=0 to 10 do
+                begin
+                    i:=-(-(i-1));
+                    return;
+                end
+        end
+
+        procedure foo2();
+        var i:integer;
+        begin
+            while false do
+                return ;
+            return ;  
+
+            for I:=0 to 10 do  // error
+                begin
+                    i:=-(-(i-1));
+                    return ;
+                end
+        end
+        """
+        expect = "Unreachable statement: For(Id(I)IntLiteral(0),IntLiteral(10),True,[AssignStmt(Id(i),UnaryOp(-,UnaryOp(-,BinaryOp(-,Id(i),IntLiteral(1))))),Return(None)])"
+        self.assertTrue(TestChecker.test(input,expect,457))
+    def test_unreachable_stmt_more_complex(self):
+        
+        input = r"""
+        procedure MaIn();
+        begin
+            foo();
+            foo2();
+        end
+
+        procedure foo();
+        var i:integer;
+            f:real;
+        begin
+            for i:=0 downtO -10 do  
+                return;
+
+            if i=f then
+                begin
+                    f:=i+1;
+                    return ;
+                end
+            else
+                f:=i+12;
+        end
+
+        procedure foo2();
+        var i:integer;
+            f:real;
+        begin
+            for i:=0 downtO -100 do
+                return;
+            return;  
+
+            if I=f then  
+                begin
+                    f:=i+1;
+                    return;
+                end
+            else
+                F:=i+12;
+        end
+        """
+        expect = "Unreachable statement: If(BinaryOp(=,Id(I),Id(f)),[AssignStmt(Id(f),BinaryOp(+,Id(i),IntLiteral(1))),Return(None)],[AssignStmt(Id(F),BinaryOp(+,Id(i),IntLiteral(12)))])"
+        self.assertTrue(TestChecker.test(input,expect,458)) 
+    def test_func_not_return_complex(self):
+        
+        input = r"""
+        procedure MaIn();
+        var a:boolean;
+        begin
+            a:=foo();
+            a:=foo1();
+        end
+
+        function foo():boolean;
+        var a:integer;
+        begin
+            for a:=a to a do
+                begin
+                    a:=0;
+                    if not (a=0) then
+                        return falSE;
+                    else
+                        return false and false;
+                end
+            return foo();  
+        end
+
+        function foo1():boolean; 
+        var a:integer;
+        begin
+            for a:=a to a+1 do  
+                begin
+                    a:=1;
+                    if not (a=1) then
+                        return falSE;
+                    else
+                        return false;
+                end
+        end
+        """
+        expect = "Function foo1Not Return "
+        self.assertTrue(TestChecker.test(input,expect,459))   
+    def test_func_not_return_more_complex(self):
+        
+        input = r"""
+        procedure MaIn();
+        var a:boolean;
+        begin
+            a:=foo();
+            a:=foo3();
+        end
+                
+        function foo():boolean;
+        begin
+            if True then
+                return falsE;  
+            else
+                return true;  
+        end
+
+        function foo3():boolean;  
+        begin
+            if True then  
+                begin
+                end
+            else
+                return True;
+        end
+        """
+        expect = "Function foo3Not Return "
+        self.assertTrue(TestChecker.test(input,expect,460))
+    def test_redeclared_procedure_complex(self):
+        input = r"""
+            var a: integer;
+            var b: string;
+            
+            var d: boolean;
+            var e: array[1 .. 9] of integer;
+            function foo(): integer;
+            var i:integer;
+            begin
+                return 1;
+            end
+            procedure goo();
+            begin
+            end
+            var MaIn: integer;
+            procedure main();                
+            begin
+                a:=foo();
+                goo();
+            end
+        """
+        expect =  "Redeclared Procedure: main"
+        self.assertTrue(TestChecker.test(input,expect,461))
+    def test_function_not_return_complex(self):
+        input = r"""
+            var a: integer;
+            var b: string;
+            
+            var d: boolean;
+            var e: array[1 .. 3] of integer;
+            function foo(): integer;
+            var i:integer;
+            begin
+                if d then
+                begin
+                    while d do
+                        return e[1];
+                    for i:=1 to 2 do
+                        return 3;
+                end
+                else
+                    return 1;
+            end
+            procedure goo();
+            begin
+            end
+            procedure main();                
+            begin
+                a:=foo();
+                goo();
+            end
+        """
+        expect =  "Function fooNot Return "
+        self.assertTrue(TestChecker.test(input,expect,462))
+    def test_unreachable_func_complex(self):
+        input = r"""
+            var a: integer;
+            var b: string;
+            
+            var d: boolean;
+            var e: array[1 .. 3] of integer;
+            function foo(): integer;
+            var i:integer;
+            begin
+                return 1;
+            end
+            procedure go();
+            begin
+            end
+            procedure main();                
+            begin
+                a:=foo();
+            end
+        """
+        expect =  "Unreachable Procedure: go"
+        self.assertTrue(TestChecker.test(input,expect,463))
+    def test_unreachable_stmt_more_complex2(self):
+        input = r"""
+            var a: integer;
+            var b: string;
+            
+            var d: boolean;
+            var e: array[1 .. 3] of integer;
+            procedure foo();
+            var i:integer;
+            begin
+                
+                if d then
+                    a:=1;
+                else
+                    return;
+                a:=2;
+                return;
+                a:=3;
+                a:=a+1;
+            end
+            procedure main();                
+            begin
+                foo();
+            end
+        """
+        expect =  "Unreachable statement: AssignStmt(Id(a),IntLiteral(3))"
+        self.assertTrue(TestChecker.test(input,expect,464))
+    def test_break_continue_not_in_loop_complex(self):
+        input = r"""
+            var a: integer;
+            var b: string;
+            
+            var d: boolean;
+            
+            procedure foo();
+            var i:integer;
+            begin
+                for i:=1 to 10 do
+                    begin
+                        a:=1;
+                        break;
+                    end
+                while d do
+                    begin
+                        a:=1;
+                        break;
+                    end
+                break;
+            end
+            procedure main();                
+            begin
+                foo();
+            end
+        """
+        expect =  "Break Not In Loop"
+        self.assertTrue(TestChecker.test(input,expect,465))
+    def test_typemissmatch_exp_complex(self):
+        input = r"""
+            var a: integer;
+            var b: string;
+            var c: real;
+            var d: boolean;
+            var e: array[1 .. 3] of integer;
+            function foo(): integer;
+            begin
+                return 1;
+            end
+            function goo(): real;
+            begin
+                return 1.00004;
+            end
+            procedure main();                
+            begin
+                a:= foo();
+                c:= goo();
+                c:= goo();
+                b:=foo();
+            end
+        """
+        expect =  "Type Mismatch In Statement: AssignStmt(Id(b),CallExpr(Id(foo),[]))"
+        self.assertTrue(TestChecker.test(input,expect,466))
+    def test_function_not_return_more_complex(self):
+        input = r"""
+        procedure MaIn();
+        var a:boolean;
+        begin
+            a:=foo();
+            a:=foo1();
+        end
+
+        function foo():boolean;
+        var a:integer;
+        begin
+            while a = 1 do
+                begin
+                    a:=0;
+                    if not (a=0) THEn
+                        return falSE;
+                    else
+                        return false or false;
+                end
+            return foo();  
+        end
+
+        function foo1():boolean;  
+        var a:integer;
+        begin
+            while a = 1 do  
+                begin
+                    a:=0;
+                    if not (a=0) then
+                        return falSE;
+                    else
+                        return false or false or true;
+                end
+        end
+        """
+        expect = "Function foo1Not Return "
+        self.assertTrue(TestChecker.test(input,expect,467))
+    def test_call_expr_param_len(self):
+        input = r"""
+        function foo():real;
+        var a:integer;
+        begin
+            return a;
+        end
+
+        procedure MaIn();
+        var a:real;
+        begin
+            a := foo();
+            a := foo(1,2,3,4);  
+        end
+        """
+        expect = "Type Mismatch In Expression: CallExpr(Id(foo),[IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4)])"
+        self.assertTrue(TestChecker.test(input,expect,468))
+    def test_type_binary_expr(self):
+        input = r"""
+        procedure foo(s:string);
+        begin
+            return ;
+        end
+
+        procedure MAIn();
+        var a: integer;
+        begin
+            foo("ss");
+            foo("s"*2);  
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(*,StringLiteral(s),IntLiteral(2))"
+        self.assertTrue(TestChecker.test(input,expect,469))
+    def test_expr1_arr_must_be_array_type(self):
+        input = r"""
+        procedure MaIn();
+        var a:integer;
+            arr:array[0 .. 9] of integer;
+        begin
+            arr[0]:=1;
+            a[0]:=1;  
+        end
+        """
+        expect = "Type Mismatch In Expression: ArrayCell(Id(a),IntLiteral(0))"
+        self.assertTrue(TestChecker.test(input,expect,470))
+    def test_unreachable_function_recursive1(self):
+        
+        input = r"""
+        procedure main();
+        begin
+        end
+
+        function recur(b:boolean):boolean;
+        begin
+            b:=recur(False);
+            return false;
+        end
+        """
+        expect = "Unreachable Function: recur"
+        self.assertTrue(TestChecker.test(input,expect,471))
+    def test_unreachable_procedure2(self):
+        
+        input = r"""
+        procedure main();
+        begin
+        end
+
+        procedure recur();
+        begin
+            recur();
+        end
+        """
+        expect = "Unreachable Procedure: recur"
+        self.assertTrue(TestChecker.test(input,expect,472))
+    def test_unreachable_procedure_otr97(self):
+        input = r"""
             procedure main();
             begin
-                otr := 1 + 2 - 5 div 6;
-                __otr__ := luan + 2 mod 5;
             end
-        '''
-        expect = "Undeclared Identifier: otr"
-        self.assertTrue(TestChecker.test(input,expect,421))
-    
-    def test_undeclared_identifier_otr22(self):
-        input = '''
-            function otr(param: real):real;
+            procedure func1();
+            begin
+                func2();
+            end
+            procedure func2();
+            begin
+                func3();
+            end
+            procedure func3();
+            begin
+                func4();
+            end
+            procedure func4();
+            begin
+                main();
+            end
+        """
+        expect = "Unreachable Procedure: func1"
+        self.assertTrue(TestChecker.test(input,expect,473))
+    def test_undeclared_identifier_func(self):
+        input = r"""
+            function func(param: real):real;
             begin
                 param := param + 1;
-                return .11111999;
+                return .1119;
             end
             PROCEDURE Main();
             var x: real;
             begin
-                x := (not (otr(otr(otr(otr(otr)))) mod 2) and FALSE OR TRUE) * 1.1111999;
+                x := (not (func(func(func(func(func)))) mod 2) and FALSE OR TRUE) * 1.1111999;
                 putInt(x);
                 return;
             end
-        '''
-        expect = "Undeclared Identifier: otr"
-        self.assertTrue(TestChecker.test(input,expect,422))
-    
-    def test_undeclared_identifier_otr23(self):
-        input = '''
-            function foo(x:string; y: boolean; z:array [0 .. 5] of string):real;
-            var abc, def: integer;
+        """
+        expect = "Undeclared Identifier: func"
+        self.assertTrue(TestChecker.test(input,expect,474))
+    def test_no_entry_point_main_funcion(self):
+        input = r"""
+            function MAIN(x, y: integer):integer;
             begin
-                if (y and then y) or FALSE then
-                begin
-                    putstringln(x);
-                    abc := def * 5 - 4;
-                end
-                else
-                begin
-                    return otr;
-                end
-                return abc;
+                return x - 1 + f();
             end
-            procedure main();
-            var mnp:real;
-                qr: array[0 .. 5] of string;
+            function f():integer;
             begin
-                mnp := foo("1", true, qr);
-                return;
+                return MAIN(0, 0);
             end
-        '''
-        expect = "Undeclared Identifier: otr"
-        self.assertTrue(TestChecker.test(input,expect,423))
-    
-    def test_redeclared_procedure_otr24(self):
-        input = '''
-            procedure PUTSTRING(p:integer;q:real);
+            """
+        expect = "No entry point"
+        self.assertTrue(TestChecker.test(input,expect,475))
+    def test_redeclared_procedure_builtin(self):
+        input = r"""
+            procedure PUTSTRing(p:integer;q:real);
             begin
                 putSTring("abc");
                 return;
@@ -365,241 +1606,11 @@ class CheckerSuite(unittest.TestCase):
             procedure main();
             begin
             end
-        '''
-        expect = "Redeclared Procedure: PUTSTRING"
-        self.assertTrue(TestChecker.test(input,expect,424))
-    
-    def test_undeclared_identifier_otr25(self):
-        input = '''
-            procedure main();
-            var otr: integer;
-                x: array[0 .. 100] of integer;
-            begin
-                OTr := fOO();
-                otr_trl(X, foo(), foo * 1.0);
-            end
-            function foo():integer;
-            var i,j:integer;
-                stack: array[0 .. 100] of integer;
-            begin
-                otr_trl(stack, i + j, j + 1);
-                return 1 - 6 - 1 - 1 - 9 - 3 - 1;
-            end
-            procedure otr_trl(s:array[0 .. 100] of integer; m,n:real);
-            begin
-                putStringLn("I love you Oanh Trinh");
-                putBool(False and True OR False);
-                putIntLn(s[11111999]);
-            end
-        '''
-        expect = "Undeclared Identifier: foo"
-        self.assertTrue(TestChecker.test(input,expect,425))
-    
-    def test_undeclared_function_otr26(self):
-        input = '''
-            var otr, trl: array [1 .. 0] of integer;
-            procedure maIN();
-            begin
-                putFloat(trl[10]);
-                putFloatLn(otr(trl));
-                putStringLn("False");
-            end
-        '''
-        expect = "Undeclared Function: otr"
-        self.assertTrue(TestChecker.test(input,expect,426))
-    
-    def test_undeclared_identifier_otr27(self):
-        input = '''
-            procedure otr();
-            begin
-            end
-            procedure main();
-            begin
-                if otr = (-2.5 - 1.5) then
-                    return;
-                else
-                    otr();
-                return;
-            end
-        '''
-        expect = "Undeclared Identifier: otr"
-        self.assertTrue(TestChecker.test(input,expect,427))
-    
-    def test_undeclared_identifier_otr28(self):
-        input = '''
-            var i,j,k:integer;
-            procedure main();
-            begin
-                for i := j + k to (k / h / j / j) div i do
-                begin
-                    putStringLn("I love Oanh Trinh");
-                end
-            end
-        '''
-        expect = "Undeclared Identifier: h"
-        self.assertTrue(TestChecker.test(input,expect,428))
-    
-    def test_undeclared_function_otr29(self):
-        input = '''
-            function abc(x:integer):real;
-            var m: real;
-            begin
-                m := abc(1) + m;
-                m := m MOD xyz(abc(2), 1.5, getFloat(), getInt(), "oanhtrinhcute") / 11.111999;
-                return m;
-            end
-            procedure main();
-            var n:real;
-            begin
-                n := n / abc(123) * 4;
-            end
-        '''
-        expect = "Undeclared Function: xyz"
-        self.assertTrue(TestChecker.test(input,expect,429))
-    
-    def test_undeclared_procedure_otr30(self):
-        input = '''
-            procedure KTRolster(Smeb, Score, Ucal, Deft, Mata: String);
-            begin
-                putString("KTRolster members: ");
-                print(Smeb, ", ");
-                print(Score, ", ");
-                print(Ucal, ", ");
-                print(Deft, ", ");
-                print(Mata, ", ");
-                return;
-            end
-            procedure main();
-            var i,j,k: integer;
-            begin
-                KTRolster("Smeb", "Score", "Ucal", "Deft", "Mata");
-                if i > k then
-                    if j > k then
-                        putBoolLn(False);
-                    else
-                        if k <> i then
-                            putFloatLn(11+12+13+14);
-            end
-        '''
-        expect = "Undeclared Procedure: print"
-        self.assertTrue(TestChecker.test(input,expect,430))
-    
-    def test_undeclared_identifier_otr31(self):
-        input = '''
-            procedure main();
-            begin
-                while 2 <> (3.5 / 4 / Getfloat moD 0) do
-                begin
-                    begin
-                        begin end
-                    end
-                end
-            end
-        '''
-        expect = "Undeclared Identifier: Getfloat"
-        self.assertTrue(TestChecker.test(input,expect,431))
-    
-    def test_undeclared_function_otr32(self):
-        input = '''
-            procedure count();
-            begin
-                Main();
-            end
-            procedure main();
-            var foo: integer;
-            begin
-                COUNT();
-                foo := 1.5 * ((count(foo, foo * 2) div 5) and 4) / 7 + 2;
-                return;
-            end
-        '''
-        expect = "Undeclared Function: count"
-        self.assertTrue(TestChecker.test(input,expect,432))
-    
-    def test_undeclared_procedure_otr33(self):
-        input = '''
-            procedure main();
-            var i,l,o,v,e,u:boolean;
-                love: string;
-            begin
-                u := i and l or o and then v and __init__(__init__(__init__(e))) or u;
-                putBoolLn(u);
-                if u and i then
-                    __init__(i, love, u);
-                return;
-            end
-            function __init__(self:boolean):boolean;
-            begin
-                PUTSTRING("I am Luan Nguyen Trong");
-                return self and then self or self and self or else self;
-            end
-        '''
-        expect = "Undeclared Procedure: __init__"
-        self.assertTrue(TestChecker.test(input,expect,433))
-    
-    def test_undeclared_procedure_otr34(self):
-        input = '''
-            var otr, trl: string;
-            procedure main();
-            var love: boolean;
-            begin
-                if love and True then
-                begin
-                    putSTRINGLN("Oanh Trinh, I love you");
-                    return;
-                end
-                else
-                    putSTRING("Oanh Trinh, I still love you");
-                trl(trl, love, otr);
-                while love do
-                begin
-                    while love do begin main(); end
-                end
-            end
-        '''
-        expect = "Undeclared Procedure: trl"
-        self.assertTrue(TestChecker.test(input,expect,434))
-    
-    def test_typemismatchstatement_if_otr35(self):
-        input = '''
-            var girl, boy, gay: boolean;
-            procedure MAIN();
-            var gay: array[1 .. 10] of real;
-            begin
-                IF gay then 
-                begin
-                    PutString("You are are a gay");
-                    PutString("Please afk");
-                end
-                putStringLn("You are are not gay");
-                putStringLn("Come here");
-            end
-        '''
-        expect = "Type Mismatch In Statement: If(Id(gay),[CallStmt(Id(PutString),[StringLiteral(You are are a gay)]),CallStmt(Id(PutString),[StringLiteral(Please afk)])],[])"
-        self.assertTrue(TestChecker.test(input,expect,435))
-    
-    def test_typemismatchstatement_if_otr36(self):
-        input = '''
-            procedure main();
-            var frac: real;
-            begin
-                frac := fraction(11111999);
-                if (frac > 0) and (1 <= 2) and then (3 <> 4) then
-                    putString("Large number");
-                else
-                    putString("Small number");
-            end
-            function fraction(n:integer):integer;
-            begin
-                if n then return n * fraction(n - 1);
-                return 1;
-            end
-        '''
-        expect = "Type Mismatch In Statement: If(Id(n),[Return(Some(BinaryOp(*,Id(n),CallExpr(Id(fraction),[BinaryOp(-,Id(n),IntLiteral(1))]))))],[])"
-        self.assertTrue(TestChecker.test(input,expect,436))
-    
-    def test_typemismatchstatement_while_otr37(self):
-        input = '''
+            """
+        expect = "Redeclared Procedure: PUTSTRing"
+        self.assertTrue(TestChecker.test(input,expect,476))
+    def test_typemismatchstatement_while(self):
+        input = r"""
             procedure main();
             var a,b: boolean;
             begin
@@ -609,80 +1620,25 @@ class CheckerSuite(unittest.TestCase):
                         a := a - 1;
                 end
             end
-        '''
+            """
         expect = "Type Mismatch In Statement: While(Id(a),[AssignStmt(Id(a),BinaryOp(-,Id(a),IntLiteral(1)))])"
-        self.assertTrue(TestChecker.test(input,expect,437))
-    
-    def test_typemismatchstatement_while_otr38(self):
-        input = '''
+        self.assertTrue(TestChecker.test(input,expect,477))
+    def test_undeclared_identifier_in_expr(self):
+        input = r"""
             procedure main();
             begin
-                while getName() do
+                while 2 <> (3.5 / 4 / undecl moD 0) do
                 begin
-                    if (2 = 2) or (3 = 3) then
-                        putStringLn("Oanh Trinh");
-                    else
-                        putStringLn("Trong Luan");
-                    break;
-                end
-            end
-            function getName():String;
-            var name: string;
-            begin
-                return name;
-            end
-        '''
-        expect = "Type Mismatch In Statement: While(CallExpr(Id(getName),[]),[If(BinaryOp(or,BinaryOp(=,IntLiteral(2),IntLiteral(2)),BinaryOp(=,IntLiteral(3),IntLiteral(3))),[CallStmt(Id(putStringLn),[StringLiteral(Oanh Trinh)])],[CallStmt(Id(putStringLn),[StringLiteral(Trong Luan)])]),Break])"
-        self.assertTrue(TestChecker.test(input,expect,438))
-    
-    def test_typemismatchstatement_while_otr39(self):
-        input = '''
-            var arr: array[0 .. 1] of boolean;
-                x, y, z: integer;
-            
-            function number(n:string):integer;
-            begin
-                return number(n);
-            end
-            
-            function str(n:integer):string;
-            begin
-                return str(n);
-            end
-
-            function isnumber(n:string):boolean;
-            begin
-                if number(n) = number(str(number(n))) then
-                    return true;
-                return false;
-            end
-
-            procedure main();
-            begin
-                if isnumber("123") then
-                    x := number("123");
-                else
-                    return;
-
-                while arr[x + y + z] do
-                begin
-                    with arr: array[0 .. 1] of real; do
                     begin
-                        while arr[x + y + z] do
-                        begin
-                            return;
-                        end
-                        x := y := z := GetInt();
+                        begin end
                     end
-                    continue;
                 end
             end
-        '''
-        expect = "Type Mismatch In Statement: While(ArrayCell(Id(arr),BinaryOp(+,BinaryOp(+,Id(x),Id(y)),Id(z))),[Return(None)])"
-        self.assertTrue(TestChecker.test(input,expect,439))
-    
-    def test_typemismatchstatement_for_otr40(self):
-        input = '''
+            """
+        expect = "Undeclared Identifier: undecl"
+        self.assertTrue(TestChecker.test(input,expect,478))
+    def test_typemismatchstatement_for(self):
+        input = r"""
             var i, j, k: integer;
             procedure printrange(n: integer);
             begin
@@ -691,77 +1647,13 @@ class CheckerSuite(unittest.TestCase):
             end
             procedure main();
             begin
-                printRange(10);
+                PrintRange(10);
             end
-        '''
+            """
         expect = "Type Mismatch In Statement: For(Id(i)BinaryOp(-,BinaryOp(/,BinaryOp(-,BinaryOp(+,BinaryOp(+,Id(j),BinaryOp(div,Id(k),Id(j))),IntLiteral(10)),Id(i)),IntLiteral(2)),IntLiteral(1)),Id(n),True,[CallStmt(Id(putIntLn),[Id(i)])])"
-        self.assertTrue(TestChecker.test(input,expect,440))
-    
-    def test_typemismatchstatement_for_otr41(self):
-        input = '''
-            var i:integer;
-            procedure main();
-            var i:boolean;
-            begin
-                for i := getInt() to (getInt() + 1000) do
-                begin
-                    i := (((1 >= 2) and (2 > 4)) or else (5 < 6)) and then (9 <= 10);
-                    putboolLn(i);
-                    return;
-                end
-            end
-        '''
-        expect = "Type Mismatch In Statement: For(Id(i)CallExpr(Id(getInt),[]),BinaryOp(+,CallExpr(Id(getInt),[]),IntLiteral(1000)),True,[AssignStmt(Id(i),BinaryOp(andthen,BinaryOp(orelse,BinaryOp(and,BinaryOp(>=,IntLiteral(1),IntLiteral(2)),BinaryOp(>,IntLiteral(2),IntLiteral(4))),BinaryOp(<,IntLiteral(5),IntLiteral(6))),BinaryOp(<=,IntLiteral(9),IntLiteral(10)))),CallStmt(Id(putboolLn),[Id(i)]),Return(None)])"
-        self.assertTrue(TestChecker.test(input,expect,441))
-    
-    def test_typemismatchstatement_for_otr42(self):
-        input = '''
-            procedure main();
-            var i: integer;
-                arr: array [0 .. 1] of integer;
-            begin
-                for i := arr[0] to arr[10] do
-                begin
-                    with j,k: real; do
-                    begin
-                        for i := arr[1] to arr[2] do putString("I love OT");
-                    end
-                    with i,j,k: real; do
-                    begin
-                        for i := arr[1] to arr[2] do
-                        begin 
-                            putString("I love OT");
-                            break;
-                        end
-                    end
-                end
-                return;
-            end
-        '''
-        expect = "Type Mismatch In Statement: For(Id(i)ArrayCell(Id(arr),IntLiteral(1)),ArrayCell(Id(arr),IntLiteral(2)),True,[CallStmt(Id(putString),[StringLiteral(I love OT)]),Break])"
-        self.assertTrue(TestChecker.test(input,expect,442))
-    
-    def test_typemismatchstatement_for_otr43(self):
-        input = '''
-            procedure main();
-            begin
-                HCMUT(getINT(), GETint(), gETInt());
-                HCMUT(getint(), GETINT(), gEtInT());
-            end
-            procedure HCMUT(a,b,c:integer);
-            begin
-                for a := b + c downTO b <= c do
-                begin
-                    break;
-                end
-                return;
-            end
-        '''
-        expect = "Type Mismatch In Statement: For(Id(a)BinaryOp(+,Id(b),Id(c)),BinaryOp(<=,Id(b),Id(c)),False,[Break])"
-        self.assertTrue(TestChecker.test(input,expect,443))
-    
-    def test_typemismatchstatement_assign_otr44(self):
-        input = '''
+        self.assertTrue(TestChecker.test(input,expect,479))
+    def test_typemismatchstatement_assign_complex(self):
+        input = r"""
             function isPrime(main:integer):boolean;
             var i: integer;
             begin
@@ -785,41 +1677,13 @@ class CheckerSuite(unittest.TestCase):
             begin
                 x := getInt();
                 y := isPrime(x);
-                putString("Finish");
+                putString("Finished");
             end
-        '''
+            """
         expect = "Type Mismatch In Statement: AssignStmt(Id(y),CallExpr(Id(isPrime),[Id(x)]))"
-        self.assertTrue(TestChecker.test(input,expect,444))
-    
-    def test_typemismatchstatement_assign_otr45(self):
-        input = '''
-            var abc: string;
-            procedure main();
-            begin
-                abc := "I love OT";
-            end
-        '''
-        expect = "Type Mismatch In Statement: AssignStmt(Id(abc),StringLiteral(I love OT))"
-        self.assertTrue(TestChecker.test(input,expect,445))
-    
-    def test_typemismatchstatement_assign_otr46(self):
-        input = '''
-            function getArray(x:array[0 .. 0] of integer):array[0 .. 0] of integer;
-            begin
-                return x;
-            end
-            procedure main();
-            var y: array [0 .. 0] of integer;
-            begin
-                y := getArray(y);
-                return;
-            end
-        '''
-        expect = "Type Mismatch In Statement: AssignStmt(Id(y),CallExpr(Id(getArray),[Id(y)]))"
-        self.assertTrue(TestChecker.test(input,expect,446))
-    
-    def test_typemismatchstatement_assign_otr47(self):
-        input = '''
+        self.assertTrue(TestChecker.test(input,expect,480))
+    def test_typemismatchstatement_assign_more(self):
+        input = r"""
             var x, y, z: real;
                 t, u: integer;
                 k: boolean;
@@ -833,849 +1697,73 @@ class CheckerSuite(unittest.TestCase):
                 y := t / 0;
                 k := (x > y) or else (y < z);
             end
-        '''
+            """
         expect = "Type Mismatch In Statement: AssignStmt(Id(t),BinaryOp(+,BinaryOp(/,BinaryOp(+,Id(t),BinaryOp(*,IntLiteral(2),Id(t))),IntLiteral(3)),BinaryOp(div,Id(t),IntLiteral(100))))"
-        self.assertTrue(TestChecker.test(input,expect,447))
-    
-    def test_typemismatchstatement_assign_otr48(self):
-        input = '''
-            PROCEDURE __init__(i:integer;r,q,p:real);
-            var arr: ARRAY [0 .. 0] of REAL;
-                brr: ARRAY [0 .. 0] of INTEGER;
-            begin
-                i := brr[1] := brr[0];
-                brr[1] := brr[brr[brr[brr[brr[brr[0]]]]] div 4] - 10 div 5;
-                i := r := q := p := arr[3] := brr[brr[brr[11]] - i div 2];
-            end
-            procedure main();
-            var z:integer;
-            begin
-                for z := 0 DOWNTO 100 do
-                    __init__(0, 0, 0, 0);
-                return;
-            end
-        '''
-        expect = "Type Mismatch In Statement: AssignStmt(Id(i),Id(r))"
-        self.assertTrue(TestChecker.test(input,expect,448))
-    
-    def test_typemismatchstatement_return_otr49(self):
-        input = '''
-            procedure main();
-            begin
-                skt("Lee sang-hyoek");
-            end
-            procedure SKT(faker:string);
-            var isFaker: boolean;
-            begin
-                if isFaker then
-                    return faker;
-                else
-                    putString(faker);
-                return;
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(Some(Id(faker)))"
-        self.assertTrue(TestChecker.test(input,expect,449))
-    
-    def test_typemismatchstatement_return_otr50(self):
-        input = '''
-            procedure main();
-            begin end
-            procedure MT16TN(leader:String);
-            var isBao: boolean;
-                i: real;
-            begin
-                with j, i: integer; do
-                begin
-                    for i := j to j div 10 do
-                        if isBao then break;
-                    return leader;
-                end
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(Some(Id(leader)))"
-        self.assertTrue(TestChecker.test(input,expect,450))
-    
-    def test_typemismatchstatement_return_otr51(self):
-        input = '''
-            procedure main();
-            begin
-                if 2 > 3 then
-                begin
-                    if 2 > 4 then
-                        return;
-                    return;
-                end
-                while True do
-                begin
-                    if 10 < 11 then return;
-                    return;
-                end
-                return (getInt() > getFloat()) and (16111998 < 11111999);
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(Some(BinaryOp(and,BinaryOp(>,CallExpr(Id(getInt),[]),CallExpr(Id(getFloat),[])),BinaryOp(<,IntLiteral(16111998),IntLiteral(11111999)))))"
-        self.assertTrue(TestChecker.test(input,expect,451))
-    
-    def test_typemismatchstatement_return_otr52(self):
-        input = '''
+        self.assertTrue(TestChecker.test(input,expect,481))
+    def test_typemismatchstatement_complex_return(self):
+        input = r"""
             var t: array[1 .. 2] of integer;
             procedure main();
             var foo: real;
             begin
                 foo := func(t);
             end
-            function Func(ab: array[1 .. 2] of integer):integer;
+            function FUnc(ab: array[1 .. 2] of integer):integer;
             var t: integer;
             begin
                 ab[ab[10]] := t := 10;
                 return ab[ab[t]] > ab[t];
             end
-        '''
+            """
         expect = "Type Mismatch In Statement: Return(Some(BinaryOp(>,ArrayCell(Id(ab),ArrayCell(Id(ab),Id(t))),ArrayCell(Id(ab),Id(t)))))"
-        self.assertTrue(TestChecker.test(input,expect,452))
-    
-    def test_typemismatchstatement_return_otr53(self):
-        input = '''
-            var t: array[1 .. 2] of real;
-            procedure main();
-            var foo: real;
-            begin
-                foo := f(1);
-                foo := func(t);
-            end
-            function f(bc:integer):real;
-            begin
-                return bc;
-            end
-            function Func(ab: array[1 .. 2] of real):integer;
-            begin
-                return ab[10];
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(Some(ArrayCell(Id(ab),IntLiteral(10))))"
-        self.assertTrue(TestChecker.test(input,expect,453))
-    
-    def test_typemismatchstatement_return_otr54(self):
-        input = '''
-            procedure main();
-            var T: integer;
-            begin
-                T := foo()[0];
-                return;
-            end
-            function foo():array [1 .. 10] of integer;
-            var x: array[1 .. 11] of integer;
-            begin
-                return x;
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(Some(Id(x)))"
-        self.assertTrue(TestChecker.test(input,expect,454))
-    
-    def test_typemismatchstatement_return_otr55(self):
-        input = '''
-            function foo():array [1 .. 10] of real;
-            var b: array[1 .. 10] of integer;
-            begin
-                return b;
-            end
-            procedure MAIN();
-            var T: real;
-            begin
-                T := foo()[0];
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(Some(Id(b)))"
-        self.assertTrue(TestChecker.test(input,expect,455))
-    
-    def test_typemismatchstatement_return_otr56(self):
-        input = '''
-            function foo():array [1 .. 10] of real;
-            var b: array[2 .. 0] of string;
-            begin
-                return b;
-            end
-            procedure MAIN();
-            var T: real;
-            begin
-                T := foo()[0];
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(Some(Id(b)))"
-        self.assertTrue(TestChecker.test(input,expect,456))
-    
-    def test_typemismatchstatement_return_otr57(self):
-        input = '''
-            function foo():array [1 .. 10] of real;
-            var b: array[1 .. 10] of real;
-            begin
-                return b;
-            end
-            function foo1():real;
-            begin
-                return foo2();
-            end
-            function foo2():integer;
-            begin
-                return foo1();
-            end
-            procedure MAIN();
-            var T:real;
-            begin
-                T := foo()[0];
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(Some(CallExpr(Id(foo1),[])))"
-        self.assertTrue(TestChecker.test(input,expect,457))
-    
-    def test_typemismatchstatement_return_otr58(self):
-        input = '''
-            function foo():integer;
-            begin
-                if True then 
-                begin
-                    PutSTring("abc");
-                    return 1;
-                end
-                else
-                begin
-                    putString("xyz");
-                    return;
-                end
-            end
-            procedure main();
-            var x:integer;
-            begin
-                x := foo();
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(None)"
-        self.assertTrue(TestChecker.test(input,expect,458))
-    
-    def test_typemismatchstatement_return_otr59(self):
-        input = '''
-            function foo():integer;
-            var i: integer;
-            begin
-                for i := 1 to 10 do
-                begin
-                    putInt(getInt());
-                    putFloat(getInt());
-                    return;
-                end
-                return 123;
-            end
-            procedure main();
-            var x:integer;
-            begin
-                x := foo();
-            end
-        '''
-        expect = "Type Mismatch In Statement: Return(None)"
-        self.assertTrue(TestChecker.test(input,expect,459))
-    
-    def test_typemismatchstatement_param_otr60(self):
-        input = '''
-            procedure Oanhtrinh(a:integer);
-            begin
-                putIntLn(a);
-            end
-            procedure main();
-            begin
-                Oanhtrinh(16111998);
-                Oanhtrinh();
-            end
-        '''
-        expect = "Type Mismatch In Statement: CallStmt(Id(Oanhtrinh),[])"
-        self.assertTrue(TestChecker.test(input,expect,460))
-    
-    def test_typemismatchstatement_param_otr61(self):
-        input = '''
-            procedure Oanhtrinh(a:integer;b:real);
-            begin
-                putIntLn(a);
-                putFloatLn(b);
-            end
-            procedure main();
-            begin
-                Oanhtrinh(0, 0.1);
-                Oanhtrinh(1, 1.2, 10);
-            end
-        '''
-        expect = "Type Mismatch In Statement: CallStmt(Id(Oanhtrinh),[IntLiteral(1),FloatLiteral(1.2),IntLiteral(10)])"
-        self.assertTrue(TestChecker.test(input,expect,461))
-    
-    def test_typemismatchstatement_param_otr62(self):
-        input = '''
-            procedure Oanhtrinh(a:integer; b:real);
-            begin
-                putIntLn(a);
-                putFloatLn(b);
-            end
-            procedure main();
-            var x: String;
-            begin
-                Oanhtrinh(1, 1.2);
-                Oanhtrinh(x, 1.2);
-            end
-        '''
-        expect = "Type Mismatch In Statement: CallStmt(Id(Oanhtrinh),[Id(x),FloatLiteral(1.2)])"
-        self.assertTrue(TestChecker.test(input,expect,462))
-    
-    def test_typemismatchstatement_param_otr63(self):
-        input = '''
-            procedure Oanhtrinh(a:real;b:integer;c:string;d:boolean);
-            begin
-                putFloatLn(a);
-                putIntLn(b);
-                putStringLn(c);
-                putBoolLn(d);
-            end
-            procedure main();
-            begin
-                Oanhtrinh(9.75, 9, "Oanhtrinh", True);
-                Oanhtrinh(0, 9, "oanhtrinh", False);
-                Oanhtrinh(0, 9, False, 10);
-            end
-        '''
-        expect = "Type Mismatch In Statement: CallStmt(Id(Oanhtrinh),[IntLiteral(0),IntLiteral(9),BooleanLiteral(False),IntLiteral(10)])"
-        self.assertTrue(TestChecker.test(input,expect,463))
-    
-    def test_typemismatchstatement_param_otr64(self):
-        input = '''
-            procedure Oanhtrinh(x:array[0 .. 10] of integer);
-            begin
-                putIntLn(x[1]);
-            end
-            procedure main();
-            var a: array[-0 .. 10] of integer;
-                b: array[-0 .. 10] of real;
-            begin
-                Oanhtrinh(a);
-                Oanhtrinh(b);
-            end
-        '''
-        expect = "Type Mismatch In Statement: CallStmt(Id(Oanhtrinh),[Id(b)])"
-        self.assertTrue(TestChecker.test(input,expect,464))
-    
-    def test_typemismatchstatement_param_otr65(self):
-        input = '''
-            procedure Oanhtrinh(x:array[0 .. 10] of real);
-            begin
-                putFloatLn(x[1]);
-            end
-            procedure main();
-            var a: array[-0 .. -10] of real;
-                b: array[-0 .. 10] of real;
-            begin
-                Oanhtrinh(b);
-                Oanhtrinh(a);
-            end
-        '''
-        expect = "Type Mismatch In Statement: CallStmt(Id(Oanhtrinh),[Id(a)])"
-        self.assertTrue(TestChecker.test(input,expect,465))
-    
-    def test_typemismatchexpression_arraycell_otr66(self):
-        input = '''
-            var t: integer;
-            procedure main();
-            var x: array[0 .. 1] of integer;
-            begin
-                if x[1.5] + 100 * 10 then
-                    return; 
-            end
-        '''
-        expect = "Type Mismatch In Expression: ArrayCell(Id(x),FloatLiteral(1.5))"
-        self.assertTrue(TestChecker.test(input,expect,466))
-    
-    def test_typemismatchexpression_arraycell_otr67(self):
-        input = '''
+        self.assertTrue(TestChecker.test(input,expect,482))
+    def test_typemismatchexpression_arraycell(self):
+        input = r"""
             var t: integer;
             procedure main();
             var x: array[0 .. 1] of integer;
             begin
                 t := x[1 + 1 - 2 div 43];
-                t := 2 + 1[2] div 1.5;
+                t := 2 + 1[1] div 1.5;
             end
-        '''
-        expect = "Type Mismatch In Expression: ArrayCell(IntLiteral(1),IntLiteral(2))"
-        self.assertTrue(TestChecker.test(input,expect,467))
-    
-    def test_typemismatchexpression_arraycell_otr68(self):
-        input = '''
-            var t: integer;
-            function foo():integer;
-            begin
-                return 1;
-            end
-            procedure main();
-            begin
-                t := (foo() + 3)[foo() + 3] / 4 / 5;
-            end
-        '''
-        expect = "Type Mismatch In Expression: ArrayCell(BinaryOp(+,CallExpr(Id(foo),[]),IntLiteral(3)),BinaryOp(+,CallExpr(Id(foo),[]),IntLiteral(3)))"
-        self.assertTrue(TestChecker.test(input,expect,468))
-    
-    def test_typemismatchexpression_operator_otr69(self):
-        input = '''
-            procedure main();
-            var a: real;
-                b: integer;
-            begin
-                a := (10 div 11) + 12 / 13;
-                for b := 1 downto ((-b + a) div (10 > 5)) do
-                    return;
-            end
-        '''
-        expect = "Type Mismatch In Expression: BinaryOp(div,BinaryOp(+,UnaryOp(-,Id(b)),Id(a)),BinaryOp(>,IntLiteral(10),IntLiteral(5)))"
-        self.assertTrue(TestChecker.test(input,expect,469))
-    
-    def test_typemismatchexpression_operator_otr70(self):
-        input = '''
-            procedure main();
-            var a: real;
-                b: integer;
-            begin
-                while not ("otr" + "trl") and ((2 mod 3) > (4 / 5)) do
-                    return;
-            end
-        '''
-        expect = "Type Mismatch In Expression: BinaryOp(+,StringLiteral(otr),StringLiteral(trl))"
-        self.assertTrue(TestChecker.test(input,expect,470))
-    
-    def test_typemismatchexpression_operator_otr71(self):
-        input = '''
+            """
+        expect = "Type Mismatch In Expression: ArrayCell(IntLiteral(1),IntLiteral(1))"
+        self.assertTrue(TestChecker.test(input,expect,483))
+    def test_typemismatchexpression_operator(self):
+        input = r"""
             procedure main();
             begin
                 with a,b:integer; c:boolean; d:string; do
                 begin
-                    c := ((-a----b) <> a) and then c;
-                    a := (a Div b) mod 11 - 11 * 1999;
-                    d := (a / b) DiV (a);
+                    c := ((-a---b) <> a) and then c;
+                    a := (a Div b) mod 1 - 111 * 1;
+                    a := c;
                 end
                 return;
             end
-        '''
-        expect = "Type Mismatch In Expression: BinaryOp(DiV,BinaryOp(/,Id(a),Id(b)),Id(a))"
-        self.assertTrue(TestChecker.test(input,expect,471))
-    
-    def test_typemismatchexpression_funcall_otr72(self):
-        input = '''
-            function sum(a,b,c:integer):integer;
-            begin
-                return a + b + c;
-            end
-            procedure main();
-            begin
-                if sum(11, 11) then
-                    return;
-            end
-        '''
-        expect = "Type Mismatch In Expression: CallExpr(Id(sum),[IntLiteral(11),IntLiteral(11)])"
-        self.assertTrue(TestChecker.test(input,expect,472))
-    
-    def test_typemismatchexpression_funcall_otr73(self):
-        input = '''
-            function sum(a,b,c:integer):integer;
-            begin
-                return a + b + c;
-            end
-            procedure main();
-            begin
-                while sum(11, 11, 1999, 16, 11, 1998) do
-                    break;
-                return;
-            end
-        '''
-        expect = "Type Mismatch In Expression: CallExpr(Id(sum),[IntLiteral(11),IntLiteral(11),IntLiteral(1999),IntLiteral(16),IntLiteral(11),IntLiteral(1998)])"
-        self.assertTrue(TestChecker.test(input,expect,473))
-    
-    def test_typemismatchexpression_funcall_otr74(self):
-        input = '''
-            function sum(a,b:integer;c:real):real;
-            begin
-                return a + b + c;
-            end
-            procedure main();
-            begin
-                if not sum(11, 11.5, 1999) then
-                    return;
-                if sum(11, 11, 19.99) = 1 then
-                    return;
-                if sum(11, 11, 1999) = 2 then
-                    return;
-                if sum(1, 2, 3) = 3 then
-                    return;
-            end
-        '''
-        expect = "Type Mismatch In Expression: CallExpr(Id(sum),[IntLiteral(11),FloatLiteral(11.5),IntLiteral(1999)])"
-        self.assertTrue(TestChecker.test(input,expect,474))
-
-    def test_typemismatchexpression_funcall_otr75(self):
-        input = '''
-            function sum(a, b:integer):integer;
-            begin
-                return a + b;
-            end
-            procedure main();
-            begin
-                if sum("abc", True) then
-                    return;
-            end
-        '''
-        expect = "Type Mismatch In Expression: CallExpr(Id(sum),[StringLiteral(abc),BooleanLiteral(True)])"
-        self.assertTrue(TestChecker.test(input,expect,475))
-    
-    def test_typemismatchexpression_funcall_otr76(self):
-        input = '''
-            function sum(x:array [1 .. 10] of real):real;
-            var i:integer;
-                S:real;
-            begin
-                S := 0;
-                for i := 0 to 10 do
-                    S := S + x[i];
-                return S;
-            end
-            procedure main();
-            var y:array[1 .. 10] of string;
-            begin
-                if sum(y) then
-                    return;
-            end
-        '''
-        expect = "Type Mismatch In Expression: CallExpr(Id(sum),[Id(y)])"
-        self.assertTrue(TestChecker.test(input,expect,476))
-    
-    def test_typemismatchexpression_funcall_otr77(self):
-        input = '''
-            function sum(x:array [0 .. 10] of real):real;
-            var i:integer;
-                S:real;
-            begin
-                S := 0;
-                for i := 0 to 10 do
-                    S := S + x[i];
-                return S;
-            end
-            procedure main();
-            var y:array[-0 .. 10] of real;
-                z:array[-1 .. 9] of real;
-            begin
-                if sum(y) > 0 then
-                    return;
-                if sum(z) then
-                    return;
-            end
-        '''
-        expect = "Type Mismatch In Expression: CallExpr(Id(sum),[Id(z)])"
-        self.assertTrue(TestChecker.test(input,expect,477))
-    
-    def test_breaknotinloop_otr78(self):
-        input = '''
+            """
+        expect = "Type Mismatch In Statement: AssignStmt(Id(a),Id(c))"
+        self.assertTrue(TestChecker.test(input,expect,484))
+    def test_breaknotinloop_complex(self):
+        input = r"""
             procedure MAIN();
             begin
                 if True then
                 begin
                     if false then
                     begin
-                        putStringLn("Luan Nguyen Trong");
+                        putStringLn("break after here");
                         break;
                     end
                 end
                 return;
             end
-        '''
+            """
         expect = "Break Not In Loop"
-        self.assertTrue(TestChecker.test(input,expect,478))
-    
-    def test_breaknotinloop_otr78(self):
-        input = '''
-            procedure MAIN();
-            begin
-                WITH x,y:integer;a,b:real; do
-                begin
-                    for x := y to y + 10 do
-                        break;
-                    break;
-                end
-            end
-        '''
-        expect = "Break Not In Loop"
-        self.assertTrue(TestChecker.test(input,expect,478))
-    
-    def test_breaknotinloop_otr79(self):
-        input = '''
-            function foo(n:integer):integer;
-            var x: integer;
-            begin
-                while x > 10 do
-                begin
-                    x := x - 1;
-                    if x < 4 then
-                        break;
-                end
-                for x := 0 to 90 do
-                begin
-                    putIntLn(x);
-                    if x = 67 then
-                        break;
-                    else
-                        break;
-                end
-                if x <> 67 then
-                    break;
-                else
-                    putStringLn("Oanh Trinh");
-                return n;
-            end
-            procedure MAIN();
-            var number:integer;
-            begin
-                number := foo(foo(foo(foo(10))));
-            end
-        '''
-        expect = "Break Not In Loop"
-        self.assertTrue(TestChecker.test(input,expect,479))
-    
-    def test_continuenotinloop_otr80(self):
-        input = '''
-            procedure MAIN();
-            var a:array [10 .. -1] of string;
-            begin
-                WITH x,y:integer;a,b:real; do
-                begin
-                    while x < y do
-                    begin
-                        a := b := x := y + 100;
-                        continue;
-                    end
-                end
-                continue;
-                putStringLn(a[11111999]);
-                putStringLn(a[16111998]);
-            end
-        '''
-        expect = "Continue Not In Loop"
-        self.assertTrue(TestChecker.test(input,expect,480))
-    
-    def test_continuenotinloop_otr81(self):
-        input = '''
-            procedure main();
-            begin
-                cseHcmut();
-            end
-            procedure cseHcmut();
-            var otr: integer;
-            begin
-                for otr := 100 downto 0 do
-                begin
-                    if otr > otr + 1 then
-                        break;
-                    while otr < otr + 1 do
-                    begin
-                        putString("Oanh trinh");
-                        putStringLn("Oanh trinh");
-                        continue;
-                    end
-                    if otr = 10 then
-                        continue;
-                    else
-                        putInt(100);
-                end
-                if otr = 10 then
-                begin
-                    putBoolLn(True);
-                    continue;
-                end
-                putStringLn("SK Telecom T1");
-                return;
-            end
-        '''
-        expect = "Continue Not In Loop"
-        self.assertTrue(TestChecker.test(input,expect,481))
-    
-    def test_function_notreturn_otr82(self):
-        input = '''
-            function FOO(a,b:integer;c:real):integer;
-            begin
-                putStringLn("Hello, this is FOO function");
-                c := a := b := 10;
-                if a = b then
-                    return 0;
-                for a := b to a + b do
-                    return 0;
-                while a < 10 do
-                    return 0;
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo(0, 8, 7.5);
-            end
-        '''
-        expect = "Function FOONot Return "
-        self.assertTrue(TestChecker.test(input,expect,482))
-    
-    def test_function_notreturn_otr83(self):
-        input = '''
-            function FOO():integer;
-            var x, y, i: integer;
-            begin
-                if x <> y then
-                begin
-                    for i := 0 to 55 do
-                    begin
-                        x := getINt();
-                        putIntLn(x);
-                        break;
-                    end
-                    return 0;
-                end
-                else
-                begin
-                    if x = y then
-                    begin
-                        main();
-                        return 0;
-                    end
-                end
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo();
-            end
-        '''
-        expect = "Function FOONot Return "
-        self.assertTrue(TestChecker.test(input,expect,483))
-    
-    def test_function_notreturn_otr84(self):
-        input = '''
-            function FOO():integer;
-            var x,y:integer;
-            begin
-                IF x <> y then
-                    IF x < 10 then
-                    begin
-                        putStringLn("Hello world!");
-                        return 0;
-                    END
-                    ELSE
-                    begin
-                        putStringLn("Hello Luan!");
-                        putStringLn("Hello Otrinh!");
-                        return 0;
-                    end
-                ELSE
-                begin
-                    IF y > 10 THEN
-                    begin
-                        IF x * y > 10 THEN
-                        begin
-                            putStringLn("Hello PPL!");
-                            if x = 0 then
-                                return 0;
-                            return 0;
-                        end
-                        else
-                        BEGIN
-                            if y <> 5 then
-                            begin
-                                if y = 1 then
-                                    return 0;
-                                else
-                                    return 2;
-                            end
-                            else
-                            begin
-                                if y = 2 then
-                                    return 0;
-                                putStringLn("Hello BKU!");
-                            end
-                        END
-                    end
-                    ELSE
-                    begin
-                        if y - y = 0 then
-                        begin
-                            return 0;
-                        end
-                        else
-                        begin
-                            if x < y then
-                                return 100;
-                            else 
-                                return 0;
-                        end
-                    end
-                end
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo();
-            end
-        '''
-        expect = "Function FOONot Return "
-        self.assertTrue(TestChecker.test(input,expect,484))
-    
-    def test_function_notreturn_otr85(self):
-        input = '''
-            function FOO():integer;
-            var x,y,i: integer;
-            begin
-                IF true THEN
-                BEGIN
-                    FOR i := 0 to 100 do
-                    begin
-                        if i = 20 then
-                            break;
-                        if i = x + y then
-                        begin
-                            putIntLn(i);
-                            putStringLn("Hello Python!");
-                            return 0;
-                        end
-                        else
-                        begin
-                            main();
-                            return 0;
-                        end
-                    end
-                END
-                ELSE
-                BEGIN
-                    with a,b:integer; do
-                    begin
-                        while x <> y do
-                        begin
-                            a := b := x := y := 0;
-                            if x = y then
-                                break;
-                            else
-                                putStringLn("Hello C++");
-                            return 0;
-                        end
-                        if x <> y then
-                            return 0;
-                        else
-                            return a + b + y + x;
-                    end
-                END
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo();
-            end
-        '''
-        expect = "Function FOONot Return "
         self.assertTrue(TestChecker.test(input,expect,485))
-    
-    def test_function_notreturn_otr86(self):
-        input = '''
+
+    def test_function_notreturn_more_complex(self):
+        input = r"""
             function FOO():integer;
             var x, y: integer;
             begin
@@ -1683,9 +1771,9 @@ class CheckerSuite(unittest.TestCase):
                 begin
                     FOR x := 0 to 99 do 
                     begin
-                        putString("Hello Java!");
+                        putString("not return");
                         if x * y <> 0 then
-                            putStringLn("Hello Scala!");
+                            putStringLn("break after here");
                         else
                             break;
                         with a,b: integer; do
@@ -1693,7 +1781,7 @@ class CheckerSuite(unittest.TestCase):
                             if x * y <> 0 then
                                 continue;
                             else
-                                putStringLn("Hello Ocaml!");
+                                putStringLn("return after here");
                             return 0;
                         end
                     end
@@ -1701,737 +1789,149 @@ class CheckerSuite(unittest.TestCase):
                 end
             end
             procedure main();
-            var otr: integer;
+            var func: integer;
             begin
-                otr := foo();
+                func := foo();
             end
-        '''
+            """
         expect = "Function FOONot Return "
         self.assertTrue(TestChecker.test(input,expect,486))
-    
-    def test_function_notreturn_otr87(self):
-        input = '''
-            function FOO():integer;
-            var x, y: integer;
-            begin
-                for x:= 0 to 99 do
-                begin
-                    while x <> y do 
-                    begin
-                        putString("Hello Java!");
-                        if x * y <> 0 then
-                            putStringLn("Hello Scala!");
-                        else
-                            break;
-                        with a,b: integer; do
-                        begin
-                            if x * y <> 0 then
-                                continue;
-                            else
-                                putStringLn("Hello Ocaml!");
-                            return 0;
-                        end
-                    end
-                    return 0;
-                end
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo();
-            end
-        '''
-        expect = "Function FOONot Return "
+    def test_typemismatch_with_str(self):
+        input = r"""
+        procedure main();
+        var a: boolean;
+        begin
+            a:= false / "abc";
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(/,BooleanLiteral(False),StringLiteral(abc))"
         self.assertTrue(TestChecker.test(input,expect,487))
-    
-    def test_function_notreturn_otr88(self):
-        input = '''
-            function FOO1():integer;
-            begin
-                with a,b:real;c:integer; do
-                begin
-                    while a + c > b do
-                    begin
-                        putStringLn("Hello C!");
-                        return 0;
-                    end
-                    putStringLn("Hello C#!");
-                    if a = b then
-                    begin
-                        putStringLn("Hello Ada!");
-                        return 0;
-                    end
-                    else
-                        return 0;
-                end
-            end
-            function FOO():integer;
-            var x, y: integer;
-            begin
-                if (x MOD y) = 2 then
-                begin
-                    putStringLn("Hello PHP!");
-                    return 1;
-                end
-                else
-                    putStringLn("Hello HTML!");
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo();
-                otr := foo1();
-            end
-        '''
-        expect = "Function FOONot Return "
+    def test_op_or(self):
+        input = r"""
+        procedure main();
+        var a: boolean;
+        begin
+            a:= false or "abc";
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(or,BooleanLiteral(False),StringLiteral(abc))"
         self.assertTrue(TestChecker.test(input,expect,488))
-    
-    def test_function_notreturn_otr89(self):
-        input = '''
-            function FOO1():integer;
-            var x,y:integer;
-            begin
-                IF x <> y then
-                    IF x < 10 then
-                    begin
-                        putStringLn("Hello world!");
-                        return 0;
-                    END
-                    ELSE
-                    begin
-                        putStringLn("Hello Luan!");
-                        putStringLn("Hello Otrinh!");
-                        return 0;
-                    end
-                ELSE
-                begin
-                    IF y > 10 THEN
-                    begin
-                        IF x * y > 10 THEN
-                        begin
-                            putStringLn("Hello PPL!");
-                            if x = 0 then
-                                return 0;
-                            return 0;
-                        end
-                        else
-                        BEGIN
-                            if y <> 5 then
-                            begin
-                                if y = 1 then
-                                    return 0;
-                                else
-                                    return 2;
-                            end
-                            else
-                            begin
-                                if y = 2 then
-                                    return 0;
-                                putStringLn("Hello BKU!");
-                                return 0;
-                            end
-                        END
-                    end
-                    ELSE
-                    begin
-                        if y - y = 0 then
-                        begin
-                            return 0;
-                        end
-                        else
-                        begin
-                            if x < y then
-                                return 100;
-                            else 
-                                return 0;
-                        end
-                    end
-                end
-            end
-            function FOO():integer;
-            var x, y: integer;
-            begin
-                with a,b:integer; do
-                begin
-                    for a:= 0 to b do
-                        return 0;
-                    if a > b then
-                        return 0;
-                    while a <> 1 do
-                        return 0;
-                end
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo();
-                otr := foo1();
-            end
-        '''
-        expect = "Function FOONot Return "
+    def test_op_boolean(self):
+        input = r"""
+        procedure main(b: integer);
+        var a: boolean;
+        begin
+            a:= false;
+        end
+        """
+        expect = "No entry point"
         self.assertTrue(TestChecker.test(input,expect,489))
-    
-    def test_function_notreturn_otr90(self):
-        input = '''
-            function FOO1():integer;
-            var x,y: integer;
-            begin
-                if x = y then
-                begin
-                    with a:integer; do
-                    begin
-                        for a := 0 to 10 do
-                        begin
-                            putStringLn("Hello CSS!");
-                            if a <> 10 then
-                                a := a + 1;
-                            if a <> 5 then
-                                continue;
-                        end
-                        if a = 1 then
-                        begin
-                            with x:real; do
-                            begin
-                                putFloatLn(x);
-                                return 0;
-                            end 
-                        end
-                        return 1;
-                    end
-                end
-                else 
-                BEGIN
-                    with a:integer; do
-                    begin
-                        if a <> 0 then
-                            return 0;
-                        else
-                        begin
-                            for a := 0 to 100 do
-                                return 0;
-                            return 1;
-                        end
-                    end
-                END
-            end
-            function FOO():integer;
-            var x, y: integer;
-            begin
-                if x < y then
-                begin
-                    x := x + 1;
-                    for x := 0 to 100 do
-                        return 0;
-                end
-                else
-                    while y <> 0 do return 0;
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo();
-                otr := foo1();
-            end
-        '''
-        expect = "Function FOONot Return "
+    def test_op_add_boolean(self):
+        input = r"""
+        procedure main();
+        var a: boolean;
+        begin
+            a:= false + true;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(+,BooleanLiteral(False),BooleanLiteral(True))"
         self.assertTrue(TestChecker.test(input,expect,490))
-    
-    def test_function_notreturn_otr91(self):
-        input = '''
-            function FOO1():integer;
-            var x, y: integer;
-            begin
-                if x <> y then
-                    return 0;
-                for x := x div y to x mod y do
-                    return 0;
-                while x = y do begin
-                    return 0;
-                end
-                with a:integer; do
-                begin
-                    return a;
-                end
-            end
-            function FOO():integer;
-            var x, y: integer;
-            begin
-                x := y + 1;
-                putStringLn("Hello Javascript!");
-                putIntLn(0);
-                putFloatLn(x + y);
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo();
-                otr := foo1();
-            end
-        '''
-        expect = "Function FOONot Return "
+    def test_op_equal_boolean(self):
+        input = r"""
+        procedure main();
+        var a: boolean;
+        begin
+            a:= false = false;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(=,BooleanLiteral(False),BooleanLiteral(False))"
         self.assertTrue(TestChecker.test(input,expect,491))
-    
-    def test_function_notreturn_otr92(self):
-        input = '''
-            function FOO1():integer;
-            begin
-                if True then if false then if true then if false then if true then if true then if false then if false then return 0;
-            end
-            function FOO():integer;
-            begin
-                if True then if false then if true then if false then if true then if true then if false then if false then return 0;
-                return 0;
-            end
-            procedure main();
-            var otr: integer;
-            begin
-                otr := foo();
-                otr := foo1();
-            end
-        '''
-        expect = "Function FOO1Not Return "
+    def test_op_assign_str(self):
+        input = r"""
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" <= 1;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(<=,StringLiteral(abc),IntLiteral(1))"
         self.assertTrue(TestChecker.test(input,expect,492))
-    
-    def test_unreachable_function_otr93(self):
-        input = '''
-            function foo():integer;
-            begin
-                return 0;
-            end
-            procedure main();
-            begin
-            end
-        '''
-        expect = "Unreachable Function: foo"
+    def test_op_string_sub(self):
+        input = r"""
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" - 1;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(-,StringLiteral(abc),IntLiteral(1))"
         self.assertTrue(TestChecker.test(input,expect,493))
-    
-    def test_unreachable_function_otr94(self):
-        input = '''
-            procedure foo();
-            begin
-            end
-            function foo1():integer;
-            begin
-                foo();
-                return 0;
-            end
-            procedure main();
-            begin
-            end
-        '''
-        expect = "Unreachable Function: foo1"
+
+    def test_op_string_mul(self):
+        input = r"""
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" * 1;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(*,StringLiteral(abc),IntLiteral(1))"
         self.assertTrue(TestChecker.test(input,expect,494))
-    
-    def test_unreachable_function_otr95(self):
-        input = '''
-            function foo():integer;
-            begin
-                putIntLn(foo());
-                return 0;
-            end
-            procedure main();
-            begin
-            end
-        '''
-        expect = "Unreachable Function: foo"
+
+    def test_op_string_divide(self):
+        input = r"""
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" / 1;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(/,StringLiteral(abc),IntLiteral(1))"
         self.assertTrue(TestChecker.test(input,expect,495))
-    
-    def test_unreachable_function_otr96(self):
-        input = '''
-            procedure main();
-            var i:integer;
-            begin
-                for i := skt() + getInt() to 100 do
-                begin
-                    if i <> 5 then
-                        i := i + skt();
-                    else
-                        i := i - skt();
-                end
-            end
-            function kt():integer;
-            begin
-                return skt();
-            end
-            function skt():integer;
-            begin
-                putIntLn(skt());
-                return 0;
-            end
-        '''
-        expect = "Unreachable Function: kt"
+
+    def test_op_string_div(self):
+        input = r"""
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" div 1;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(div,StringLiteral(abc),IntLiteral(1))"
         self.assertTrue(TestChecker.test(input,expect,496))
-    
-    def test_unreachable_procedure_otr97(self):
-        input = '''
-            procedure main();
-            begin
-            end
-            procedure otr1();
-            begin
-                otr2();
-            end
-            procedure otr2();
-            begin
-                otr3();
-            end
-            procedure otr3();
-            begin
-                otr4();
-            end
-            procedure otr4();
-            begin
-                main();
-            end
-        '''
-        expect = "Unreachable Procedure: otr1"
+
+    def test_op_string_mod(self):
+        input = r"""
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" mod 1;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(mod,StringLiteral(abc),IntLiteral(1))"
         self.assertTrue(TestChecker.test(input,expect,497))
-    
-    def test_unreachable_procedure_otr98(self):
-        input = '''
-            procedure main();
-            begin
-            end
-            procedure otr();
-            begin
-                otr();
-            end
-        '''
-        expect = "Unreachable Procedure: otr"
+    def test_op_string_andthen(self):
+        input = r"""
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" and then 1;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(andthen,StringLiteral(abc),IntLiteral(1))"
         self.assertTrue(TestChecker.test(input,expect,498))
-    
-    def test_unreacable_statement_otr99(self):
-        input = '''
-            procedure main();
-            var i:integer;
-            begin
-                for i := 0 to 100 do
-                begin
-                    break;
-                    continue;
-                end
-            end
-        '''
-        expect = "Unreachable statement: Continue"
+
+    def test_op_string_orelse(self):
+        input = r"""
+        procedure main();
+        var a: string;
+        begin
+            a:= "abc" or else 1;
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(orelse,StringLiteral(abc),IntLiteral(1))"
         self.assertTrue(TestChecker.test(input,expect,499))
-    
-    def test_unreacable_statement_otr100(self):
-        input = '''
-            procedure main();
-            var c:boolean;
-            begin
-                if c then
-                begin
-                    if True then
-                        return;
-                    return;
-                end
-                else
-                begin
-                    putStringLn("Hello Lua!");
-                    return;
-                end
-                putStringLn("Hello Ruby!");
-            end
-        '''
-        expect = "Unreachable statement: CallStmt(Id(putStringLn),[StringLiteral(Hello Ruby!)])"
-        self.assertTrue(TestChecker.test(input,expect,500))
-    
-    def test_unreacable_statement_otr101(self):
-        input = '''
-            procedure main();
-            var i:integer;
-            begin
-                i := 0;
-                while i < 100 do
-                begin
-                    putIntLn(i);
-                    i := i + 1;
-                    if i = 60 then
-                        return;
-                    putStringLn("Hello Haskell!");
-                    if i = 70 then
-                        break;
-                    else
-                        continue;
-                    putStringLn("Hello Smalltalk!");
-                end 
-            end
-        '''
-        expect = "Unreachable statement: CallStmt(Id(putStringLn),[StringLiteral(Hello Smalltalk!)])"
-        self.assertTrue(TestChecker.test(input,expect,501))
-    
-    def test_unreacable_statement_otr102(self):
-        input = '''
-            procedure main();
-            var i:integer;
-            begin
-                i := 20;
-                while i <> 1 do
-                begin
-                    i := i - 1;
-                    if i = 3 then
-                        break;
-                    putStringLn("Hello Perl!");
-                end
-                for i := 0 to 100 do
-                begin
-                    putStringLn("Hello Pascal!");
-                    if i = 50 then
-                        return;
-                    else
-                        continue;
-                end
-                with otr:real; do
-                begin
-                    putFloatLn(otr);
-                    putStringLn("Hello MP!");
-                    if otr > i then
-                        return;
-                    else
-                    begin
-                        putStringLn("Hello Objective-C!");
-                        return;
-                    end
-                end
-                if i = 1 then
-                    putFloatLn(i);
-                else
-                    putStringLn("Hello BASIC!");
-                putStringLn("Hello COBOL!");
-            end
-        '''
-        expect = "Unreachable statement: If(BinaryOp(=,Id(i),IntLiteral(1)),[CallStmt(Id(putFloatLn),[Id(i)])],[CallStmt(Id(putStringLn),[StringLiteral(Hello BASIC!)])])"
-        self.assertTrue(TestChecker.test(input,expect,502))
-    
-    def test_unreacable_statement_otr503(self):
-        input = '''
-            procedure OANHTRINH();
-            begin
-                if True then
-                    if False then
-                        if True then
-                            if False then
-                                if True then
-                                    return;
-                putStringLn("Hello Clojure!");
-            end
-            function f(): integer;
-            var x, y: integer;
-            begin
-                OANHTRINH();
-                IF x <> y then
-                    IF x < 10 then
-                    begin
-                        putStringLn("Hello world!");
-                        return 0;
-                    END
-                    ELSE
-                    begin
-                        putStringLn("Hello Luan!");
-                        putStringLn("Hello Otrinh!");
-                        return 0;
-                    end
-                ELSE
-                begin
-                    IF y > 10 THEN
-                    begin
-                        IF x * y > 10 THEN
-                        begin
-                            putStringLn("Hello PPL!");
-                            if x = 0 then
-                                return 0;
-                            return 0;
-                        end
-                        else
-                        BEGIN
-                            if y <> 5 then
-                            begin
-                                if y = 1 then
-                                    return 0;
-                                else
-                                    return 2;
-                            end
-                            else
-                            begin
-                                if y = 2 then
-                                    return 0;
-                                putStringLn("Hello BKU!");
-                                return 0;
-                            end
-                        END
-                    end
-                    ELSE
-                    begin
-                        if y - y = 0 then
-                        begin
-                            return 0;
-                        end
-                        else
-                        begin
-                            if x < y then
-                                return 100;
-                            else 
-                                return 0;
-                        end
-                    end
-                end
-                putStringLn("Hello Fortran!");
-                return 11111999;
-            end
-            procedure Main();
-            var liss: integer;
-            begin
-                liss := f();
-            end
-        '''
-        expect = "Unreachable statement: CallStmt(Id(putStringLn),[StringLiteral(Hello Fortran!)])"
-        self.assertTrue(TestChecker.test(input,expect,503))
 
-    def test_unreacable_statement_otr104(self):
-        input = '''
-            procedure main();
-            var i:integer;
-            begin
-                while i < 100 do 
-                begin
-                    for i := 0 to 99 do
-                    begin
-                        putStringLn("Hello Go!");
-                        if i <= 60 then
-                            putStringLn("Hello Kotlin!");
-                        else
-                            continue;
-                        putStringLn("Hello Lisp!");
-                    end
-                    if i <= 20 then
-                        break;
-                    else
-                        putStringLn("Hello Prolog!");
-                    putStringLn("Hello F#!");
-                end
-                putStringLn("Hello R!");
-                with otr:integer; do
-                begin
-                    putFloatLn(otr);
-                    if i < 0 then
-                        return;
-                    return;
-                end
-                putStringLn("Hello R++!");
-            end
-        '''
-        expect = "Unreachable statement: CallStmt(Id(putStringLn),[StringLiteral(Hello R++!)])"
-        self.assertTrue(TestChecker.test(input,expect,504))
-
-    def test_unreacable_statement_otr105(self):
-        input = '''
-            procedure oanhtrinh();
-            var i: integer;
-            begin
-                i := 0;
-                while i < 100 do
-                begin
-                    if i = 70 then
-                    begin
-                        if i = 50 then
-                        begin
-                            for i := 0 to 99 do
-                            begin
-                                putStringLn("Hello MIIS!");
-                                if 1 < 2 then
-                                    break;
-                                else
-                                    putStringLn("Hello Maple!");
-                                return;
-                            end
-                            return;
-                        end
-                        else
-                        begin
-                            if 2 < 6 then
-                                return;
-                            else
-                            begin
-                                with a:real; do
-                                    return;
-                            end
-                        end
-                    end
-                    else
-                    begin
-                        return;
-                    end
-                    putStringLn("Hello Lynx!");
-                end 
-            end
-            procedure main();
-            var i:integer;
-            begin
-                oanhtrinh();
-                i := 0;
-                while i < 100 do
-                begin
-                    if i = 70 then
-                    begin
-                        if i = 50 then
-                        begin
-                            for i := 0 to 99 do
-                            begin
-                                putStringLn("Hello Sodility!");
-                                if 1 < 2 then
-                                    break;
-                                else
-                                    putStringLn("Hello RSL!");
-                                return;
-                            end
-                            return;
-                        end
-                        else
-                        begin
-                            if 2 < 6 then
-                                return;
-                        end
-                    end
-                    else
-                    begin
-                        return;
-                    end
-                    putStringLn("Hello OpenCL!");
-                end 
-            end
-        '''
-        expect = "Unreachable statement: CallStmt(Id(putStringLn),[StringLiteral(Hello Lynx!)])"
-        self.assertTrue(TestChecker.test(input,expect,505))
-
-    def test_unreacable_statement_otr106(self):
-        input = '''
-            procedure main();
-            begin
-                if True then
-                    if False then
-                        if True then
-                            if False then
-                                if False then
-                                    if True then
-                                        return;
-                else return;
-                    else return;
-                        else return;
-                            else return;
-                                else return;
-                putStringLn("Hello MATLAB!");
-                with a:integer; do
-                    with a:real; do
-                        with a:boolean; do
-                            with a:string; do
-                                with a:array[0 .. 1] of real; do
-                                    return;
-                while True do
-                    putStringLn("Hello JScript!");
-            end
-        '''
-        expect = "Unreachable statement: While(BooleanLiteral(True),[CallStmt(Id(putStringLn),[StringLiteral(Hello JScript!)])])"
-        self.assertTrue(TestChecker.test(input,expect,506))
-
+    
+    
     

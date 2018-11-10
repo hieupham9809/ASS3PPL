@@ -1,11 +1,23 @@
 
-            procedure main();
-            var a,b: boolean;
-            begin
-                with a:integer; do
+                procedure main();
                 begin
-                    while a do
-                        a := a - 1;
                 end
-            end
-        
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    while (true) do
+                        begin 
+                            i:=2;
+                            while (2>1) do
+                                begin
+                                    i:=1;
+                                    break;
+                                end
+                            continue;
+                        end
+                    
+                    return ;
+                end
+                

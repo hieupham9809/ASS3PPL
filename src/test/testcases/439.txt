@@ -1,42 +1,22 @@
 
-            var arr: array[0 .. 1] of boolean;
-                x, y, z: integer;
-            
-            function number(n:string):integer;
-            begin
-                return number(n);
-            end
-            
-            function str(n:integer):string;
-            begin
-                return str(n);
-            end
-
-            function isnumber(n:string):boolean;
-            begin
-                if number(n) = number(str(number(n))) then
-                    return true;
-                return false;
-            end
-
-            procedure main();
-            begin
-                if isnumber("123") then
-                    x := number("123");
-                else
-                    return;
-
-                while arr[x + y + z] do
+                procedure main();
                 begin
-                    with arr: array[0 .. 1] of real; do
-                    begin
-                        while arr[x + y + z] do
-                        begin
-                            return;
-                        end
-                        x := y := z := GetInt();
-                    end
-                    continue;
                 end
-            end
-        
+                function swap():integer ;
+                var a: string;
+                 i,k: integer;
+                 m: array[1 .. 5] of integer;
+                begin
+                    if i > 10 then
+                        begin
+                            k := i;
+                            return k;
+                        end
+                    else
+                        begin
+                            k := i + 1;
+                            {return 1.4;}
+                        end
+                    
+                end
+                

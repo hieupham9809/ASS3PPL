@@ -1,1 +1,1 @@
-Undeclared Function: otr
+Type Mismatch In Statement: Return(Some(Id(a)))
