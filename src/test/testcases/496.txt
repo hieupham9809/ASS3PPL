@@ -1,7 +1,30 @@
 
-        procedure main();
-        var a: string;
-        begin
-            a:= "abc" div 1;
-        end
+            function foo():integer;
+            var abc, i: integer;
+                flag: boolean;
+            begin
+                flag := true;
+                while flag do
+                    begin
+                        for i := 1 to 10 do
+                            begin
+                                while flag do
+                                    begin
+                                        if true then break;
+                                        else
+                                            begin
+                                                continue;
+                                                a:=a+1;
+                                            end
+                                    end
+                            end
+                    end
+                return 1;
+            end
+
+            procedure main();
+            var x:real;
+            begin
+                x := foo();
+            end
         

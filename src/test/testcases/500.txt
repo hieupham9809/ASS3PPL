@@ -1,18 +1,12 @@
 
-            procedure main();
-            var c:boolean;
-            begin
-                if c then
-                begin
-                    if True then
-                        return;
-                    return;
-                end
-                else
-                begin
-                    putStringLn("Hello Lua!");
-                    return;
-                end
-                putStringLn("Hello Ruby!");
-            end
+        procedure main();
+        var a: string;
+        i: integer;
+        begin
+            test("a");
+        end
+        procedure test(s: string);
+        begin
+
+        end
         

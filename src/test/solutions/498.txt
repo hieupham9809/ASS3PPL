@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(andthen,StringLiteral(abc),IntLiteral(1))
+Undeclared Identifier: a

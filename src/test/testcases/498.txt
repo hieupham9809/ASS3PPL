@@ -1,7 +1,26 @@
 
-        procedure main();
-        var a: string;
-        begin
-            a:= "abc" and then 1;
-        end
+            function foo():integer;
+            var abc, def: integer;
+            begin
+                with a:integer; do
+                    begin
+                        while true do
+                        begin
+                            if true then return 1;
+                            else return 2;
+                        end
+                    end
+                if true then a:=a+1;
+                        else a:=a-1;
+                begin
+                    return 3;
+                end
+                return "la hoang duc dep trai vo doi";
+            end
+
+            procedure main();
+            var x:real;
+            begin
+                x := foo();
+            end
         

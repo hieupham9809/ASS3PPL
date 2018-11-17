@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(div,StringLiteral(abc),IntLiteral(1))
+Unreachable statement: AssignStmt(Id(a),BinaryOp(+,Id(a),IntLiteral(1)))
